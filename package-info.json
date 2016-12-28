@@ -1,0 +1,11 @@
+{
+    "name": "Gibberwocky",
+    "type": "package",
+    "author": "Charlie Roberts & Graham Wakefield",
+	"description": "Live coding Max from the browser.",
+	"version": "0.0",
+    "major_version": "0",
+    "minor_version": "0",
+    "min_max_version": "700",
+    
+}
