@@ -4,12 +4,17 @@
 	
 var scene_dict = new Dict("gibberwocky_scene");
 
+var signal_outlets = [];
 	
 var transport = {
 	bpm: 120,
 	sig: "4/4",
 	ply: 0,
 };
+
+function freebang() {
+	signals(0);
+}
 
 function set_transport(key, val) { transport[key] = val; }
 
@@ -33,6 +38,31 @@ function parse_patcher(p){
 	post("parsed patcher", parsed_patcher, "\n");
 	
 	return parsed_patcher;
+}
+
+function signals(n) {
+	// create outlets:
+	var num_signals = Math.min(15, Math.max(0, +n));	
+	var i = signal_outlets.length;
+	
+	// destroy any extras:
+	while (i > num_signals) {
+		var outlet = signal_outlets.pop();
+		this.patcher.remove(outlet);
+		i--;
+	}
+	
+	// create any new ones:
+	for (; i<num_signals; i++) {
+		// create a signal outlet:
+		
+		var left = (i+1) * 60;
+		var top = 500;
+		//var outlet = this.patcher.newobject("outlet",left,top,15,0);
+		var outlet = this.patcher.newdefault(left, top, "outlet");
+		
+		signal_outlets.push(outlet);
+	}
 }
 
 function bang() {
