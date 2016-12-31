@@ -49,8 +49,11 @@ function signals(n) {
 		gen_boxes.push(gen);
 		signal_outlets.push(out);
 		
-		outlet(0, ["gen", i+1, "id", i+1]);
+		// tell new subpatcher the id, for the sake of snapshots
+		outlet(0, ["gen", i, "id", i]);
 	}
+	
+	bang();
 }
 
 function parse_patcher(p){
@@ -106,18 +109,20 @@ function bang() {
 	
 	parse_patcher(top_patcher);
 	
+	var scene = {
+		transport: transport,
+		signals: [],
+	};
+	
+	for (var i in signal_outlets) {
+		scene.signals.push(i);
+	}
 	
 	function explore(p, prefix) {
 		
-		var tree = {
-			transport: transport,
-			signals: [],
+		var tree = {	
 			type: "patcher",
 		};
-	
-		for (var i in signal_outlets) {
-			tree.signals.push("sig" + (+i+1));
-		}
 		
 		var o = p.firstobject;
 		if (!o) return;
@@ -237,15 +242,21 @@ function bang() {
 		return tree;
 	}
 	
-	var tree = explore(p, "");
+	var scene = {
+		root: explore(p, ""),
+		transport: transport,
+		signals: [],
+	};
+	
+	for (var i in signal_outlets) {
+		scene.signals.push(i);
+	}
 		
-	// set dicts from js:
-	var s = JSON.stringify(tree);
-	scene_dict.parse(s);
+	// set dict from js:
+	scene_dict.parse(JSON.stringify(scene));
 	
 	// done:
 	outlet(0, "bang");
-
 }
 
 
