@@ -9,7 +9,7 @@
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 390.0, 303.0, 516.0, 472.0 ],
+		"rect" : [ 90.0, 359.0, 516.0, 472.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -37,6 +37,54 @@
 		"style" : "",
 		"subpatcher_template" : "",
 		"boxes" : [ 			{
+				"box" : 				{
+					"id" : "obj-18",
+					"maxclass" : "scope~",
+					"numinlets" : 2,
+					"numoutlets" : 0,
+					"patching_rect" : [ 274.0, 135.5, 53.0, 39.0 ],
+					"presentation_rect" : [ 280.0, 134.5, 0.0, 0.0 ],
+					"style" : ""
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-16",
+					"maxclass" : "scope~",
+					"numinlets" : 2,
+					"numoutlets" : 0,
+					"patching_rect" : [ 212.0, 135.5, 53.0, 39.0 ],
+					"presentation_rect" : [ 217.0, 133.5, 0.0, 0.0 ],
+					"style" : ""
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-17",
+					"maxclass" : "scope~",
+					"numinlets" : 2,
+					"numoutlets" : 0,
+					"patching_rect" : [ 150.0, 135.5, 53.0, 39.0 ],
+					"presentation_rect" : [ 155.0, 133.5, 0.0, 0.0 ],
+					"style" : ""
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-15",
+					"maxclass" : "scope~",
+					"numinlets" : 2,
+					"numoutlets" : 0,
+					"patching_rect" : [ 88.0, 135.5, 53.0, 39.0 ],
+					"presentation_rect" : [ 114.0, 137.5, 0.0, 0.0 ],
+					"style" : ""
+				}
+
+			}
+, 			{
 				"box" : 				{
 					"bgcolor" : [ 1.0, 0.788235, 0.470588, 1.0 ],
 					"fontname" : "Arial Bold",
@@ -782,9 +830,9 @@
 					"id" : "obj-1",
 					"maxclass" : "newobj",
 					"numinlets" : 1,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
-					"patching_rect" : [ 26.0, 100.0, 140.0, 22.0 ],
+					"numoutlets" : 5,
+					"outlettype" : [ "", "signal", "signal", "signal", "signal" ],
+					"patching_rect" : [ 26.0, 100.0, 267.0, 22.0 ],
 					"style" : "",
 					"text" : "gibberwocky @signals 4"
 				}
@@ -792,6 +840,51 @@
 			}
  ],
 		"lines" : [ 			{
+				"patchline" : 				{
+					"destination" : [ "obj-15", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-1", 1 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-16", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-1", 3 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-17", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-1", 2 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-18", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-1", 4 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-8", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-1", 0 ]
+				}
+
+			}
+, 			{
 				"patchline" : 				{
 					"destination" : [ "obj-7", 2 ],
 					"disabled" : 0,
@@ -853,6 +946,30 @@
 ,
 		"dependency_cache" : [ 			{
 				"name" : "gibberwocky.maxpat",
+				"bootpath" : "~/Documents/Max 7/Packages/max_gibberwocky_package/patchers",
+				"type" : "JSON",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "gibbergen3.maxpat",
+				"bootpath" : "~/Documents/Max 7/Packages/max_gibberwocky_package/patchers",
+				"type" : "JSON",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "gibbergen2.maxpat",
+				"bootpath" : "~/Documents/Max 7/Packages/max_gibberwocky_package/patchers",
+				"type" : "JSON",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "gibbergen1.maxpat",
+				"bootpath" : "~/Documents/Max 7/Packages/max_gibberwocky_package/patchers",
+				"type" : "JSON",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "gibbergen0.maxpat",
 				"bootpath" : "~/Documents/Max 7/Packages/max_gibberwocky_package/patchers",
 				"type" : "JSON",
 				"implicit" : 1

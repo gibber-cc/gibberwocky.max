@@ -26,6 +26,7 @@ BPM: <b id="bpm"></b>
 Bar: <b id="bar"></b>
 Beat: <b id="beat"></b>
 Connection: <b id="connection"></b>
+<div id="snapshots"></div>
 <pre id="scene"></pre>
 <div id="post"></div>
 <hr>
@@ -121,7 +122,7 @@ function send(msg) {
 }
 
 var scene = {};
-var gens = [];
+var gens = {};
 
 function clear() {	
 	// clear memory:
@@ -129,12 +130,44 @@ function clear() {
 }
 
 function seq(beat) {
-	
-	
-	// demo: generate notes etc.
-	//var notes = [ 60, 62, 64, 65, 67, 71, 72 ];
-	var notes = [ 36, 38, 41, 42, 43, 45, 46 ];
+	if (!scene) return;
 	var msgarr = []; 
+	
+	
+	// do some gen testing:
+	if (random(2) == 0) {
+		var phase = 0;
+		var param = pick(scene.signals);
+		
+		if (gens[param]) {
+			
+			if (random(16) == 0) {
+				// remove:
+				var msg = "add " + (beat + phase) + " sig " + param + " clear";
+				msgarr.push(msg);
+				gens[param] = false;
+			} else {
+				// set a parameter:
+				var msg = "add " + (beat + phase) + " sig " + param + " param p0 " + random(4);
+				msgarr.push(msg);
+			}
+		
+		} else {
+		
+			// create a new one:
+			var code = "Param p0(" + random(4) + ");"
+				+ "out1 = 1 - rate(in1, (p0+1)*" + (1/Math.pow(2, random(4))) + ");";
+			// wrap the code in quotes:
+			code = '"' + code + '"';
+	
+			var msg = "add " + (beat + phase) + " sig " + param + " expr " + code;
+			msgarr.push(msg);
+			gens[param] = true;
+		}
+	}
+	
+	// generate notes etc.
+	var notes = [ 36, 38, 41, 42, 43, 45, 46 ];
 	
 	for (var j=0; j<2; j++) {
 		var divs = Math.pow(2, random((j+1)*2)+1);
@@ -153,7 +186,9 @@ function seq(beat) {
 		
 		
 		}
-	}			
+	}	
+	
+	
 		
 	/*	
 			var phase = 0;
@@ -184,14 +219,6 @@ function seq(beat) {
 			
 			}
 			
-			// mute / solo testing:
-			if (random(4) == 0) {
-				if (random(2)) {	
-					msgarr.push("add " + (beat + phase) + " mute " + random(2));
-				} else {
-					msgarr.push("add " + (beat + phase) + " solo " + random(2));
-				}
-			}
 			// gen testing:
 		
 			// unset?
@@ -281,8 +308,11 @@ function handlemessage(msg) {
 			case "err":
 				document.getElementById("error").innerHTML += "<b>"+arg+"</b><br>";
 				break;
+			case "snapshot":
+				document.getElementById("snapshots").innerHTML = msg;
+				break;
 			default:
-				post(msg);
+				post("unknown command " + msg);
 				
 		}
 	}
