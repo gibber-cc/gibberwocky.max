@@ -4,6 +4,7 @@
 	
 var scene_dict = new Dict("gibberwocky_scene");
 
+var gen_boxes = [];
 var signal_outlets = [];
 	
 var transport = {
@@ -12,11 +13,45 @@ var transport = {
 	ply: 0,
 };
 
+function set_transport(key, val) { 
+	transport[key] = val; 
+}
+
 function freebang() {
 	signals(0);
 }
 
-function set_transport(key, val) { transport[key] = val; }
+function signals(n) {
+	// create outlets:
+	var num_signals = Math.min(32, Math.max(0, +n));	
+	var i = signal_outlets.length;
+	
+	// destroy any extras:
+	while (i > num_signals) {
+		this.patcher.remove(signal_outlets.pop());
+		this.patcher.remove(gen_boxes.pop());
+		i--;
+	}
+	
+	// find the gate:
+	var gibbergengate = this.patcher.getnamed("gibbergengate");
+	
+	// create any new ones:
+	for (; i<num_signals; i++) {
+		// create a signal outlet:
+		
+		var left = 30 + i * 32;
+		var top = 450 + i * 5;
+		var gen = this.patcher.newdefault(left, top, "poly~", "gibbergen"+i);
+		var out = this.patcher.newdefault(left, top+30, "outlet");
+		this.patcher.connect(gibbergengate,i,gen,0);
+		this.patcher.connect(gen,0,out,0);
+		gen_boxes.push(gen);
+		signal_outlets.push(out);
+		
+		outlet(0, ["gen", i+1, "id", i+1]);
+	}
+}
 
 function parse_patcher(p){
 
@@ -38,31 +73,6 @@ function parse_patcher(p){
 	post("parsed patcher", parsed_patcher, "\n");
 	
 	return parsed_patcher;
-}
-
-function signals(n) {
-	// create outlets:
-	var num_signals = Math.min(15, Math.max(0, +n));	
-	var i = signal_outlets.length;
-	
-	// destroy any extras:
-	while (i > num_signals) {
-		var outlet = signal_outlets.pop();
-		this.patcher.remove(outlet);
-		i--;
-	}
-	
-	// create any new ones:
-	for (; i<num_signals; i++) {
-		// create a signal outlet:
-		
-		var left = (i+1) * 60;
-		var top = 500;
-		//var outlet = this.patcher.newobject("outlet",left,top,15,0);
-		var outlet = this.patcher.newdefault(left, top, "outlet");
-		
-		signal_outlets.push(outlet);
-	}
 }
 
 function bang() {
@@ -101,9 +111,14 @@ function bang() {
 		
 		var tree = {
 			transport: transport,
+			signals: [],
 			type: "patcher",
 		};
 	
+		for (var i in signal_outlets) {
+			tree.signals.push("sig" + (+i+1));
+		}
+		
 		var o = p.firstobject;
 		if (!o) return;
 	
