@@ -4,6 +4,12 @@ const Examples = {
 a.icksy.seq( [64,127], 1/2 )
 
 a.bicksy.seq( 36, 1 )
+
+phsr = phasor(.5)
+
+Gibber.Max.signals[1]( phsr )
+
+phsr[0].seq( [.25,.5,1,4],1 )
 `,
   default_old : `/* 
  * BEFORE DOING ANYTHING, MAKE SURE YOU CHOOSE

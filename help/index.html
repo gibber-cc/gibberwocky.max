@@ -2670,6 +2670,12 @@ const Examples = {
 a.icksy.seq( [64,127], 1/2 )
 
 a.bicksy.seq( 36, 1 )
+
+phsr = phasor(.5)
+
+Gibber.Max.signals[1]( phsr )
+
+phsr[0].seq( [.25,.5,1,4],1 )
 `,
   default_old : `/* 
  * BEFORE DOING ANYTHING, MAKE SURE YOU CHOOSE
@@ -3051,8 +3057,9 @@ let Gen  = {
         }else{
           value = v
           if( obj.active ) {
-            //console.log( `${obj.track} genp ${obj.paramID} ${obj[ key ].uid} ${v}` )
-            Gibber.Communication.send( `genp ${obj.paramID} ${obj[ key ].uid} ${v}` ) 
+            // console.log( `${obj.track} genp ${obj.paramID} ${obj[ key ].uid} ${v}` )
+            // Gibber.Communication.send( `genp ${obj.paramID} ${obj[ key ].uid} ${v}` ) 
+            Gibber.Communication.send( `sig ${obj.id} param ${obj[ key ].uid} ${v}` ) 
           }
         }
       }
@@ -3388,6 +3395,7 @@ let Gibber = {
       //  if( marker.clear ) marker.clear() 
       //}
       Gibber.Seq.proto.__clearAll__()
+      Gibber.Max.clear()
 
     }, 500 )
 
@@ -3567,8 +3575,36 @@ window.Gibber = Gibber
 
 module.exports = function( Gibber ) {
   let Max = {
+    signals:[],
+    params:[],
+
     init() {
-      
+      Gibber.Communication.callbacks.scene = Max.handleScene
+      Gibber.Communication.send( 'get_scene' )     
+    },
+
+    handleScene( msg ) {
+      Max.id = Communication.querystring.track
+
+      Max.MOM = msg
+
+      Max.processMOM()
+    },
+
+    clear() {
+      for( let i = 0; i < Max.signals.length; i++ ) {
+        Gibber.Communication.send( `sig ${i} clear` )
+      }
+    },
+
+    processMOM() {
+      for( let signalNumber of Max.MOM.signals ) {
+        Max.signals[ signalNumber ] = function( genGraph ) {
+          genGraph.id = signalNumber
+          Gibber.Communication.send( `sig ${signalNumber} expr "${genGraph.out()}"` )
+        }
+        Max.signals[ signalNumber ].id = signalNumber
+      }
     },
 
     msg( str ) {
@@ -3596,8 +3632,6 @@ module.exports = function( Gibber ) {
 
   return Max
 }
-
-
 
 },{}],13:[function(require,module,exports){
 module.exports = function( Gibber ) {

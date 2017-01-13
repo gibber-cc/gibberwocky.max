@@ -101,6 +101,7 @@ let Gibber = {
       //  if( marker.clear ) marker.clear() 
       //}
       Gibber.Seq.proto.__clearAll__()
+      Gibber.Max.clear()
 
     }, 500 )
 
