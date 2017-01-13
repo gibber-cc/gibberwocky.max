@@ -2571,6 +2571,9 @@ let Gibber = {
     window.log           = this.log
     window.Theory        = this.Theory
     window.Scale         = this.Theory.Scale.master
+    window.signals       = this.Max.signals
+    window.params        = this.Max.params
+    window.namespace     = this.Max.msg
     
     Gibber.Gen.export( window )
 
@@ -2578,7 +2581,7 @@ let Gibber = {
   },
 
   init() {
-    this.max = window.max
+    //this.max = window.max
     this.$   = Gibber.Utility.create
 
     this.Environment.init( Gibber )
@@ -2593,7 +2596,7 @@ let Gibber = {
 
     //this.currentTrack = this.Track( this, 1 ) // TODO: how to determine actual "id" from Max?
     
-    this.initSingletons( window )
+    //this.initSingletons( window )
 
     this.export()
   },
@@ -2851,6 +2854,13 @@ module.exports = function( Gibber ) {
           Gibber.Communication.send( `sig ${signalNumber} expr "${genGraph.out()}"` )
         }
         Max.signals[ signalNumber ].id = signalNumber
+      }
+
+      for( let param of Max.MOM.root.params ) {
+        Max.params[ param.varname ] = function( v ) {
+          Gibber.Communication.send( `set ${param.path} ${v}` )
+        }
+        Gibber.addSequencingToMethod( Max.params, param.varname, 0 )
       }
     },
 

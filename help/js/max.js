@@ -32,6 +32,13 @@ module.exports = function( Gibber ) {
         }
         Max.signals[ signalNumber ].id = signalNumber
       }
+
+      for( let param of Max.MOM.root.params ) {
+        Max.params[ param.varname ] = function( v ) {
+          Gibber.Communication.send( `set ${param.path} ${v}` )
+        }
+        Gibber.addSequencingToMethod( Max.params, param.varname, 0 )
+      }
     },
 
     msg( str ) {
