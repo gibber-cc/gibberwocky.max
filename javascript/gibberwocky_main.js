@@ -1,7 +1,9 @@
 // see https://docs.cycling74.com/max7/vignettes/javascript_usage_topic
-				
+		
+outlets = 3;		
 	
 var scene_dict = new Dict("gibberwocky_scene");
+var patcher_dict = new Dict("gibberwocky_patcher");
 
 var gen_boxes = [];
 var out_boxes = [];
@@ -43,7 +45,7 @@ function signals(n) {
 				this.patcher.connect(gibbergengate,i,gen,0);
 				
 				// tell new subpatcher the id, for the sake of snapshots
-				outlet(0, ["gen", i, "id", i]);
+				outlet(0, [i, "id", i]);
 			}
 			gen_boxes[i] = gen;
 		} else {
@@ -71,10 +73,41 @@ function signals(n) {
 	bang();
 }
 
-function parse_patcher(p){
+// utils:
+function find_box_by_varname(patcher, name) {
+	for (i in patcher.boxes) {
+		var box = patcher.boxes[i].box;
+		if (box.varname == name) {
+			return box;
+		}
+	}	
+}
+
+function find_box_by_id(patcher, name) {
+	for (i in patcher.boxes) {
+		var box = patcher.boxes[i].box;
+		if (box.id == name) {
+			return box;
+		}
+	}	
+}
+
+function find_connected_boxes(patcher, source, outlet, arr) {
+	for (i in patcher.lines) {
+		var line = patcher.lines[i].patchline;
+		if (line.source[0] == source.id && line.source[1] == outlet) {
+			var dst = find_box_by_id(patcher, line.destination[0]);
+			arr.push(dst);
+			
+		}
+	}
+	return arr;
+}
+
+function parse_patcher(p, scene){
 
 	if (p.filepath == ""){
-		post(NOT_SAVED);
+		post("warning: gibberwocky can't analyze the patcher until it is saved\n");
 		return;
 	}
 
@@ -85,16 +118,42 @@ function parse_patcher(p){
 		lines += patcher_file.readline();
 	}
 	patcher_file.close();
+	patcher_dict.parse(lines);
 
-    var parsed_patcher = JSON.parse(lines);
+    var patcher = JSON.parse(lines).patcher;
 
-	post("parsed patcher", parsed_patcher, "\n");
+	// find the [gibberwocky] object:
+	var g = find_box_by_varname(patcher, "gibberwocky");
+	if (!g) return;
 	
-	return parsed_patcher;
+	// find what it is connected to:
+	var dsts = [];
+	find_connected_boxes(patcher, g, 0, dsts);
+	
+	// for each one:
+	for (var i=0; i<dsts.length; i++) {
+		var text = dsts[i].text;
+		var args = text.split(" ");
+		var op = args.shift();
+		switch(op) {
+		case "route":
+		case "routepass":
+		case "select":
+			// each arg is a namespace.
+			scene.namespaces = scene.namespaces.concat(args);
+			// continue from joined last outlet
+			find_connected_boxes(patcher, dsts[i], dsts[i].numoutlets-1, dsts);
+			break;
+		}	
+	}
 }
 
 function bang() {
 
+	var patcher_dirname = patcher.filepath.match(/(.*)[\/\\]/)[1]||'';
+	var package_dirname = patcher_dirname.match(/(.*)[\/\\]/)[1]||'';
+	outlet(2, package_dirname);
+	
 	//if (lom_dict.get("busy") == 1) return;	// currently being written
 	//lom_dict.set("busy", 1);
 	
@@ -103,10 +162,6 @@ function bang() {
 	if (api.path !== undefined) {
 		post("Running in M4L -- why not use Gibberwocky devices instead?\n");
 	}
-	
-	// ok not in M4L, so build up a similar model from Max UI objects?
-	post("----------------------------------------------\n");
-	
 	
 	// start from topmost patcher:
 	var p = this.patcher;
@@ -122,16 +177,6 @@ function bang() {
 	// this.patcher.getnamed("steve").setvalueof(...);
 	// obj.message("sendbox", "patching_position", 300, 300);
 	
-	parse_patcher(top_patcher);
-	
-	var scene = {
-		transport: transport,
-		signals: [],
-	};
-	
-	for (var i in out_boxes) {
-		scene.signals.push(i);
-	}
 	
 	function explore(p, prefix) {
 		
@@ -156,6 +201,12 @@ function bang() {
 				if (o.maxclass == "patcher") {
 					//post("recurse", o.varname + "::", o.subpatcher, "\n");
 					tree[name] = explore(o.subpatcher(0), path + "::");
+					
+					// is this the gibberwocky?
+					if (name == "gibberwocky") {
+					
+					}	
+					
 				} else {
 					// force link?
 					//o.message("_parameter_linknames", "1")
@@ -175,11 +226,11 @@ function bang() {
 						
 						var initial = o.getattr("_parameter_initial"); // null
 						
-						post("amxd name:", name, "type:", type, "value:", value, typeof value,"initial:", initial, "\n");
+						//post("amxd name:", name, "type:", type, "value:", value, typeof value,"initial:", initial, "\n");
 						
 						var guess = o.getattr("_parameter");
 						
-						post(JSON.stringify(guess));
+						//post(JSON.stringify(guess));
 						
 						
 						// no use; the snapshot API doesn't give us parameter names.
@@ -262,17 +313,20 @@ function bang() {
 		root: explore(p, ""),
 		transport: transport,
 		signals: [],
+		namespaces: [],
 	};
 	
 	for (var i in out_boxes) {
 		scene.signals.push(i);
 	}
+	
+	parse_patcher(top_patcher, scene);
 		
 	// set dict from js:
 	scene_dict.parse(JSON.stringify(scene));
 	
 	// done:
-	outlet(0, "bang");
+	outlet(1, "bang");
 }
 
 
