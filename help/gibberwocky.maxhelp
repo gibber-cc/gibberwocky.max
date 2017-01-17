@@ -337,7 +337,7 @@
 					"numoutlets" : 3,
 					"outlettype" : [ "", "", "int" ],
 					"parameter_enable" : 0,
-					"patching_rect" : [ 403.5, 48.5, 20.0, 20.0 ],
+					"patching_rect" : [ 145.5, 58.5, 20.0, 20.0 ],
 					"rounded" : 60.0,
 					"style" : "",
 					"text" : "2",
@@ -354,7 +354,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 300.0, 58.0, 111.0, 25.0 ],
+					"patching_rect" : [ 52.0, 65.0, 111.0, 25.0 ],
 					"style" : "",
 					"text" : "open demo"
 				}
@@ -403,21 +403,8 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "bang" ],
-					"patching_rect" : [ 274.0, 58.0, 24.0, 24.0 ],
+					"patching_rect" : [ 26.0, 65.0, 24.0, 24.0 ],
 					"style" : ""
-				}
-
-			}
-, 			{
-				"box" : 				{
-					"id" : "obj-3",
-					"maxclass" : "newobj",
-					"numinlets" : 1,
-					"numoutlets" : 1,
-					"outlettype" : [ "" ],
-					"patching_rect" : [ 26.0, 58.0, 72.0, 22.0 ],
-					"style" : "",
-					"text" : "loadmess 1"
 				}
 
 			}
@@ -790,7 +777,7 @@
 					"numinlets" : 0,
 					"numoutlets" : 0,
 					"offset" : [ 0.0, 0.0 ],
-					"patching_rect" : [ 101.0, 58.0, 160.0, 30.0 ],
+					"patching_rect" : [ 193.0, 614.5, 160.0, 30.0 ],
 					"viewvisibility" : 1
 				}
 
@@ -824,7 +811,7 @@
 					"fontsize" : 18.0,
 					"id" : "obj-1",
 					"maxclass" : "newobj",
-					"numinlets" : 2,
+					"numinlets" : 1,
 					"numoutlets" : 33,
 					"outlettype" : [ "", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal" ],
 					"patching_rect" : [ 26.0, 100.0, 267.0, 29.0 ],
@@ -927,7 +914,7 @@
 			}
 , 			{
 				"patchline" : 				{
-					"destination" : [ "obj-1", 1 ],
+					"destination" : [ "obj-1", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-12", 0 ]
@@ -1021,15 +1008,6 @@
 					"disabled" : 0,
 					"hidden" : 0,
 					"source" : [ "obj-29", 0 ]
-				}
-
-			}
-, 			{
-				"patchline" : 				{
-					"destination" : [ "obj-1", 0 ],
-					"disabled" : 0,
-					"hidden" : 0,
-					"source" : [ "obj-3", 0 ]
 				}
 
 			}
@@ -1169,8 +1147,8 @@
 			}
  ],
 		"parameters" : 		{
-			"obj-33" : [ "White_Queen", "whitequeen", 0 ],
 			"obj-2" : [ "Red_Queen", "redqueen", 0 ],
+			"obj-33" : [ "White_Queen", "whitequeen", 0 ],
 			"obj-7" : [ "amxd~", "amxd~", 0 ]
 		}
 ,
