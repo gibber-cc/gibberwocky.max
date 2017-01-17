@@ -28,6 +28,11 @@ module.exports = function( Gibber ) {
       for( let signalNumber of Max.MOM.signals ) {
         Max.signals[ signalNumber ] = function( genGraph ) {
           genGraph.id = signalNumber
+          if( Gibber.Gen.connected.find( e => e.id === signalNumber ) === undefined ) {
+            Gibber.Gen.connected.push( genGraph )
+          }
+
+          Gibber.Gen.lastConnected = genGraph
           Gibber.Communication.send( `sig ${signalNumber} expr "${genGraph.out()}"` )
         }
         Max.signals[ signalNumber ].id = signalNumber

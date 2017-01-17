@@ -319,14 +319,23 @@ let Marker = {
     if( track.markup === undefined ) Marker.prepareObject( track )
 
     if( !shouldParse ) { // check for gen~ assignment
-      for( let ugen in Gibber.Gen.genish ) {
-        let idx = code.indexOf( ugen )
-        if( idx !== -1 && code.charAt( idx + ugen.length ) === '('  ) {
-          shouldParse = true
-          isGen = true
-          break;
+      for( let ugen of Gibber.Gen.names ) {
+          let idx = code.indexOf( ugen )
+          if( idx !== -1 && code.charAt( idx + ugen.length ) === '('  ) {
+            shouldParse = true
+            isGen = true
+
+            break;
+          }
         }
-      }
+      //for( let ugen in Gibber.Gen.names ) { // Gibber.Gen.genish for gibberwocky.midi
+      //  let idx = code.indexOf( ugen )
+      //  if( idx !== -1 && code.charAt( idx + ugen.length ) === '('  ) {
+      //    shouldParse = true
+      //    isGen = true
+      //    break;
+      //  }
+      //}
     }
 
     if( !shouldParse ) return
@@ -349,8 +358,7 @@ let Marker = {
       }
     }
   },
-  
-  processGen( node, cm, track ) {
+   processGen( node, cm, track ) {
     let ch = node.end, line = node.verticalOffset, start = ch - 1, end = node.end 
     
     cm.replaceRange( ') ', { line, ch:start }, { line, ch } )
@@ -373,16 +381,49 @@ let Marker = {
     widget.gen = Gibber.Gen.lastConnected
     widget.values = []
 
-    let oldWidget = Marker.genWidgets[ widget.gen.ccnum ] 
+    let oldWidget = Marker.genWidgets[ widget.gen.paramID ] 
 
     if( oldWidget !== undefined ) {
       oldWidget.parentNode.removeChild( oldWidget )
     } 
     
-    Marker.genWidgets[ widget.gen.ccnum ] = widget
+    Marker.genWidgets[ widget.gen.paramID ] = widget
 
     widget.mark = cm.markText({ line, ch }, { line, ch:end+1 }, { replacedWith:widget })
-  },
+  }, 
+  //processGen( node, cm, track ) {
+  //  let ch = node.end, line = node.verticalOffset, start = ch - 1, end = node.end 
+    
+  //  cm.replaceRange( ') ', { line, ch:start }, { line, ch } )
+
+  //  let widget = document.createElement( 'canvas' )
+  //  widget.ctx = widget.getContext('2d')
+  //  widget.style.display = 'inline-block'
+  //  widget.style.verticalAlign = 'middle'
+  //  widget.style.height = '1.1em'
+  //  widget.style.width = '60px'
+  //  widget.style.backgroundColor = '#bbb'
+  //  widget.style.marginLeft = '.5em'
+  //  widget.style.borderLeft = '1px solid #666'
+  //  widget.style.borderRight = '1px solid #666'
+  //  widget.setAttribute( 'width', 60 )
+  //  widget.setAttribute( 'height', 13 )
+  //  widget.ctx.fillStyle = '#bbb'
+  //  widget.ctx.strokeStyle = '#333'
+  //  widget.ctx.lineWidth = .5
+  //  widget.gen = Gibber.Gen.lastConnected
+  //  widget.values = []
+
+  //  let oldWidget = Marker.genWidgets[ widget.gen.ccnum ] 
+
+  //  if( oldWidget !== undefined ) {
+  //    oldWidget.parentNode.removeChild( oldWidget )
+  //  } 
+    
+  //  Marker.genWidgets[ widget.gen.ccnum ] = widget
+
+  //  widget.mark = cm.markText({ line, ch }, { line, ch:end+1 }, { replacedWith:widget })
+  //},
 
   updateWidget( id, value ) {
     let widget = Marker.genWidgets[ id ]
@@ -1304,7 +1345,13 @@ let Communication = {
           param_value = 1
         }
           
-        Gibber.Environment.codeMarkup.updateWidget( param_id, 1 - param_value )
+        //Gibber.Environment.codeMarkup.updateWidget( param_id, 1 - param_value )
+
+        Gibber.Environment.codeMarkup.updateWidget( key, 1 - param_value )
+
+        if( Communication.debug.input ) {
+          Gibber.log( 'debug.input:', key, data )
+        }
       }
 
       return
@@ -1912,17 +1959,19 @@ return Euclid
 
 },{}],8:[function(require,module,exports){
 const Examples = {
-  default:`a = Gibber.Max.msg('/tricksy')
+  default:`tricks = namespace('/tricksy')
 
-a.icksy.seq( [64,127], 1/2 )
+tricks.a.seq( [64,127], 1/2 )
 
-a.bicksy.seq( 36, 1 )
+tricks.b.seq( 36, 1 )
 
-phsr = phasor(.5)
+ramp = phasor(.5)
 
-Gibber.Max.signals[1]( phsr )
+signals[1]( ramp )
 
-phsr[0].seq( [.25,.5,1,4],1 )
+ramp[0].seq( [.25,.5,1,4],1 )
+
+params['White_Queen'].seq( [0,32,64,127], 1/4 )
 `,
   default_old : `/* 
  * BEFORE DOING ANYTHING, MAKE SURE YOU CHOOSE
@@ -2851,6 +2900,11 @@ module.exports = function( Gibber ) {
       for( let signalNumber of Max.MOM.signals ) {
         Max.signals[ signalNumber ] = function( genGraph ) {
           genGraph.id = signalNumber
+          if( Gibber.Gen.connected.find( e => e.id === signalNumber ) === undefined ) {
+            Gibber.Gen.connected.push( genGraph )
+          }
+
+          Gibber.Gen.lastConnected = genGraph
           Gibber.Communication.send( `sig ${signalNumber} expr "${genGraph.out()}"` )
         }
         Max.signals[ signalNumber ].id = signalNumber

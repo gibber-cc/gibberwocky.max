@@ -98,7 +98,13 @@ let Communication = {
           param_value = 1
         }
           
-        Gibber.Environment.codeMarkup.updateWidget( param_id, 1 - param_value )
+        //Gibber.Environment.codeMarkup.updateWidget( param_id, 1 - param_value )
+
+        Gibber.Environment.codeMarkup.updateWidget( key, 1 - param_value )
+
+        if( Communication.debug.input ) {
+          Gibber.log( 'debug.input:', key, data )
+        }
       }
 
       return

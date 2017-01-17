@@ -37,14 +37,23 @@ let Marker = {
     if( track.markup === undefined ) Marker.prepareObject( track )
 
     if( !shouldParse ) { // check for gen~ assignment
-      for( let ugen in Gibber.Gen.genish ) {
-        let idx = code.indexOf( ugen )
-        if( idx !== -1 && code.charAt( idx + ugen.length ) === '('  ) {
-          shouldParse = true
-          isGen = true
-          break;
+      for( let ugen of Gibber.Gen.names ) {
+          let idx = code.indexOf( ugen )
+          if( idx !== -1 && code.charAt( idx + ugen.length ) === '('  ) {
+            shouldParse = true
+            isGen = true
+
+            break;
+          }
         }
-      }
+      //for( let ugen in Gibber.Gen.names ) { // Gibber.Gen.genish for gibberwocky.midi
+      //  let idx = code.indexOf( ugen )
+      //  if( idx !== -1 && code.charAt( idx + ugen.length ) === '('  ) {
+      //    shouldParse = true
+      //    isGen = true
+      //    break;
+      //  }
+      //}
     }
 
     if( !shouldParse ) return
@@ -67,8 +76,7 @@ let Marker = {
       }
     }
   },
-  
-  processGen( node, cm, track ) {
+   processGen( node, cm, track ) {
     let ch = node.end, line = node.verticalOffset, start = ch - 1, end = node.end 
     
     cm.replaceRange( ') ', { line, ch:start }, { line, ch } )
@@ -91,16 +99,49 @@ let Marker = {
     widget.gen = Gibber.Gen.lastConnected
     widget.values = []
 
-    let oldWidget = Marker.genWidgets[ widget.gen.ccnum ] 
+    let oldWidget = Marker.genWidgets[ widget.gen.paramID ] 
 
     if( oldWidget !== undefined ) {
       oldWidget.parentNode.removeChild( oldWidget )
     } 
     
-    Marker.genWidgets[ widget.gen.ccnum ] = widget
+    Marker.genWidgets[ widget.gen.paramID ] = widget
 
     widget.mark = cm.markText({ line, ch }, { line, ch:end+1 }, { replacedWith:widget })
-  },
+  }, 
+  //processGen( node, cm, track ) {
+  //  let ch = node.end, line = node.verticalOffset, start = ch - 1, end = node.end 
+    
+  //  cm.replaceRange( ') ', { line, ch:start }, { line, ch } )
+
+  //  let widget = document.createElement( 'canvas' )
+  //  widget.ctx = widget.getContext('2d')
+  //  widget.style.display = 'inline-block'
+  //  widget.style.verticalAlign = 'middle'
+  //  widget.style.height = '1.1em'
+  //  widget.style.width = '60px'
+  //  widget.style.backgroundColor = '#bbb'
+  //  widget.style.marginLeft = '.5em'
+  //  widget.style.borderLeft = '1px solid #666'
+  //  widget.style.borderRight = '1px solid #666'
+  //  widget.setAttribute( 'width', 60 )
+  //  widget.setAttribute( 'height', 13 )
+  //  widget.ctx.fillStyle = '#bbb'
+  //  widget.ctx.strokeStyle = '#333'
+  //  widget.ctx.lineWidth = .5
+  //  widget.gen = Gibber.Gen.lastConnected
+  //  widget.values = []
+
+  //  let oldWidget = Marker.genWidgets[ widget.gen.ccnum ] 
+
+  //  if( oldWidget !== undefined ) {
+  //    oldWidget.parentNode.removeChild( oldWidget )
+  //  } 
+    
+  //  Marker.genWidgets[ widget.gen.ccnum ] = widget
+
+  //  widget.mark = cm.markText({ line, ch }, { line, ch:end+1 }, { replacedWith:widget })
+  //},
 
   updateWidget( id, value ) {
     let widget = Marker.genWidgets[ id ]
