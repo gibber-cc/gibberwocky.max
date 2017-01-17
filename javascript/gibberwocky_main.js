@@ -1,13 +1,10 @@
 // see https://docs.cycling74.com/max7/vignettes/javascript_usage_topic
 		
-outlets = 3;		
+outlets = 4;		
 	
 var scene_dict = new Dict("gibberwocky_scene");
-
 var gen_boxes = [];
 var out_boxes = [];
-
-
 var package_dirname = null;
 var top_patcher = null;
 	
@@ -19,6 +16,13 @@ var transport = {
 
 function set_transport(key, val) { 
 	transport[key] = val; 
+}
+
+////////////////////////////////////////////////////////////////
+
+function bang() {
+	// request patcher args again, which will in turn call signals() etc.
+	outlet(3, "bang");
 }
 
 function signals(n) {
@@ -47,8 +51,6 @@ function signals(n) {
 				gen.varname = "gibbergen"+i; 
 				this.patcher.connect(gibbergengate,i,gen,0);
 				
-				// tell new subpatcher the id, for the sake of snapshots
-				outlet(0, [i, "id", i]);
 			}
 			gen_boxes[i] = gen;
 		} else {
@@ -71,9 +73,9 @@ function signals(n) {
 				this.patcher.remove(out);
 			}
 		}
-	}	
+	}
 	
-	bang();
+	make_scene();
 }
 
 // utils:
@@ -162,19 +164,27 @@ function parse_patcher_json(p, scene){
 		if (snap) {
 			var vals = snap.valuedictionary;
 			if (vals) vals = vals.parameter_values;
-			scene.root.devices.push({
+			
+			var d = {
 				varname: dev.varname,
 				path: "parent::" + dev.varname, // TODO: doesn't work for subpatchers
 				name: snap.name,
-				values: vals
-			});
+				values: []
+			};
+			for (k in vals) {
+				d.values.push({
+					name: k,
+					initial: vals[k]
+				});
+			}
+			
+			scene.root.devices.push(d);
 			
 		}
 	}
 }
 
-
-function bang() {
+function make_scene() {
 
 	// first time?
 	if (!package_dirname) {
@@ -341,8 +351,9 @@ function bang() {
 
 	for (var i in out_boxes) {
 		scene.signals.push(i);
+		outlet(0, +i, "id", +i);
 	}
-
+	
 	if (top_patcher.filepath == ""){
 		post("warning: gibberwocky can't analyze the patcher until it is saved\n");
 	} else {
@@ -362,7 +373,7 @@ function poll() {
 		var dirty = top_patcher.wind.dirty;
 		if (polled_dirty && !dirty) {
 			// patcher was recently cleaned (e.g. saved), so parse it:
-			bang();	
+			make_scene();	
 		}
 		// remember state for next poll:
 		polled_dirty = dirty;
