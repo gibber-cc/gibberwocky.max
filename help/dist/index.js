@@ -1912,17 +1912,19 @@ return Euclid
 
 },{}],8:[function(require,module,exports){
 const Examples = {
-  default:`a = Gibber.Max.msg('/tricksy')
+  default:`tricks = namespace('/tricksy')
 
-a.icksy.seq( [64,127], 1/2 )
+tricks.a.seq( [64,127], 1/2 )
 
-a.bicksy.seq( 36, 1 )
+tricks.b.seq( 36, 1 )
 
-phsr = phasor(.5)
+ramp = phasor(.5)
 
-Gibber.Max.signals[1]( phsr )
+signals[1]( ramp )
 
-phsr[0].seq( [.25,.5,1,4],1 )
+ramp[0].seq( [.25,.5,1,4],1 )
+
+params['White_Queen'].seq( [0,32,64,127], 1/4 )
 `,
   default_old : `/* 
  * BEFORE DOING ANYTHING, MAKE SURE YOU CHOOSE
