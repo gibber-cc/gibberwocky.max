@@ -803,7 +803,7 @@
 					"numoutlets" : 2,
 					"outlettype" : [ "", "float" ],
 					"parameter_enable" : 1,
-					"patching_rect" : [ 432.0, 149.5, 60.0, 47.0 ],
+					"patching_rect" : [ 440.0, 149.5, 60.0, 47.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
 							"parameter_linknames" : 1,
@@ -825,8 +825,8 @@
 					"id" : "obj-1",
 					"maxclass" : "newobj",
 					"numinlets" : 2,
-					"numoutlets" : 5,
-					"outlettype" : [ "", "signal", "signal", "signal", "signal" ],
+					"numoutlets" : 33,
+					"outlettype" : [ "", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal" ],
 					"patching_rect" : [ 26.0, 100.0, 267.0, 29.0 ],
 					"style" : "",
 					"text" : "gibberwocky @signals 4",
@@ -1170,8 +1170,8 @@
  ],
 		"parameters" : 		{
 			"obj-33" : [ "White_Queen", "whitequeen", 0 ],
-			"obj-7" : [ "amxd~", "amxd~", 0 ],
-			"obj-2" : [ "Red_Queen", "redqueen", 0 ]
+			"obj-2" : [ "Red_Queen", "redqueen", 0 ],
+			"obj-7" : [ "amxd~", "amxd~", 0 ]
 		}
 ,
 		"dependency_cache" : [ 			{
