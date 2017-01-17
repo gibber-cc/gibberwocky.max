@@ -1,12 +1,12 @@
 // see https://docs.cycling74.com/max7/vignettes/javascript_usage_topic
 		
-outlets = 3;		
+outlets = 4;		
 	
 var scene_dict = new Dict("gibberwocky_scene");
-var patcher_dict = new Dict("gibberwocky_patcher");
-
 var gen_boxes = [];
 var out_boxes = [];
+var package_dirname = null;
+var top_patcher = null;
 	
 var transport = {
 	bpm: 120,
@@ -16,6 +16,13 @@ var transport = {
 
 function set_transport(key, val) { 
 	transport[key] = val; 
+}
+
+////////////////////////////////////////////////////////////////
+
+function bang() {
+	// request patcher args again, which will in turn call signals() etc.
+	outlet(3, "bang");
 }
 
 function signals(n) {
@@ -44,8 +51,6 @@ function signals(n) {
 				gen.varname = "gibbergen"+i; 
 				this.patcher.connect(gibbergengate,i,gen,0);
 				
-				// tell new subpatcher the id, for the sake of snapshots
-				outlet(0, [i, "id", i]);
 			}
 			gen_boxes[i] = gen;
 		} else {
@@ -68,9 +73,9 @@ function signals(n) {
 				this.patcher.remove(out);
 			}
 		}
-	}	
+	}
 	
-	bang();
+	make_scene();
 }
 
 // utils:
@@ -92,6 +97,17 @@ function find_box_by_id(patcher, name) {
 	}	
 }
 
+function find_boxes_by_op(patcher, name, result) {
+	var re = new RegExp('^'+name);
+	for (i in patcher.boxes) {
+		var box = patcher.boxes[i].box;
+		if (box.text && box.text.match(re)) {
+			result.push(box);
+		}
+	}	
+	return result;
+}
+
 function find_connected_boxes(patcher, source, outlet, arr) {
 	for (i in patcher.lines) {
 		var line = patcher.lines[i].patchline;
@@ -104,22 +120,14 @@ function find_connected_boxes(patcher, source, outlet, arr) {
 	return arr;
 }
 
-function parse_patcher(p, scene){
-
-	if (p.filepath == ""){
-		post("warning: gibberwocky can't analyze the patcher until it is saved\n");
-		return;
-	}
+function parse_patcher_json(p, scene){
 
 	var lines = new String();
 	var patcher_file = new File(p.filepath);
-
 	while (patcher_file.position != patcher_file.eof){
 		lines += patcher_file.readline();
 	}
 	patcher_file.close();
-	patcher_dict.parse(lines);
-
     var patcher = JSON.parse(lines).patcher;
 
 	// find the [gibberwocky] object:
@@ -146,43 +154,68 @@ function parse_patcher(p, scene){
 			break;
 		}	
 	}
+	
+	// what else can we look for?
+	var devices = find_boxes_by_op(patcher, "amxd~", []);
+	for (var i in devices) {
+		var dev = devices[i];
+		var snap = dev.snapshot;
+		if (snap) snap = snap.snapshot;
+		if (snap) {
+			var vals = snap.valuedictionary;
+			if (vals) vals = vals.parameter_values;
+			
+			var d = {
+				varname: dev.varname,
+				path: "parent::" + dev.varname, // TODO: doesn't work for subpatchers
+				name: snap.name,
+				values: []
+			};
+			for (k in vals) {
+				d.values.push({
+					name: k,
+					initial: vals[k]
+				});
+			}
+			
+			scene.root.devices.push(d);
+			
+		}
+	}
 }
 
-function bang() {
+function make_scene() {
 
-	var patcher_dirname = patcher.filepath.match(/(.*)[\/\\]/)[1]||'';
-	var package_dirname = patcher_dirname.match(/(.*)[\/\\]/)[1]||'';
-	outlet(2, package_dirname);
-	
-	//if (lom_dict.get("busy") == 1) return;	// currently being written
-	//lom_dict.set("busy", 1);
-	
-	// get entire API...
-	var api = new LiveAPI("live_set");
-	if (api.path !== undefined) {
-		post("Running in M4L -- why not use Gibberwocky devices instead?\n");
+	// first time?
+	if (!package_dirname) {
+		// get path name -- this will be useful to figure out where the HTML is:
+		var patcher_dirname = patcher.filepath.match(/(.*)[\/\\]/)[1]||'';
+		package_dirname = patcher_dirname.match(/(.*)[\/\\]/)[1]||'';
+		outlet(2, package_dirname);
+			
+		// start from topmost patcher:
+		var p = this.patcher;
+		while (p.parentpatcher) { p = p.parentpatcher; }
+		top_patcher = p;
+		
+		// print a warning if we're in M4L:
+		var api = new LiveAPI("live_set");
+		if (api.path !== undefined) {
+			post("Running in M4L -- why not use Gibberwocky devices instead?\n");
+		}
 	}
 	
-	// start from topmost patcher:
-	var p = this.patcher;
-	while (p.parentpatcher) { p = p.parentpatcher; }
-	top_patcher = p;
-	
-	//for (var k in p) { post(k, p[k], "\n"); }
-	//post("name", p.name, "\n");
-	//post("filepath", p.filepath, "\n");
-	
-	// note also, getnamed
-	// this.patcher.getnamed("steve").getvalueof();
-	// this.patcher.getnamed("steve").setvalueof(...);
-	// obj.message("sendbox", "patching_position", 300, 300);
-	
+	// there's basically two ways to parse a patcher
+	// one is via traversing the patcher object in JS
+	// the other is by parsing the maxpat json
+	// only the json route can give us patcher connections, snapshots, etc.
 	
 	function explore(p, prefix) {
 		
 		var tree = {	
 			type: "patcher",
 			params: [],
+			devices: [],
 		};
 		
 		var o = p.firstobject;
@@ -305,28 +338,45 @@ function bang() {
 			}
 			o = o.nextobject;
 		}
-		
 		return tree;
 	}
 	
+	// re-explore scene:
 	var scene = {
-		root: explore(p, ""),
+		root: explore(top_patcher, ""),
 		transport: transport,
 		signals: [],
 		namespaces: [],
 	};
-	
+
 	for (var i in out_boxes) {
 		scene.signals.push(i);
+		outlet(0, +i, "id", +i);
 	}
 	
-	parse_patcher(top_patcher, scene);
-		
+	if (top_patcher.filepath == ""){
+		post("warning: gibberwocky can't analyze the patcher until it is saved\n");
+	} else {
+		parse_patcher_json(top_patcher, scene);
+	}
+	
 	// set dict from js:
 	scene_dict.parse(JSON.stringify(scene));
-	
 	// done:
 	outlet(1, "bang");
 }
 
+var polled_dirty = false;
+
+function poll() {
+	if (top_patcher && top_patcher.wind) {
+		var dirty = top_patcher.wind.dirty;
+		if (polled_dirty && !dirty) {
+			// patcher was recently cleaned (e.g. saved), so parse it:
+			make_scene();	
+		}
+		// remember state for next poll:
+		polled_dirty = dirty;
+	}
+}
 
