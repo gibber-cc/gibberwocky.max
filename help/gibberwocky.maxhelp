@@ -5,11 +5,11 @@
 			"major" : 7,
 			"minor" : 3,
 			"revision" : 1,
-			"architecture" : "x86",
+			"architecture" : "x64",
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 534.0, 79.0, 614.0, 687.0 ],
+		"rect" : [ 2664.0, 301.0, 614.0, 687.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -445,7 +445,7 @@
 							"major" : 7,
 							"minor" : 3,
 							"revision" : 1,
-							"architecture" : "x86",
+							"architecture" : "x64",
 							"modernui" : 1
 						}
 ,
@@ -674,26 +674,26 @@
 							"origname" : "C74:/packages/Max for Live/patchers/Max Instrument/Analogue Drums/Analogue Drums.amxd",
 							"valuedictionary" : 							{
 								"parameter_values" : 								{
-									"ad-level" : -1.984804,
-									"clhat-decay" : 368.098846,
-									"hat-level" : 61.390381,
-									"hat-tone" : 35.265972,
-									"kick-attack" : 45.726925,
-									"kick-decay" : 498.00293,
-									"kick-level" : 60.571613,
-									"kick-sweep" : 33.16861,
-									"kick-tune" : 78.867439,
-									"ophat-decay" : 294.97821,
-									"snare-decay" : 254.201752,
-									"snare-hicut" : 860.957153,
-									"snare-level" : 39.964317,
-									"snare-snap" : 21.36409,
-									"snare-tune" : 318.194092,
-									"tom-decay" : 896.021973,
-									"tom-hi" : 512.908752,
-									"tom-level" : 63.163837,
-									"tom-low" : 135.348923,
-									"tom-mid" : 321.665314
+									"ad-level" : 0.0,
+									"clhat-decay" : 509.520508,
+									"hat-level" : 34.341896,
+									"hat-tone" : 94.76162,
+									"kick-attack" : 78.234482,
+									"kick-decay" : 1676.934326,
+									"kick-level" : 23.827927,
+									"kick-sweep" : 4.43012,
+									"kick-tune" : 38.045345,
+									"ophat-decay" : 2752.077637,
+									"snare-decay" : 240.059265,
+									"snare-hicut" : 854.719604,
+									"snare-level" : 44.987999,
+									"snare-snap" : 25.972797,
+									"snare-tune" : 203.491272,
+									"tom-decay" : 417.630798,
+									"tom-hi" : 528.773682,
+									"tom-level" : 30.407648,
+									"tom-low" : 30.0,
+									"tom-mid" : 100.0
 								}
 
 							}
@@ -716,26 +716,26 @@
 										"origname" : "C74:/packages/Max for Live/patchers/Max Instrument/Analogue Drums/Analogue Drums.amxd",
 										"valuedictionary" : 										{
 											"parameter_values" : 											{
-												"ad-level" : -1.984804,
-												"clhat-decay" : 368.098846,
-												"hat-level" : 61.390381,
-												"hat-tone" : 35.265972,
-												"kick-attack" : 45.726925,
-												"kick-decay" : 498.00293,
-												"kick-level" : 60.571613,
-												"kick-sweep" : 33.16861,
-												"kick-tune" : 78.867439,
-												"ophat-decay" : 294.97821,
-												"snare-decay" : 254.201752,
-												"snare-hicut" : 860.957153,
-												"snare-level" : 39.964317,
-												"snare-snap" : 21.36409,
-												"snare-tune" : 318.194092,
-												"tom-decay" : 896.021973,
-												"tom-hi" : 512.908752,
-												"tom-level" : 63.163837,
-												"tom-low" : 135.348923,
-												"tom-mid" : 321.665314
+												"ad-level" : 0.0,
+												"clhat-decay" : 509.520508,
+												"hat-level" : 34.341896,
+												"hat-tone" : 94.76162,
+												"kick-attack" : 78.234482,
+												"kick-decay" : 1676.934326,
+												"kick-level" : 23.827927,
+												"kick-sweep" : 4.43012,
+												"kick-tune" : 38.045345,
+												"ophat-decay" : 2752.077637,
+												"snare-decay" : 240.059265,
+												"snare-hicut" : 854.719604,
+												"snare-level" : 44.987999,
+												"snare-snap" : 25.972797,
+												"snare-tune" : 203.491272,
+												"tom-decay" : 417.630798,
+												"tom-hi" : 528.773682,
+												"tom-level" : 30.407648,
+												"tom-low" : 30.0,
+												"tom-mid" : 100.0
 											}
 
 										}
@@ -812,9 +812,9 @@
 					"id" : "obj-1",
 					"maxclass" : "newobj",
 					"numinlets" : 1,
-					"numoutlets" : 33,
-					"outlettype" : [ "", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal", "signal" ],
-					"patching_rect" : [ 26.0, 100.0, 267.0, 29.0 ],
+					"numoutlets" : 5,
+					"outlettype" : [ "", "signal", "signal", "signal", "signal" ],
+					"patching_rect" : [ 26.0, 101.0, 267.0, 29.0 ],
 					"style" : "",
 					"text" : "gibberwocky @signals 4",
 					"varname" : "gibberwocky"
@@ -1074,7 +1074,7 @@
 					"destination" : [ "obj-7", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"midpoints" : [ 184.833328, 366.0, 35.5, 366.0 ],
+					"midpoints" : [ 184.833333, 366.0, 35.5, 366.0 ],
 					"source" : [ "obj-34", 2 ]
 				}
 
@@ -1084,7 +1084,7 @@
 					"destination" : [ "obj-7", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"midpoints" : [ 110.166664, 366.0, 35.5, 366.0 ],
+					"midpoints" : [ 110.166667, 366.0, 35.5, 366.0 ],
 					"source" : [ "obj-34", 1 ]
 				}
 
@@ -1154,174 +1154,6 @@
 ,
 		"dependency_cache" : [ 			{
 				"name" : "gibberwocky.maxpat",
-				"bootpath" : "~/Documents/Max 7/Packages/max_gibberwocky_package/patchers",
-				"type" : "JSON",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "gibbergen31.maxpat",
-				"bootpath" : "~/Documents/Max 7/Packages/max_gibberwocky_package/patchers",
-				"type" : "JSON",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "gibbergen30.maxpat",
-				"bootpath" : "~/Documents/Max 7/Packages/max_gibberwocky_package/patchers",
-				"type" : "JSON",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "gibbergen29.maxpat",
-				"bootpath" : "~/Documents/Max 7/Packages/max_gibberwocky_package/patchers",
-				"type" : "JSON",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "gibbergen28.maxpat",
-				"bootpath" : "~/Documents/Max 7/Packages/max_gibberwocky_package/patchers",
-				"type" : "JSON",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "gibbergen27.maxpat",
-				"bootpath" : "~/Documents/Max 7/Packages/max_gibberwocky_package/patchers",
-				"type" : "JSON",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "gibbergen26.maxpat",
-				"bootpath" : "~/Documents/Max 7/Packages/max_gibberwocky_package/patchers",
-				"type" : "JSON",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "gibbergen25.maxpat",
-				"bootpath" : "~/Documents/Max 7/Packages/max_gibberwocky_package/patchers",
-				"type" : "JSON",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "gibbergen24.maxpat",
-				"bootpath" : "~/Documents/Max 7/Packages/max_gibberwocky_package/patchers",
-				"type" : "JSON",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "gibbergen23.maxpat",
-				"bootpath" : "~/Documents/Max 7/Packages/max_gibberwocky_package/patchers",
-				"type" : "JSON",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "gibbergen22.maxpat",
-				"bootpath" : "~/Documents/Max 7/Packages/max_gibberwocky_package/patchers",
-				"type" : "JSON",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "gibbergen21.maxpat",
-				"bootpath" : "~/Documents/Max 7/Packages/max_gibberwocky_package/patchers",
-				"type" : "JSON",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "gibbergen20.maxpat",
-				"bootpath" : "~/Documents/Max 7/Packages/max_gibberwocky_package/patchers",
-				"type" : "JSON",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "gibbergen19.maxpat",
-				"bootpath" : "~/Documents/Max 7/Packages/max_gibberwocky_package/patchers",
-				"type" : "JSON",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "gibbergen18.maxpat",
-				"bootpath" : "~/Documents/Max 7/Packages/max_gibberwocky_package/patchers",
-				"type" : "JSON",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "gibbergen17.maxpat",
-				"bootpath" : "~/Documents/Max 7/Packages/max_gibberwocky_package/patchers",
-				"type" : "JSON",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "gibbergen16.maxpat",
-				"bootpath" : "~/Documents/Max 7/Packages/max_gibberwocky_package/patchers",
-				"type" : "JSON",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "gibbergen15.maxpat",
-				"bootpath" : "~/Documents/Max 7/Packages/max_gibberwocky_package/patchers",
-				"type" : "JSON",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "gibbergen14.maxpat",
-				"bootpath" : "~/Documents/Max 7/Packages/max_gibberwocky_package/patchers",
-				"type" : "JSON",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "gibbergen13.maxpat",
-				"bootpath" : "~/Documents/Max 7/Packages/max_gibberwocky_package/patchers",
-				"type" : "JSON",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "gibbergen12.maxpat",
-				"bootpath" : "~/Documents/Max 7/Packages/max_gibberwocky_package/patchers",
-				"type" : "JSON",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "gibbergen11.maxpat",
-				"bootpath" : "~/Documents/Max 7/Packages/max_gibberwocky_package/patchers",
-				"type" : "JSON",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "gibbergen10.maxpat",
-				"bootpath" : "~/Documents/Max 7/Packages/max_gibberwocky_package/patchers",
-				"type" : "JSON",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "gibbergen9.maxpat",
-				"bootpath" : "~/Documents/Max 7/Packages/max_gibberwocky_package/patchers",
-				"type" : "JSON",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "gibbergen8.maxpat",
-				"bootpath" : "~/Documents/Max 7/Packages/max_gibberwocky_package/patchers",
-				"type" : "JSON",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "gibbergen7.maxpat",
-				"bootpath" : "~/Documents/Max 7/Packages/max_gibberwocky_package/patchers",
-				"type" : "JSON",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "gibbergen6.maxpat",
-				"bootpath" : "~/Documents/Max 7/Packages/max_gibberwocky_package/patchers",
-				"type" : "JSON",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "gibbergen5.maxpat",
-				"bootpath" : "~/Documents/Max 7/Packages/max_gibberwocky_package/patchers",
-				"type" : "JSON",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "gibbergen4.maxpat",
 				"bootpath" : "~/Documents/Max 7/Packages/max_gibberwocky_package/patchers",
 				"type" : "JSON",
 				"implicit" : 1
