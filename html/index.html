@@ -737,7 +737,7 @@ label { margin-bottom:5px; }
       <div id='console'></div>
     </div>
 
-    <div class="microlib_tabs_tab" data-title="lom">
+    <div class="microlib_tabs_tab" data-title="mom">
       <div id='lomView'></div>
     </div>
 
@@ -3764,7 +3764,9 @@ module.exports = function( Gibber ) {
           d[ value.name ] = function( v ) {
             Gibber.Communication.send( `set ${d.path} ${value.name} ${v}` )           
           } 
+          Gibber.addSequencingToMethod( Max.devices[ d.path ], value.name, 0 )
         }
+        
       }
 
       Gibber.Environment.lomView.init( Gibber )

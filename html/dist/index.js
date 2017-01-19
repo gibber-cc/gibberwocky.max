@@ -3005,7 +3005,9 @@ module.exports = function( Gibber ) {
           d[ value.name ] = function( v ) {
             Gibber.Communication.send( `set ${d.path} ${value.name} ${v}` )           
           } 
+          Gibber.addSequencingToMethod( Max.devices[ d.path ], value.name, 0 )
         }
+        
       }
 
       Gibber.Environment.lomView.init( Gibber )
