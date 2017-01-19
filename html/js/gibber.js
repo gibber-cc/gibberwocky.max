@@ -33,6 +33,7 @@ let Gibber = {
     window.signals       = this.Max.signals
     window.params        = this.Max.params
     window.namespace     = this.Max.msg
+    window.devices       = this.Max.devices
     
     Gibber.Gen.export( window )
 

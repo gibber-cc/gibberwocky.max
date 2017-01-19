@@ -135,7 +135,7 @@
         //tracks['1-Marimba Wood'].devices['Operator']['Device On']
         let path = decodeURI( leaf.name ),
             split = path.split(':::'),
-            txt = "tracks['" + split[0] + "'].devices['" + split[1] + "']['" + split[2] + "']"
+            txt = "devices['" + split[0] + "']['" + split[1] + "']"
 
         evt.dataTransfer.setData( "text/plain", txt );
         return false

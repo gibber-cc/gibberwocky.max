@@ -206,3 +206,14 @@ span.cm-string {color: rgb(225, 225, 225) !important }
 }
 
 label { margin-bottom:5px; }
+
+.widget {
+    display : inline-block;
+    vertical-align : middle;
+    height:1.1em;
+    width:60px;
+    background-color:none;
+    margin-left:.5em;
+    border-left:1px solid #666;
+    border-right:1px solid #666;
+}

@@ -14,6 +14,7 @@ let Environment = {
   codeMarkup: require( './codeMarkup.js' ),
   debug: false,
   _codemirror: CodeMirror,
+  lomView: require( './lomView.js' ),
   animationScheduler: require( './animationScheduler.js' ),
   consoleDiv:null,
   consoleList:null,

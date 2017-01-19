@@ -21,7 +21,7 @@ let Communication = {
     if ( 'WebSocket' in window ) {
       //Gibber.log( 'Connecting' , this.querystring.host, this.querystring.port )
       if( this.connectMsg === null ) { 
-        this.connectMsg = Gibber.log( 'connecting' )
+        this.connectMsg = Gibber.log( 'connecting...' )
       }else{
         this.connectMsg.innerText += '.'
       }
@@ -30,7 +30,6 @@ let Communication = {
           port = this.querystring.port || '8081',
           address = "ws://" + host + ":" + port
       
-      Gibber.log( "ADDRESS", address )
       this.wsocket = new WebSocket( address )
       
       this.wsocket.onopen = function(ev) {        

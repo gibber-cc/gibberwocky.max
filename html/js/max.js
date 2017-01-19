@@ -4,6 +4,7 @@ module.exports = function( Gibber ) {
   let Max = {
     signals:[],
     params:[],
+    devices:{},
 
     init() {
       Gibber.Communication.callbacks.scene = Max.handleScene
@@ -34,6 +35,9 @@ module.exports = function( Gibber ) {
 
           Gibber.Gen.lastConnected = genGraph
           Gibber.Communication.send( `sig ${signalNumber} expr "${genGraph.out()}"` )
+          if( genGraph.isGen ) {
+            Gibber.Environment.codeMarkup.TEST = genGraph
+          }
         }
         Max.signals[ signalNumber ].id = signalNumber
       }
@@ -44,6 +48,18 @@ module.exports = function( Gibber ) {
         }
         Gibber.addSequencingToMethod( Max.params, param.varname, 0 )
       }
+
+      for( let device of Max.MOM.root.devices ) {
+        const d = Object.assign({}, device) 
+        Max.devices[ d.path ] = d
+        for( let value of d.values ) {
+          d[ value.name ] = function( v ) {
+            Gibber.Communication.send( `set ${d.path} ${value.name} ${v}` )           
+          } 
+        }
+      }
+
+      Gibber.Environment.lomView.init( Gibber )
     },
 
     msg( str ) {
