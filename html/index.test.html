@@ -181,6 +181,7 @@ function seq(beat) {
 	
 	// generate notes etc.
 	var notes = [ 36, 38, 41, 42, 43, 45, 46 ];
+	var instr = "parent::amxd~";
 	
 	for (var j=0; j<2; j++) {
 		var divs = Math.pow(2, random((j+1)*2)+1);
@@ -195,7 +196,11 @@ function seq(beat) {
 			// this way works too:
 			//msgarr.push("add " + (beat + phase) + " note " + pitch + " " + vel + " " + dur);
 		
-			msgarr.push("add " + (beat + phase) + " midinote " + pitch + " " + vel + " " + dur);
+			msgarr.push(["add", beat+phase, "midinote", instr, pitch, vel, dur].join(" "));
+			
+			//"add " + (beat + phase) + " midinote " + instr + " " + pitch + " " + vel + " " + dur);
+		
+			//msgarr.push("add " + (beat + phase) + " midinote " + instr + " " + pitch + " " + vel + " " + dur);
 		
 		}
 	}	
