@@ -135,7 +135,6 @@ function seq(beat) {
 	var msgarr = []; 
 	
 	
-	
 	// do some param testing:
 	if (scene.root && scene.root.params && scene.root.params.length) {
 		var phase = Math.random(4)/4;
@@ -188,20 +187,13 @@ function seq(beat) {
 		var div = 1/divs;
 		var pitch = pick(notes);
 		var dur = 500*div;
+		
 	
 		for (var i=0; i<divs; i++) {
 			var phase = i*div;
 			var vel = 60 + random(30);
 		
-			// this way works too:
-			//msgarr.push("add " + (beat + phase) + " note " + pitch + " " + vel + " " + dur);
-		
-			msgarr.push(["add", beat+phase, "midinote", instr, pitch, vel, dur].join(" "));
-			
-			//"add " + (beat + phase) + " midinote " + instr + " " + pitch + " " + vel + " " + dur);
-		
-			//msgarr.push("add " + (beat + phase) + " midinote " + instr + " " + pitch + " " + vel + " " + dur);
-		
+			msgarr.push(["add", beat+phase, "midinote", instr, pitch, vel, dur].join(" "));		
 		}
 	}	
 	
@@ -215,6 +207,22 @@ function seq(beat) {
 			}
 		}
 	}
+	
+	
+	// do some namespace testing:
+	//if (Math.random() < 0.5) {
+		
+		var divs = Math.pow(2, random((1)*2)+1);
+		var div = 0.5/divs;
+		var mul = random(3)+1;
+		
+		var name = random(2) == 0 ? "bell" : "squelch";
+		
+		for (var i=0; i<divs; i++) {
+			var phase = i*mul*div;
+			msgarr.push(["add", beat+phase, name].join(" ")); 
+		}
+	//}
 			
 	send(msgarr.join("|"));			
 }
