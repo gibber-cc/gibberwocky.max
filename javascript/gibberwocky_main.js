@@ -167,7 +167,7 @@ function parse_patcher_json(p, scene){
 			
 			var d = {
 				varname: dev.varname,
-				path: "parent::" + dev.varname, // TODO: doesn't work for subpatchers
+				path: dev.varname, // TODO: doesn't work for subpatchers
 				name: snap.name,
 				values: []
 			};
@@ -310,7 +310,7 @@ function make_scene() {
 						var n = {
 							varname: name,
 							shortname: shortname,
-							path: "parent::" + path,
+							path: path,
 							value: value,
 							range: range,
 							type: type,
