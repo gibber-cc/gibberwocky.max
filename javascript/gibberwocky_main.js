@@ -122,6 +122,7 @@ function find_connected_boxes(patcher, source, outlet, arr) {
 
 function parse_patcher_json(p, scene){
 
+	
 	var lines = new String();
 	var patcher_file = new File(p.filepath);
 	while (patcher_file.position != patcher_file.eof){
@@ -143,9 +144,13 @@ function parse_patcher_json(p, scene){
 		var text = dsts[i].text;
 		var args = text.split(" ");
 		var op = args.shift();
+		
+		post("conected", i, op, args.join(""), "\n");
+		
 		switch(op) {
 		case "route":
 		case "routepass":
+		case "sel":
 		case "select":
 			// each arg is a namespace.
 			scene.namespaces = scene.namespaces.concat(args);
