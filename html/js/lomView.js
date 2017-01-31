@@ -51,12 +51,15 @@ let lomView = {
       lomView.tree.add({ label:param.varname, id:param.varname, parent:'params' })
     }
 
+    let namespaceBranch = lomView.tree.add({ label:'namespaces', id:'namespaces' })
+    for( let ns of Gibber.Max.MOM.namespaces ) {
+      lomView.tree.add({ label:ns, id:ns, parent:'namespaces' })
+    }
+
     let deviceBranch = lomView.tree.add({ label:'devices', id:'devices' })
     for( let deviceName in Gibber.Max.devices ) {
       lomView.processDevice( Gibber.Max.devices[ deviceName ] )
     }
-
-
     //Gibber.Live.returns.forEach( v => lomView.processTrack( v ) ) // 'return ' + v.id ) )
     //lomView.processTrack( Gibber.Live.master )
   }

@@ -140,7 +140,11 @@
         if( split.length === 3 ) {
           txt = split[0] + "['" + split[1] + "']['" + split[2] + "']"
         }else if( split.length === 2 ) {
-          txt = split[0] + "['" + split[1] + "']"
+          if( split[0] === 'namespaces' ) {
+            txt = "namespace('" + split[1] + "')"
+          }else{
+            txt = split[0] + "['" + split[1] + "']"
+          }
         }
 
         evt.dataTransfer.setData( "text/plain", txt );

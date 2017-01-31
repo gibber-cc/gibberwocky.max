@@ -2941,12 +2941,15 @@ let lomView = {
       lomView.tree.add({ label:param.varname, id:param.varname, parent:'params' })
     }
 
+    let namespaceBranch = lomView.tree.add({ label:'namespaces', id:'namespaces' })
+    for( let ns of Gibber.Max.MOM.namespaces ) {
+      lomView.tree.add({ label:ns, id:ns, parent:'namespaces' })
+    }
+
     let deviceBranch = lomView.tree.add({ label:'devices', id:'devices' })
     for( let deviceName in Gibber.Max.devices ) {
       lomView.processDevice( Gibber.Max.devices[ deviceName ] )
     }
-
-
     //Gibber.Live.returns.forEach( v => lomView.processTrack( v ) ) // 'return ' + v.id ) )
     //lomView.processTrack( Gibber.Live.master )
   }
@@ -2962,6 +2965,7 @@ module.exports = function( Gibber ) {
     signals:[],
     params:[],
     devices:{},
+    namespaces:{},
 
     init() {
       Gibber.Communication.callbacks.scene = Max.handleScene
@@ -3022,19 +3026,29 @@ module.exports = function( Gibber ) {
     },
 
     msg( str ) {
-      let msg = {
-        address:str
-      }
+      let msg = {}
+      msg.address = str
+      
+      if( Max.namespaces[ str ] ) return Max.namespaces[ str ] 
 
       let proxy = new Proxy( msg, {
         get( target, prop, receiver ) {
-          if( target[ prop ] === undefined && prop !== 'markup' ) {
+          if( target[ prop ] === undefined && prop !== 'markup' && prop !== 'seq' ) {
             Max.createProperty( target, prop )
+          }else{
+            if( prop === 'seq' ) {
+              if(  target[ '__'+str ] === undefined ) {
+                Max.createProperty( target, '__'+str )
+              }
+              return target[ '__'+str ].seq
+            }
           }
 
           return target[ prop ]
         }
       })
+
+      Max.namespaces[ str ] = proxy
 
       return proxy
     },
@@ -5032,7 +5046,11 @@ module.exports = Utility
         if( split.length === 3 ) {
           txt = split[0] + "['" + split[1] + "']['" + split[2] + "']"
         }else if( split.length === 2 ) {
-          txt = split[0] + "['" + split[1] + "']"
+          if( split[0] === 'namespaces' ) {
+            txt = "namespace('" + split[1] + "')"
+          }else{
+            txt = split[0] + "['" + split[1] + "']"
+          }
         }
 
         evt.dataTransfer.setData( "text/plain", txt );

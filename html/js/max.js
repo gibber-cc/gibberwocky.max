@@ -5,6 +5,7 @@ module.exports = function( Gibber ) {
     signals:[],
     params:[],
     devices:{},
+    namespaces:{},
 
     init() {
       Gibber.Communication.callbacks.scene = Max.handleScene
@@ -65,19 +66,29 @@ module.exports = function( Gibber ) {
     },
 
     msg( str ) {
-      let msg = {
-        address:str
-      }
+      let msg = {}
+      msg.address = str
+      
+      if( Max.namespaces[ str ] ) return Max.namespaces[ str ] 
 
       let proxy = new Proxy( msg, {
         get( target, prop, receiver ) {
-          if( target[ prop ] === undefined && prop !== 'markup' ) {
+          if( target[ prop ] === undefined && prop !== 'markup' && prop !== 'seq' ) {
             Max.createProperty( target, prop )
+          }else{
+            if( prop === 'seq' ) {
+              if(  target[ '__'+str ] === undefined ) {
+                Max.createProperty( target, '__'+str )
+              }
+              return target[ '__'+str ].seq
+            }
           }
 
           return target[ prop ]
         }
       })
+
+      Max.namespaces[ str ] = proxy
 
       return proxy
     },
