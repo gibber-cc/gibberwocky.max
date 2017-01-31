@@ -38,7 +38,7 @@ let lomView = {
   },
 
   processDevice( device, id ) {
-    lomView.tree.add({ label:device.path, id:device.path }) 
+    lomView.tree.add({ label:device.path, id:device.path, parent:'devices' }) 
     for( let value of device.values ) {
       let deviceID = value.name // device.title
       lomView.tree.add({ label:deviceID, id:deviceID, parent:device.path })
@@ -46,8 +46,14 @@ let lomView = {
   },
 
   create() {
+    let deviceBranch = lomView.tree.add({ label:'devices', id:'devices' })
     for( let deviceName in Gibber.Max.devices ) {
       lomView.processDevice( Gibber.Max.devices[ deviceName ] )
+    }
+
+    let paramsBranch = lomView.tree.add({ label:'params', id:'params' })
+    for( let param of Gibber.Max.MOM.root.params ) {
+      lomView.tree.add({ label:param.varname, id:param.varname, parent:'params' })
     }
     //Gibber.Live.returns.forEach( v => lomView.processTrack( v ) ) // 'return ' + v.id ) )
     //lomView.processTrack( Gibber.Live.master )
