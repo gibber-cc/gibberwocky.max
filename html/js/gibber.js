@@ -216,8 +216,8 @@ let Gibber = {
           }
 
           Gibber.Gen.lastConnected = _v
-          Gibber.Communication.send( `gen ${parameter.id} "${_v.out()}"` )
-          Gibber.Communication.send( `select_track ${ trackID }` )
+          //Gibber.Communication.send( `gen ${parameter.id} "${_v.out()}"` )
+          //Gibber.Communication.send( `select_track ${ trackID }` )
           
           // disconnects for fades etc.
           if( typeof _v.shouldKill === 'object' ) {
@@ -246,7 +246,7 @@ let Gibber = {
 
           v = _v
           //Gibber.Communication.send( `set ${parameter.id} ${v}` )
-          Gibber.Communication.send( `set ${methodName} ${v}` )
+          Gibber.Communication.send( `${obj.address} ${methodName} ${v}` )
         }
       }else{
         return v

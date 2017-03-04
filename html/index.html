@@ -794,17 +794,18 @@ label { margin-bottom:5px; }
       <div id="demos"></div>
     </div>
 
-    <div class="microlib_tabs_tab" data-title="reference" >
-      <div id="reference">
+    <div class="microlib_tabs_tab" data-title="help" >
+      <div id="help">
+        <p>For a complete description of the gibberwocky API,
+        see the <a href='http://gibberwocky.cc/reference'>gibberwocky reference</a>. Otherwise
+        the various tutorial are the best place to get started.
+        </p>
 
-        <h2 id="track">track</h2>
-        <p>Each of Live&#39;s various tracks (instrumental, returns, and master) are represented by <code>track</code> objects in gibberwocky. Instrumental tracks are stored in the global <code>tracks</code> object, fx returns are stored in the global <code>returns</code> objects and the master track is stored in the global <code>master</code> object. Each of these different tracks has slight variations; for example, the master and fx return tracks have no <code>note</code> or <code>velocity</code> methods; they are unable to host instruments so these messages make no sense. But they also do share a number of methods and properties.</p>
-
-        <h3 id="tracks-properties">tracks.properties</h3>
-
-        <h4 id="track-devices-array">track.devices - Array</h4>
-
-        <p>This array holds all of the devices (instruments and effects plugins) for a particuarly track, <em>with the exception of any gibberwocky instances</em>. If you have a gibberwocky instance on an instrument track, this will not be included in this array. Thus, the first plugin on the track would be referred to as <code>track.devices[0]</code></p>
+        <p>For questions, answers, and announcements try the <a href="http://lurk.org/groups/gibber/">mailing list</a> or
+        the <a href="https://livecode.slack.com/messages/gibber/">gibber Slack channel</a> for more informal discussion. If you
+        aren't already a member of the Live Coding Slack group there's a <a href="http://live-code-slack.herokuapp.com">site that 
+          generates automatic invites</a>.
+        </p>
 
       </div>
     </div>
@@ -1187,7 +1188,6 @@ let Marker = {
     if( node.expression.type === 'AssignmentExpression' ) {
       shouldDelayPlacement = true
       variableName = node.expression.left.name
-      console.log( 'delaying placement' )
     }
 
     let ch = node.end, line = node.verticalOffset, start = ch - 1, end = node.end 
@@ -3753,7 +3753,6 @@ let Gibber = {
     obj[ methodName ] = p = ( _v ) => {
       // if( p.properties.quantized === 1 ) _v = Math.round( _v )
 
-      console.log( '_v:', _v )
       if( _v !== undefined ) {
         if( typeof _v === 'object' && _v.isGen ) {
           _v.assignTrackAndParamID( trackID, parameter.id )
@@ -3764,8 +3763,8 @@ let Gibber = {
           }
 
           Gibber.Gen.lastConnected = _v
-          Gibber.Communication.send( `gen ${parameter.id} "${_v.out()}"` )
-          Gibber.Communication.send( `select_track ${ trackID }` )
+          //Gibber.Communication.send( `gen ${parameter.id} "${_v.out()}"` )
+          //Gibber.Communication.send( `select_track ${ trackID }` )
           
           // disconnects for fades etc.
           if( typeof _v.shouldKill === 'object' ) {
@@ -3794,7 +3793,7 @@ let Gibber = {
 
           v = _v
           //Gibber.Communication.send( `set ${parameter.id} ${v}` )
-          Gibber.Communication.send( `set ${methodName} ${v}` )
+          Gibber.Communication.send( `${obj.address} ${methodName} ${v}` )
         }
       }else{
         return v
@@ -3939,7 +3938,6 @@ module.exports = function( Gibber ) {
 
           if( '__widget__' in genGraph ) {
             genGraph.__widget__.place()
-            console.log('placing')
           }
 
           Gibber.Communication.send( `sig ${signalNumber} expr "${genGraph.out()}"` )

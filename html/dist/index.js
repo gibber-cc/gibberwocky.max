@@ -372,7 +372,6 @@ let Marker = {
     if( node.expression.type === 'AssignmentExpression' ) {
       shouldDelayPlacement = true
       variableName = node.expression.left.name
-      console.log( 'delaying placement' )
     }
 
     let ch = node.end, line = node.verticalOffset, start = ch - 1, end = node.end 
@@ -2938,7 +2937,6 @@ let Gibber = {
     obj[ methodName ] = p = ( _v ) => {
       // if( p.properties.quantized === 1 ) _v = Math.round( _v )
 
-      console.log( '_v:', _v )
       if( _v !== undefined ) {
         if( typeof _v === 'object' && _v.isGen ) {
           _v.assignTrackAndParamID( trackID, parameter.id )
@@ -2949,8 +2947,8 @@ let Gibber = {
           }
 
           Gibber.Gen.lastConnected = _v
-          Gibber.Communication.send( `gen ${parameter.id} "${_v.out()}"` )
-          Gibber.Communication.send( `select_track ${ trackID }` )
+          //Gibber.Communication.send( `gen ${parameter.id} "${_v.out()}"` )
+          //Gibber.Communication.send( `select_track ${ trackID }` )
           
           // disconnects for fades etc.
           if( typeof _v.shouldKill === 'object' ) {
@@ -2979,7 +2977,7 @@ let Gibber = {
 
           v = _v
           //Gibber.Communication.send( `set ${parameter.id} ${v}` )
-          Gibber.Communication.send( `set ${methodName} ${v}` )
+          Gibber.Communication.send( `${obj.address} ${methodName} ${v}` )
         }
       }else{
         return v
@@ -3124,7 +3122,6 @@ module.exports = function( Gibber ) {
 
           if( '__widget__' in genGraph ) {
             genGraph.__widget__.place()
-            console.log('placing')
           }
 
           Gibber.Communication.send( `sig ${signalNumber} expr "${genGraph.out()}"` )
