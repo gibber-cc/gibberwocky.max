@@ -202,13 +202,13 @@ let Gibber = {
 
     Gibber.Seq.proto.externalMessages[ seqKey ] = ( value, beat ) => {
       let msg = `add ${beat} ${obj.path} ${methodName} ${value}` 
-      console.log('external:', msg )
       return msg
     }
     
     obj[ methodName ] = p = ( _v ) => {
       // if( p.properties.quantized === 1 ) _v = Math.round( _v )
 
+      console.log( '_v:', _v )
       if( _v !== undefined ) {
         if( typeof _v === 'object' && _v.isGen ) {
           _v.assignTrackAndParamID( trackID, parameter.id )

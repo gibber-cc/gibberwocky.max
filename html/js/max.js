@@ -8,13 +8,11 @@ module.exports = function( Gibber ) {
     namespaces:{},
 
     init() {
-      console.log( 'max init' )
       Gibber.Communication.callbacks.scene = Max.handleScene
       Gibber.Communication.send( 'get_scene' )     
     },
 
     handleScene( msg ) {
-      console.log( 'msg', msg )
       Max.id = Communication.querystring.track
 
       Max.MOM = msg

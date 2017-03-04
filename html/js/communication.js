@@ -91,15 +91,15 @@ let Communication = {
         let param_id = data[ i ]
         let param_value = data[ i+1 ] 
 
-        if( param_value < 0 ) {
+        if( param_value < -1 ) {
           param_value = 0
         }else if( param_value > 1 ) {
           param_value = 1
         }
           
-        //Gibber.Environment.codeMarkup.updateWidget( param_id, 1 - param_value )
+        Gibber.Environment.codeMarkup.updateWidget( param_id, 1 - param_value )
 
-        Gibber.Environment.codeMarkup.updateWidget( key, 1 - param_value )
+        //Gibber.Environment.codeMarkup.updateWidget( key, 1 - param_value )
 
         if( Communication.debug.input ) {
           Gibber.log( 'debug.input:', key, data )

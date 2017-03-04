@@ -319,7 +319,7 @@ let Marker = {
         isGen = false
 
     if( !shouldParse ) { // check for gen~ assignment
-      for( let ugen in Gibber.Gen.genish ) {
+      for( let ugen of Gibber.Gen.names ) {
         let idx1 = code.indexOf( ugen+'(' ),
             idx2 = code.indexOf( ugen+' (' )
 
@@ -397,13 +397,13 @@ let Marker = {
     widget.values = []
 
     if( widget.gen !== undefined ) { // if gen has been assigned to cc
-      let oldWidget = Marker.genWidgets[ widget.gen.ccnum ] 
+      let oldWidget = Marker.genWidgets[ widget.gen.id ] 
 
       if( oldWidget !== undefined && oldWidget.parentNode !== undefined && oldWidget.parentNode !== null ) {
         oldWidget.parentNode.removeChild( oldWidget )
       } 
 
-      Marker.genWidgets[ widget.gen.ccnum ] = widget
+      Marker.genWidgets[ widget.gen.id ] = widget
     }
 
     if( shouldDelayPlacement ) {
@@ -418,11 +418,10 @@ let Marker = {
           // check to see if widget has already been used with this cc #
           // and if so, that it hasn't already been cleared (via ctrl-.)
           if( oldWidget !== undefined && oldWidget.parentNode !== undefined ) {
-            console.log( oldWidget.parentNode )
             oldWidget.parentNode.removeChild( oldWidget )
           } 
 
-          Marker.genWidgets[ widget.gen.ccnum ] = widget
+          Marker.genWidgets[ widget.gen.id ] = widget
         }
         widget.mark = cm.markText({ line, ch }, { line, ch:end+1 }, { replacedWith:widget })
       }
@@ -447,12 +446,13 @@ let Marker = {
 
     for( let key in Marker.genWidgets ) {
       let widget = Marker.genWidgets[ key ]
+      const halfHeight = widget.height / 2
       if( typeof widget === 'object' && widget.ctx !== undefined ) {
         widget.ctx.fillRect( 0,0, widget.width, widget.height )
         widget.ctx.beginPath()
-        widget.ctx.moveTo( 0,  widget.height / 2 )
+        widget.ctx.moveTo( 0,  halfHeight )
         for( let i = 0; i < widget.values.length; i++ ) {
-          widget.ctx.lineTo( i, widget.height - (widget.values[ i ] / 127) * widget.height )
+          widget.ctx.lineTo( i, widget.values[i] * halfHeight )
         }
         widget.ctx.stroke()
       }
@@ -1479,15 +1479,15 @@ let Communication = {
         let param_id = data[ i ]
         let param_value = data[ i+1 ] 
 
-        if( param_value < 0 ) {
+        if( param_value < -1 ) {
           param_value = 0
         }else if( param_value > 1 ) {
           param_value = 1
         }
           
-        //Gibber.Environment.codeMarkup.updateWidget( param_id, 1 - param_value )
+        Gibber.Environment.codeMarkup.updateWidget( param_id, 1 - param_value )
 
-        Gibber.Environment.codeMarkup.updateWidget( key, 1 - param_value )
+        //Gibber.Environment.codeMarkup.updateWidget( key, 1 - param_value )
 
         if( Communication.debug.input ) {
           Gibber.log( 'debug.input:', key, data )
@@ -2933,13 +2933,13 @@ let Gibber = {
 
     Gibber.Seq.proto.externalMessages[ seqKey ] = ( value, beat ) => {
       let msg = `add ${beat} ${obj.path} ${methodName} ${value}` 
-      console.log('external:', msg )
       return msg
     }
     
     obj[ methodName ] = p = ( _v ) => {
       // if( p.properties.quantized === 1 ) _v = Math.round( _v )
 
+      console.log( '_v:', _v )
       if( _v !== undefined ) {
         if( typeof _v === 'object' && _v.isGen ) {
           _v.assignTrackAndParamID( trackID, parameter.id )
@@ -3095,13 +3095,11 @@ module.exports = function( Gibber ) {
     namespaces:{},
 
     init() {
-      console.log( 'max init' )
       Gibber.Communication.callbacks.scene = Max.handleScene
       Gibber.Communication.send( 'get_scene' )     
     },
 
     handleScene( msg ) {
-      console.log( 'msg', msg )
       Max.id = Communication.querystring.track
 
       Max.MOM = msg

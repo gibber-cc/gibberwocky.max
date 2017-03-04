@@ -9,7 +9,7 @@
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 1040.0, 78.0, 571.0, 633.0 ],
+		"rect" : [ 435.0, 78.0, 717.0, 633.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -2615,7 +2615,6 @@
 					"numinlets" : 2,
 					"numoutlets" : 0,
 					"patching_rect" : [ 351.5, 163.5, 53.0, 39.0 ],
-					"range" : [ 0.0, 1.0 ],
 					"style" : ""
 				}
 
@@ -2627,7 +2626,6 @@
 					"numinlets" : 2,
 					"numoutlets" : 0,
 					"patching_rect" : [ 289.5, 163.5, 53.0, 39.0 ],
-					"range" : [ 0.0, 1.0 ],
 					"style" : ""
 				}
 
@@ -2639,7 +2637,6 @@
 					"numinlets" : 2,
 					"numoutlets" : 0,
 					"patching_rect" : [ 227.5, 163.5, 53.0, 39.0 ],
-					"range" : [ 0.0, 1.0 ],
 					"style" : ""
 				}
 
@@ -2651,7 +2648,6 @@
 					"numinlets" : 2,
 					"numoutlets" : 0,
 					"patching_rect" : [ 165.5, 163.5, 53.0, 39.0 ],
-					"range" : [ 0.0, 1.0 ],
 					"style" : ""
 				}
 
@@ -2867,24 +2863,6 @@
 
 									}
 ,
-									"fileref" : 									{
-										"name" : "Analogue Drums.amxd",
-										"filename" : "Analogue Drums.amxd.maxsnap",
-										"filepath" : "~/Documents/Max 7/Snapshots",
-										"filepos" : -1,
-										"snapshotfileid" : "eb77e511ade593da58f2f10f23135acd"
-									}
-
-								}
-, 								{
-									"filetype" : "C74Snapshot",
-									"version" : 2,
-									"minorversion" : 0,
-									"name" : "Analogue Drums.amxd",
-									"origin" : "Analogue Drums.amxd",
-									"type" : "amxd",
-									"subtype" : "Undefined",
-									"embed" : 0,
 									"fileref" : 									{
 										"name" : "Analogue Drums.amxd",
 										"filename" : "Analogue Drums.amxd.maxsnap",
@@ -3149,8 +3127,8 @@
  ],
 		"parameters" : 		{
 			"obj-33" : [ "White_Queen", "whitequeen", 0 ],
-			"obj-2" : [ "Red_Queen", "redqueen", 0 ],
-			"obj-7" : [ "amxd~", "amxd~", 0 ]
+			"obj-7" : [ "amxd~", "amxd~", 0 ],
+			"obj-2" : [ "Red_Queen", "redqueen", 0 ]
 		}
 ,
 		"dependency_cache" : [ 			{

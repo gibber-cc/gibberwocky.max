@@ -37,7 +37,7 @@ let Marker = {
         isGen = false
 
     if( !shouldParse ) { // check for gen~ assignment
-      for( let ugen in Gibber.Gen.genish ) {
+      for( let ugen of Gibber.Gen.names ) {
         let idx1 = code.indexOf( ugen+'(' ),
             idx2 = code.indexOf( ugen+' (' )
 
@@ -115,13 +115,13 @@ let Marker = {
     widget.values = []
 
     if( widget.gen !== undefined ) { // if gen has been assigned to cc
-      let oldWidget = Marker.genWidgets[ widget.gen.ccnum ] 
+      let oldWidget = Marker.genWidgets[ widget.gen.id ] 
 
       if( oldWidget !== undefined && oldWidget.parentNode !== undefined && oldWidget.parentNode !== null ) {
         oldWidget.parentNode.removeChild( oldWidget )
       } 
 
-      Marker.genWidgets[ widget.gen.ccnum ] = widget
+      Marker.genWidgets[ widget.gen.id ] = widget
     }
 
     if( shouldDelayPlacement ) {
@@ -136,11 +136,10 @@ let Marker = {
           // check to see if widget has already been used with this cc #
           // and if so, that it hasn't already been cleared (via ctrl-.)
           if( oldWidget !== undefined && oldWidget.parentNode !== undefined ) {
-            console.log( oldWidget.parentNode )
             oldWidget.parentNode.removeChild( oldWidget )
           } 
 
-          Marker.genWidgets[ widget.gen.ccnum ] = widget
+          Marker.genWidgets[ widget.gen.id ] = widget
         }
         widget.mark = cm.markText({ line, ch }, { line, ch:end+1 }, { replacedWith:widget })
       }
@@ -165,12 +164,13 @@ let Marker = {
 
     for( let key in Marker.genWidgets ) {
       let widget = Marker.genWidgets[ key ]
+      const halfHeight = widget.height / 2
       if( typeof widget === 'object' && widget.ctx !== undefined ) {
         widget.ctx.fillRect( 0,0, widget.width, widget.height )
         widget.ctx.beginPath()
-        widget.ctx.moveTo( 0,  widget.height / 2 )
+        widget.ctx.moveTo( 0,  halfHeight )
         for( let i = 0; i < widget.values.length; i++ ) {
-          widget.ctx.lineTo( i, widget.height - (widget.values[ i ] / 127) * widget.height )
+          widget.ctx.lineTo( i, widget.values[i] * halfHeight )
         }
         widget.ctx.stroke()
       }
