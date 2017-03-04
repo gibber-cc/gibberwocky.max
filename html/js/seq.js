@@ -179,7 +179,7 @@ let seqclosure = function( Gibber ) {
           //console.log( 'key:', this.key, 'messages:', this.externalMessages )
           if( this.externalMessages[ this.key ] === undefined ) {
 
-            if( this.object && this.key ) {
+            if( this.object !== undefined && this.key !== undefined ) {
               if( typeof this.object[ this.key ] === 'function' ) {
                 this.object[ this.key ]( value, Gibber.Utility.beatsToMs( _beatOffset ), true )
               }else{

@@ -135,14 +135,12 @@ let Gibber = {
         obj[ methodName ].timings = obj.sequences[ methodName ][ 0 ].timings
       }
 
-      seq.key = obj.path + methodName
+      seq.key = obj.path !== undefined ? obj.path + methodName : methodName
 
       obj[ methodName ][ id ] = seq
 
       seq.delay( delay )
       seq.start()
-
-      //Gibber.Communication.send( `select_track ${obj.id}` )
 
       return seq
     }
@@ -208,7 +206,6 @@ let Gibber = {
     obj[ methodName ] = p = ( _v ) => {
       // if( p.properties.quantized === 1 ) _v = Math.round( _v )
 
-      console.log( '_v:', _v )
       if( _v !== undefined ) {
         if( typeof _v === 'object' && _v.isGen ) {
           _v.assignTrackAndParamID( trackID, parameter.id )

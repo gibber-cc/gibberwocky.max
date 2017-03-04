@@ -372,6 +372,7 @@ let Marker = {
     if( node.expression.type === 'AssignmentExpression' ) {
       shouldDelayPlacement = true
       variableName = node.expression.left.name
+      console.log( 'delaying placement' )
     }
 
     let ch = node.end, line = node.verticalOffset, start = ch - 1, end = node.end 
@@ -2866,14 +2867,12 @@ let Gibber = {
         obj[ methodName ].timings = obj.sequences[ methodName ][ 0 ].timings
       }
 
-      seq.key = obj.path + methodName
+      seq.key = obj.path !== undefined ? obj.path + methodName : methodName
 
       obj[ methodName ][ id ] = seq
 
       seq.delay( delay )
       seq.start()
-
-      //Gibber.Communication.send( `select_track ${obj.id}` )
 
       return seq
     }
@@ -3122,6 +3121,12 @@ module.exports = function( Gibber ) {
           }
 
           Gibber.Gen.lastConnected = genGraph
+
+          if( '__widget__' in genGraph ) {
+            genGraph.__widget__.place()
+            console.log('placing')
+          }
+
           Gibber.Communication.send( `sig ${signalNumber} expr "${genGraph.out()}"` )
           if( genGraph.isGen ) {
             Gibber.Environment.codeMarkup.TEST = genGraph
@@ -4341,7 +4346,7 @@ let seqclosure = function( Gibber ) {
           //console.log( 'key:', this.key, 'messages:', this.externalMessages )
           if( this.externalMessages[ this.key ] === undefined ) {
 
-            if( this.object && this.key ) {
+            if( this.object !== undefined && this.key !== undefined ) {
               if( typeof this.object[ this.key ] === 'function' ) {
                 this.object[ this.key ]( value, Gibber.Utility.beatsToMs( _beatOffset ), true )
               }else{

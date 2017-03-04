@@ -35,6 +35,11 @@ module.exports = function( Gibber ) {
           }
 
           Gibber.Gen.lastConnected = genGraph
+
+          if( '__widget__' in genGraph ) {
+            genGraph.__widget__.place()
+          }
+
           Gibber.Communication.send( `sig ${signalNumber} expr "${genGraph.out()}"` )
           if( genGraph.isGen ) {
             Gibber.Environment.codeMarkup.TEST = genGraph
