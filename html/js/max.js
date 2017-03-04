@@ -8,11 +8,13 @@ module.exports = function( Gibber ) {
     namespaces:{},
 
     init() {
+      console.log( 'max init' )
       Gibber.Communication.callbacks.scene = Max.handleScene
       Gibber.Communication.send( 'get_scene' )     
     },
 
     handleScene( msg ) {
+      console.log( 'msg', msg )
       Max.id = Communication.querystring.track
 
       Max.MOM = msg
@@ -60,6 +62,31 @@ module.exports = function( Gibber ) {
           Gibber.addSequencingToMethod( Max.devices[ d.path ], value.name, 0 )
         }
         
+        d.__velocity = 127
+        d.__duration = 500 
+        d.velocity = function( v ) {
+          d.__velocity = v
+        }
+        d.duration = function( v ) {
+          d.__duration = v
+        }
+
+        let seqKey = `${d.path}midinote`
+
+        d.midinote = function( note, velocity, duration ) {
+          if( typeof velocity !== 'number' || velocity === 0) velocity = d.__velocity
+          if( typeof duration !== 'number' ) duration = d.__duration
+
+          Gibber.Communication.send( `midinote ${d.path} ${note} ${velocity} ${duration}` )
+        }
+
+        Gibber.addSequencingToMethod( d, 'midinote', 0 ) 
+
+        d.midinote.seq.key = seqKey
+        Gibber.Seq.proto.externalMessages[ seqKey ] = ( value, beat ) => {
+          let msg = `add ${beat} midinote ${d.path} ${value} ${d.__velocity} ${d.__duration}` 
+          return msg
+        }
       }
 
       Gibber.Environment.lomView.init( Gibber )

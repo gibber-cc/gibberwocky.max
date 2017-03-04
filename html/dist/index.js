@@ -2742,6 +2742,8 @@ let Gibber = {
         obj[ methodName ].timings = obj.sequences[ methodName ][ 0 ].timings
       }
 
+      seq.key = obj.path + methodName
+
       obj[ methodName ][ id ] = seq
 
       seq.delay( delay )
@@ -2806,7 +2808,8 @@ let Gibber = {
     //console.log( "add method trackID", trackID )
 
     Gibber.Seq.proto.externalMessages[ seqKey ] = ( value, beat ) => {
-      let msg = `add ${beat} ${obj.address} ${methodName} ${value}` 
+      let msg = `add ${beat} ${obj.path} ${methodName} ${value}` 
+      console.log('external:', msg )
       return msg
     }
     
@@ -2968,11 +2971,13 @@ module.exports = function( Gibber ) {
     namespaces:{},
 
     init() {
+      console.log( 'max init' )
       Gibber.Communication.callbacks.scene = Max.handleScene
       Gibber.Communication.send( 'get_scene' )     
     },
 
     handleScene( msg ) {
+      console.log( 'msg', msg )
       Max.id = Communication.querystring.track
 
       Max.MOM = msg
@@ -3020,6 +3025,31 @@ module.exports = function( Gibber ) {
           Gibber.addSequencingToMethod( Max.devices[ d.path ], value.name, 0 )
         }
         
+        d.__velocity = 127
+        d.__duration = 500 
+        d.velocity = function( v ) {
+          d.__velocity = v
+        }
+        d.duration = function( v ) {
+          d.__duration = v
+        }
+
+        let seqKey = `${d.path}midinote`
+
+        d.midinote = function( note, velocity, duration ) {
+          if( typeof velocity !== 'number' || velocity === 0) velocity = d.__velocity
+          if( typeof duration !== 'number' ) duration = d.__duration
+
+          Gibber.Communication.send( `midinote ${d.path} ${note} ${velocity} ${duration}` )
+        }
+
+        Gibber.addSequencingToMethod( d, 'midinote', 0 ) 
+
+        d.midinote.seq.key = seqKey
+        Gibber.Seq.proto.externalMessages[ seqKey ] = ( value, beat ) => {
+          let msg = `add ${beat} midinote ${d.path} ${value} ${d.__velocity} ${d.__duration}` 
+          return msg
+        }
       }
 
       Gibber.Environment.lomView.init( Gibber )
@@ -4186,6 +4216,7 @@ let seqclosure = function( Gibber ) {
         if( typeof value === 'function' ) value = value()
         if( value !== null ) {
           // delay messages  
+          //console.log( 'key:', this.key, 'messages:', this.externalMessages )
           if( this.externalMessages[ this.key ] === undefined ) {
 
             //let msg = this.externalMessages[ this.key ]( value, beat + _beatOffset, this.trackID )
@@ -4201,7 +4232,6 @@ let seqclosure = function( Gibber ) {
             //Gibber.Communication.send( msg )
 
           } else { // schedule internal method / function call immediately
-
             const msg = this.externalMessages[ this.key ]( value, beat + _beatOffset )//Gibber.Utility.beatsToMs( _beatOffset ) )
             Gibber.Communication.send( msg )
 

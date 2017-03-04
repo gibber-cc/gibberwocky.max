@@ -5,11 +5,11 @@
 			"major" : 7,
 			"minor" : 3,
 			"revision" : 1,
-			"architecture" : "x64",
+			"architecture" : "x86",
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 627.0, 79.0, 571.0, 633.0 ],
+		"rect" : [ 1040.0, 78.0, 571.0, 633.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -120,7 +120,7 @@
 							"major" : 7,
 							"minor" : 3,
 							"revision" : 1,
-							"architecture" : "x64",
+							"architecture" : "x86",
 							"modernui" : 1
 						}
 ,
@@ -192,7 +192,7 @@
 											"major" : 7,
 											"minor" : 3,
 											"revision" : 1,
-											"architecture" : "x64",
+											"architecture" : "x86",
 											"modernui" : 1
 										}
 ,
@@ -1337,7 +1337,7 @@
 											"major" : 7,
 											"minor" : 3,
 											"revision" : 1,
-											"architecture" : "x64",
+											"architecture" : "x86",
 											"modernui" : 1
 										}
 ,
@@ -2805,7 +2805,7 @@
 									"hat-tone" : 12.601603,
 									"kick-attack" : 0.731787,
 									"kick-decay" : 1170.500122,
-									"kick-level" : 16.558546,
+									"kick-level" : 63.0,
 									"kick-sweep" : 5.797313,
 									"kick-tune" : 128.528717,
 									"ophat-decay" : 3000.0,
@@ -2815,10 +2815,10 @@
 									"snare-snap" : 25.024099,
 									"snare-tune" : 297.958038,
 									"tom-decay" : 3000.0,
-									"tom-hi" : 200.0,
-									"tom-level" : 0.113086,
-									"tom-low" : 30.0,
-									"tom-mid" : 350.0
+									"tom-hi" : 327.559052,
+									"tom-level" : 44.994976,
+									"tom-low" : 143.385834,
+									"tom-mid" : 243.70079
 								}
 
 							}
@@ -2847,7 +2847,7 @@
 												"hat-tone" : 12.601603,
 												"kick-attack" : 0.731787,
 												"kick-decay" : 1170.500122,
-												"kick-level" : 16.558546,
+												"kick-level" : 63.0,
 												"kick-sweep" : 5.797313,
 												"kick-tune" : 128.528717,
 												"ophat-decay" : 3000.0,
@@ -2857,10 +2857,10 @@
 												"snare-snap" : 25.024099,
 												"snare-tune" : 297.958038,
 												"tom-decay" : 3000.0,
-												"tom-hi" : 200.0,
-												"tom-level" : 0.113086,
-												"tom-low" : 30.0,
-												"tom-mid" : 350.0
+												"tom-hi" : 327.559052,
+												"tom-level" : 44.994976,
+												"tom-low" : 143.385834,
+												"tom-mid" : 243.70079
 											}
 
 										}
@@ -2872,7 +2872,25 @@
 										"filename" : "Analogue Drums.amxd.maxsnap",
 										"filepath" : "~/Documents/Max 7/Snapshots",
 										"filepos" : -1,
-										"snapshotfileid" : "3b69c9bbeda3cffbb3e3cfe34c2e5136"
+										"snapshotfileid" : "eb77e511ade593da58f2f10f23135acd"
+									}
+
+								}
+, 								{
+									"filetype" : "C74Snapshot",
+									"version" : 2,
+									"minorversion" : 0,
+									"name" : "Analogue Drums.amxd",
+									"origin" : "Analogue Drums.amxd",
+									"type" : "amxd",
+									"subtype" : "Undefined",
+									"embed" : 0,
+									"fileref" : 									{
+										"name" : "Analogue Drums.amxd",
+										"filename" : "Analogue Drums.amxd.maxsnap",
+										"filepath" : "~/Documents/Max 7/Snapshots",
+										"filepos" : -1,
+										"snapshotfileid" : "eb77e511ade593da58f2f10f23135acd"
 									}
 
 								}
@@ -3130,9 +3148,9 @@
 			}
  ],
 		"parameters" : 		{
-			"obj-7" : [ "amxd~", "amxd~", 0 ],
 			"obj-33" : [ "White_Queen", "whitequeen", 0 ],
-			"obj-2" : [ "Red_Queen", "redqueen", 0 ]
+			"obj-2" : [ "Red_Queen", "redqueen", 0 ],
+			"obj-7" : [ "amxd~", "amxd~", 0 ]
 		}
 ,
 		"dependency_cache" : [ 			{

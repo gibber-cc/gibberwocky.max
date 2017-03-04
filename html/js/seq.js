@@ -177,6 +177,7 @@ let seqclosure = function( Gibber ) {
         if( typeof value === 'function' ) value = value()
         if( value !== null ) {
           // delay messages  
+          //console.log( 'key:', this.key, 'messages:', this.externalMessages )
           if( this.externalMessages[ this.key ] === undefined ) {
 
             //let msg = this.externalMessages[ this.key ]( value, beat + _beatOffset, this.trackID )
@@ -192,7 +193,6 @@ let seqclosure = function( Gibber ) {
             //Gibber.Communication.send( msg )
 
           } else { // schedule internal method / function call immediately
-
             const msg = this.externalMessages[ this.key ]( value, beat + _beatOffset )//Gibber.Utility.beatsToMs( _beatOffset ) )
             Gibber.Communication.send( msg )
 

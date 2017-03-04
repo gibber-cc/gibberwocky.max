@@ -135,6 +135,8 @@ let Gibber = {
         obj[ methodName ].timings = obj.sequences[ methodName ][ 0 ].timings
       }
 
+      seq.key = obj.path + methodName
+
       obj[ methodName ][ id ] = seq
 
       seq.delay( delay )
@@ -199,7 +201,8 @@ let Gibber = {
     //console.log( "add method trackID", trackID )
 
     Gibber.Seq.proto.externalMessages[ seqKey ] = ( value, beat ) => {
-      let msg = `add ${beat} ${obj.address} ${methodName} ${value}` 
+      let msg = `add ${beat} ${obj.path} ${methodName} ${value}` 
+      console.log('external:', msg )
       return msg
     }
     
