@@ -289,21 +289,22 @@ const callDepths = [
   'THIS.METHOD[ 0 ].SEQ',
   'THIS.METHOD.VALUES.REVERSE.SEQ',
   'THIS.METHOD[ 0 ].VALUES.REVERSE.SEQ',
-  'TRACKS[0].METHOD[ 0 ].VALUES.REVERSE.SEQ',  
-  'TRACKS[0].METHOD.SEQ',
-  'TRACKS[0].METHOD[0].SEQ',
-  'TRACKS[0].METHOD.VALUES.REVERSE.SEQ',
-  'TRACKS[0].METHOD[0].VALUES.REVERSE.SEQ'
+  'CHANNELS[0].METHOD[ 0 ].VALUES.REVERSE.SEQ',  
+  'CHANNELS[0].METHOD.SEQ',
+  'CHANNELS[0].METHOD[0].SEQ',
+  'CHANNELS[0].METHOD.VALUES.REVERSE.SEQ',
+  'CHANNELS[0].METHOD[0].VALUES.REVERSE.SEQ'
 ]
 
-const trackNames = [ 'this', 'tracks', 'master', 'returns' ]
+const channelNames = [ 'this', 'channels', 'master', 'returns' ]
 
 const Utility = require( './utility.js' )
 const $ = Utility.create
 
 let Marker = {
   genWidgets: { dirty:false },
-  allWidgets: [],
+  unassignedWidgets: {}, 
+
   _patternTypes: [ 'values', 'timings', 'index' ],
 
   prepareObject( obj ) {
@@ -313,35 +314,38 @@ let Marker = {
     }  
   },
 
-  process( code, position, codemirror, track ) {
+  process( code, position, codemirror, channel ) {
     let shouldParse = code.includes( '.seq' ) || code.includes( 'Steps(' ) || code.includes( 'Score(' ),
         isGen = false
 
-    if( track.markup === undefined ) Marker.prepareObject( track )
-
     if( !shouldParse ) { // check for gen~ assignment
-      for( let ugen of Gibber.Gen.names ) {
-          let idx = code.indexOf( ugen )
-          if( idx !== -1 && code.charAt( idx + ugen.length ) === '('  ) {
+      for( let ugen in Gibber.Gen.genish ) {
+        let idx1 = code.indexOf( ugen+'(' ),
+            idx2 = code.indexOf( ugen+' (' )
+
+        if( idx1 + idx2 > -2 ) { 
+          shouldParse = true
+          isGen = true
+          break;
+        }
+      }
+      if( !isGen ) {
+        for( let ugen in Gibber.Gen.composites ) {
+        let idx1 = code.indexOf( ugen+'(' ),
+            idx2 = code.indexOf( ugen+' (' )
+
+        if( idx1 + idx2 > -2 ) { 
             shouldParse = true
             isGen = true
-
             break;
           }
         }
-      //for( let ugen in Gibber.Gen.names ) { // Gibber.Gen.genish for gibberwocky.midi
-      //  let idx = code.indexOf( ugen )
-      //  if( idx !== -1 && code.charAt( idx + ugen.length ) === '('  ) {
-      //    shouldParse = true
-      //    isGen = true
-      //    break;
-      //  }
-      //}
+      }
     }
 
     if( !shouldParse ) return
 
-    let tree = acorn.parse( code, { locations:true, ecmaVersion:6 } ).body
+    let tree = acorn.parse( code, { locations:true, ecmaVersion:6, directSourceFile:true } ).body
     
     for( let node of tree ) {
       if( node.type === 'ExpressionStatement' ) { // not control flow
@@ -349,9 +353,9 @@ let Marker = {
         node.horizontalOffset = position.horizontalOffset === undefined ? 0 : position.horizontalOffset
         try {
           if( isGen ) {
-            this.processGen( node, codemirror, track )
+            this.processGen( node, codemirror, channel )
           }else{ 
-            this._process[ node.type ]( node, codemirror, track )
+            this._process[ node.type ]( node, codemirror, channel )
           }
         } catch( error ) {
           console.log( 'error processing annotation for', node.expression.type, error )
@@ -359,88 +363,73 @@ let Marker = {
       }
     }
   },
-  processGen( node, cm, track ) {
+  
+  processGen( node, cm, channel ) {
+    // are we passing gen expression to cc function or are we storing it in a variable?
+    let shouldDelayPlacement = false,
+        variableName = null
+
+    if( node.expression.type === 'AssignmentExpression' ) {
+      shouldDelayPlacement = true
+      variableName = node.expression.left.name
+    }
+
     let ch = node.end, line = node.verticalOffset, start = ch - 1, end = node.end 
     
     cm.replaceRange( ') ', { line, ch:start }, { line, ch } )
 
     let widget = document.createElement( 'canvas' )
     widget.ctx = widget.getContext('2d')
-    //widget.style.display = 'inline-block'
-    //widget.style.verticalAlign = 'middle'
-    //widget.style.height = '1.1em'
-    //widget.style.width = '60px'
-    //widget.style.backgroundColor = '#bbb'
-    //widget.style.marginLeft = '.5em'
-    //widget.style.borderLeft = '1px solid #666'
-    //widget.style.borderRight = '1px solid #666'
-    widget.setAttribute( 'class', 'widget' )
+    widget.style.display = 'inline-block'
+    widget.style.verticalAlign = 'middle'
+    widget.style.height = '1.1em'
+    widget.style.width = '60px'
+    widget.style.backgroundColor = 'transparent'
+    widget.style.marginLeft = '.5em'
+    widget.style.borderLeft = '1px solid #666'
+    widget.style.borderRight = '1px solid #666'
     widget.setAttribute( 'width', 60 )
     widget.setAttribute( 'height', 13 )
     widget.ctx.fillStyle = 'rgba(46,50,53,1)'
-    widget.ctx.strokeStyle = 'rgb(193,193,193)'
+    widget.ctx.strokeStyle = '#eee'
     widget.ctx.lineWidth = .5
     widget.gen = Gibber.Gen.lastConnected
     widget.values = []
 
-    if( widget.gen ) {
-      let oldWidget = Marker.genWidgets[ widget.gen.paramID ] 
+    if( widget.gen !== undefined ) { // if gen has been assigned to cc
+      let oldWidget = Marker.genWidgets[ widget.gen.ccnum ] 
 
-      if( oldWidget !== undefined ) {
+      if( oldWidget !== undefined && oldWidget.parentNode !== undefined && oldWidget.parentNode !== null ) {
         oldWidget.parentNode.removeChild( oldWidget )
       } 
-    
-      Marker.genWidgets[ widget.gen.paramID ] = widget
-    }else{
-      widget.assign = ()=> {
-       widget.gen = Gibber.Gen.lastConnected
-       let oldWidget = Marker.genWidgets[ widget.gen.paramID ] 
 
-       if( oldWidget !== undefined ) {
-         oldWidget.parentNode.removeChild( oldWidget )
-       } 
-
-       Marker.genWidgets[ widget.gen.paramID ] = widget
-
-      }
+      Marker.genWidgets[ widget.gen.ccnum ] = widget
     }
 
-    Marker.allWidgets.push( widget )
-    widget.mark = cm.markText({ line, ch }, { line, ch:end+1 }, { replacedWith:widget })
-  }, 
-  //processGen( node, cm, track ) {
-  //  let ch = node.end, line = node.verticalOffset, start = ch - 1, end = node.end 
-    
-  //  cm.replaceRange( ') ', { line, ch:start }, { line, ch } )
+    if( shouldDelayPlacement ) {
+      window[ variableName ].__widget__ = widget
 
-  //  let widget = document.createElement( 'canvas' )
-  //  widget.ctx = widget.getContext('2d')
-  //  widget.style.display = 'inline-block'
-  //  widget.style.verticalAlign = 'middle'
-  //  widget.style.height = '1.1em'
-  //  widget.style.width = '60px'
-  //  widget.style.backgroundColor = '#bbb'
-  //  widget.style.marginLeft = '.5em'
-  //  widget.style.borderLeft = '1px solid #666'
-  //  widget.style.borderRight = '1px solid #666'
-  //  widget.setAttribute( 'width', 60 )
-  //  widget.setAttribute( 'height', 13 )
-  //  widget.ctx.fillStyle = '#bbb'
-  //  widget.ctx.strokeStyle = '#333'
-  //  widget.ctx.lineWidth = .5
-  //  widget.gen = Gibber.Gen.lastConnected
-  //  widget.values = []
+      widget.place = () => {
+        widget.gen = Gibber.Gen.lastConnected
 
-  //  let oldWidget = Marker.genWidgets[ widget.gen.ccnum ] 
+        if( widget.gen !== undefined ) { // if gen has been assigned to cc
+          let oldWidget = Marker.genWidgets[ widget.gen.ccnum ] 
 
-  //  if( oldWidget !== undefined ) {
-  //    oldWidget.parentNode.removeChild( oldWidget )
-  //  } 
-    
-  //  Marker.genWidgets[ widget.gen.ccnum ] = widget
+          // check to see if widget has already been used with this cc #
+          // and if so, that it hasn't already been cleared (via ctrl-.)
+          if( oldWidget !== undefined && oldWidget.parentNode !== undefined ) {
+            console.log( oldWidget.parentNode )
+            oldWidget.parentNode.removeChild( oldWidget )
+          } 
 
-  //  widget.mark = cm.markText({ line, ch }, { line, ch:end+1 }, { replacedWith:widget })
-  //},
+          Marker.genWidgets[ widget.gen.ccnum ] = widget
+        }
+        widget.mark = cm.markText({ line, ch }, { line, ch:end+1 }, { replacedWith:widget })
+      }
+    }else{
+      widget.mark = cm.markText({ line, ch }, { line, ch:end+1 }, { replacedWith:widget })
+    }
+  },
 
   updateWidget( id, value ) {
     let widget = Marker.genWidgets[ id ]
@@ -463,7 +452,7 @@ let Marker = {
         widget.ctx.beginPath()
         widget.ctx.moveTo( 0,  widget.height / 2 )
         for( let i = 0; i < widget.values.length; i++ ) {
-          widget.ctx.lineTo( i, widget.height - widget.values[ i ] * widget.height )
+          widget.ctx.lineTo( i, widget.height - (widget.values[ i ] / 127) * widget.height )
         }
         widget.ctx.stroke()
       }
@@ -483,17 +472,17 @@ let Marker = {
   },
 
   _process: {
-    ExpressionStatement( expressionNode, codemirror, track ){ 
-      Marker._process[ expressionNode.expression.type ]( expressionNode, codemirror, track )
+    ExpressionStatement( expressionNode, codemirror, channel ){ 
+      Marker._process[ expressionNode.expression.type ]( expressionNode, codemirror, channel )
     },
 
-    AssignmentExpression: function( expressionNode, codemirror, track ) {
+    AssignmentExpression: function( expressionNode, codemirror, channel ) {
       if( expressionNode.expression.right.type !== 'Literal' && Marker.functions[ expressionNode.expression.right.callee.name ] ) {
 
         Marker.functions[ expressionNode.expression.right.callee.name ]( 
           expressionNode.expression.right, 
           codemirror,
-          track,
+          channel,
           expressionNode.expression.left.name,
           expressionNode.verticalOffset,
           expressionNode.horizontalOffset
@@ -502,22 +491,28 @@ let Marker = {
 
     },
 
-    CallExpression( expressionNode, codemirror, track  ) {
+    CallExpression( expressionNode, codemirror, channel  ) {
+
       let [ components, depthOfCall, index ] = Marker._getCallExpressionHierarchy( expressionNode.expression ),
         args = expressionNode.expression.arguments,
         usesThis, targetPattern, isTrack, method, target
+      
+      // needed for when blocks are split up into individual nodes that are sent to this method
+      let shouldParse = components.includes( 'seq' ) || components.includes( 'Steps' ) || components.includes( 'Score' )
+
+      if( shouldParse === false ) return
 
       // if index is passed as argument to .seq call...
       if( args.length > 2 ) { index = args[ 2 ].value }
       
       //console.log( "depth of call", depthOfCall, components, index )
       let valuesPattern, timingsPattern, valuesNode, timingsNode
-
+      
       switch( callDepths[ depthOfCall ] ) {
          case 'SCORE':
            //console.log( 'score no assignment?', components, expressionNode.expression )
            if( Marker.functions[ expressionNode.expression.callee.name ] ) {
-             Marker.functions[ expressionNode.expression.callee.name ]( expressionNode.expression, codemirror, track, expressionNode.verticalOffset )            
+             Marker.functions[ expressionNode.expression.callee.name ]( expressionNode.expression, codemirror, channel, expressionNode.verticalOffset )            
            }
            break;
 
@@ -525,22 +520,22 @@ let Marker = {
            break;
 
          case 'THIS.METHOD.SEQ':
-           if( components.includes( 'tracks' ) ) { //expressionNode.expression.callee.object.object.type !== 'ThisExpression' ) {
+           if( components.includes( 'channels' ) ) { //expressionNode.expression.callee.object.object.type !== 'ThisExpression' ) {
              let objName = expressionNode.expression.callee.object.object.name
 
-             track = window[ objName ]
-             method = track[ components[ 1 ] ][ index ]
+             channel = window[ objName ]
+             method = channel[ components[ 1 ] ][ index ]
            }else if( components.includes( 'this' ) ){
-             track = Gibber.currentTrack
-             method = track[ components[ 1 ] ][ index ]
+             channel = Gibber.currentTrack
+             method = channel[ components[ 1 ] ][ index ]
            }else{
              let objName = expressionNode.expression.callee.object.object.name
 
-             track = window[ components[0] ]
-             method = track[ components[ 1 ] ] 
+             channel = window[ components[0] ]
+             method = channel[ components[ 1 ] ] 
            }
 
-           if( !track.markup ) { Marker.prepareObject( track ) }
+           if( !channel.markup ) { Marker.prepareObject( channel ) }
 
            valuesPattern =  method.values
            timingsPattern = method.timings
@@ -550,52 +545,53 @@ let Marker = {
            valuesPattern.codemirror = timingsPattern.codemirror = codemirror 
           
            if( valuesNode ) {
-             Marker._markPattern[ valuesNode.type ]( valuesNode, expressionNode, components, codemirror, track, index, 'values', valuesPattern ) 
+             Marker._markPattern[ valuesNode.type ]( valuesNode, expressionNode, components, codemirror, channel, index, 'values', valuesPattern ) 
            }  
            if( timingsNode ) {
-             Marker._markPattern[ timingsNode.type ]( timingsNode, expressionNode, components, codemirror, track, index, 'timings', timingsPattern )  
+             Marker._markPattern[ timingsNode.type ]( timingsNode, expressionNode, components, codemirror, channel, index, 'timings', timingsPattern )  
            }
 
            break;
 
          case 'THIS.METHOD[ 0 ].SEQ': // will this ever happen??? I guess after it has been sequenced once?
-           isTrack  = trackNames.includes( components[0] )
+           isTrack  = channelNames.includes( components[0] )
            target = null
-           track = window[ components[0] ][ components[1] ]
-           
-           if( !isTrack ) { // not a track! XXX please, please get a better parsing method / rules...
-             target = track
-             track = Gibber.currentTrack
-           }
 
-           valuesPattern =  target === null ? track[ components[2] ][ index ].values : target[ components[2] ].values
-           timingsPattern = target === null ? track[ components[2] ][ index ].timings : target[ components[2] ].timings //track[ components[2] ][ index ].timings
+           channel = window[ components[0] ][ components[1] ]
+           
+           //if( !isTrack ) { // not a channel! XXX please, please get a better parsing method / rules...
+           //  target = channel
+           //  channel = Gibber.currentTrack
+           //}
+
+           valuesPattern =  target === null ? channel[ components[2] ][ index ].values : target[ components[2] ].values
+           timingsPattern = target === null ? channel[ components[2] ][ index ].timings : target[ components[2] ].timings //channel[ components[2] ][ index ].timings
            valuesNode = args[0]
            timingsNode = args[1]
 
            valuesPattern.codemirror = timingsPattern.codemirror = codemirror
 
            if( valuesNode ) { 
-             Marker._markPattern[ valuesNode.type ]( valuesNode, expressionNode, components, codemirror, track, index, 'values', valuesPattern ) 
+             Marker._markPattern[ valuesNode.type ]( valuesNode, expressionNode, components, codemirror, channel, index, 'values', valuesPattern ) 
            }
            if( timingsNode ) {
-             Marker._markPattern[ timingsNode.type ]( timingsNode, expressionNode, components, codemirror, track, index, 'timings', timingsPattern )  
+             Marker._markPattern[ timingsNode.type ]( timingsNode, expressionNode, components, codemirror, channel, index, 'timings', timingsPattern )  
            }
 
            break;
 
          case 'THIS.METHOD.VALUES.REVERSE.SEQ':
            usesThis = components.includes( 'this' )
-           isTrack  = components.includes( 'tracks' )
+           isTrack  = components.includes( 'channels' )
 
            if( isTrack ) { // XXX this won't ever get called here, right?
-             track = window[ components[0] ][ components[1] ] 
-             targetPattern = track[ components[2] ][ components[3] ]
+             channel = window[ components[0] ][ components[1] ] 
+             targetPattern = channel[ components[2] ][ components[3] ]
              method = targetPattern[ components[4] ]
 
            }else{
-             track = usesThis ? Gibber.currentTrack : window[ components[0] ],
-             targetPattern = track[ components[1] ][ components[2] ],
+             channel = usesThis ? Gibber.currentTrack : window[ components[0] ],
+             targetPattern = channel[ components[1] ][ components[2] ],
              method = targetPattern[ components[3] ]
            }
         
@@ -608,27 +604,27 @@ let Marker = {
            valuesPattern.codemirror = timingsPattern.codemirror = codemirror
            
            if( valuesNode ) {
-             Marker._markPattern[ valuesNode.type ]( valuesNode, expressionNode, components, codemirror, track, index, 'values', valuesPattern ) 
+             Marker._markPattern[ valuesNode.type ]( valuesNode, expressionNode, components, codemirror, channel, index, 'values', valuesPattern ) 
            }  
            if( timingsNode ) {
-             Marker._markPattern[ timingsNode.type ]( timingsNode, expressionNode, components, codemirror, track, index, 'timings', timingsPattern )  
+             Marker._markPattern[ timingsNode.type ]( timingsNode, expressionNode, components, codemirror, channel, index, 'timings', timingsPattern )  
            }
 
            break;
 
          case 'THIS.METHOD[ 0 ].VALUES.REVERSE.SEQ': // most useful?
            usesThis = components.includes( 'this' )
-           isTrack  = components.includes( 'tracks' )
-           // tracks['1-Impulse 606'].devices['Impulse']['Global Time']
+           isTrack  = components.includes( 'channels' )
+           // channels['1-Impulse 606'].devices['Impulse']['Global Time']
            
            if( isTrack ) {
-             track = window[ components[0] ][ components[1] ] 
-             targetPattern = track[ components[2] ][ components[3] ]
+             channel = window[ components[0] ][ components[1] ] 
+             targetPattern = channel[ components[2] ][ components[3] ]
              method = targetPattern[ components[4] ]
 
            }else{
-             track = usesThis ? Gibber.currentTrack : window[ components[0] ],
-             targetPattern = track[ components[1] ][ index ][ components[3] ],
+             channel = usesThis ? Gibber.currentTrack : window[ components[0] ],
+             targetPattern = channel[ components[1] ][ index ][ components[3] ],
              method = targetPattern[ components[4] ]
            }
 
@@ -642,28 +638,28 @@ let Marker = {
            if( !isTrack ) components.splice( 2,index )
           
            if( valuesNode ) {
-             Marker._markPattern[ valuesNode.type ]( valuesNode, expressionNode, components, codemirror, track, index, 'values', valuesPattern ) 
+             Marker._markPattern[ valuesNode.type ]( valuesNode, expressionNode, components, codemirror, channel, index, 'values', valuesPattern ) 
            }
            if( timingsNode ) {
-             Marker._markPattern[ timingsNode.type ]( timingsNode, expressionNode, components, codemirror, track, index, 'timings', timingsPattern )  
+             Marker._markPattern[ timingsNode.type ]( timingsNode, expressionNode, components, codemirror, channel, index, 'timings', timingsPattern )  
            }
            break;
-         case 'TRACKS[0].METHOD[ 0 ].VALUES.REVERSE.SEQ':
-           track = window[ 'tracks' ][ components[ 1 ] ]
+         case 'CHANNELS[0].METHOD[ 0 ].VALUES.REVERSE.SEQ':
+           channel = window[ 'channels' ][ components[ 1 ] ]
 
            components[3] = components[3]
-           valuesPattern =  track[ components[ 2 ] ][ components[3] ][ components[4] ][ components[5] ].values
-           timingsPattern = track[ components[ 2 ] ][ components[3] ][ components[4] ][ components[5] ].timings
+           valuesPattern =  channel[ components[ 2 ] ][ components[3] ][ components[4] ][ components[5] ].values
+           timingsPattern = channel[ components[ 2 ] ][ components[3] ][ components[4] ][ components[5] ].timings
            valuesNode = args[ 0 ]
            timingsNode= args[ 1 ]
           
            valuesPattern.codemirror = timingsPattern.codemirror = codemirror
 
            if( valuesNode ) {
-             Marker._markPattern[ valuesNode.type ]( valuesNode, expressionNode, components, codemirror, track, index, 'values', valuesPattern ) 
+             Marker._markPattern[ valuesNode.type ]( valuesNode, expressionNode, components, codemirror, channel, index, 'values', valuesPattern ) 
            }  
            if( timingsNode ) {
-             Marker._markPattern[ timingsNode.type ]( timingsNode, expressionNode, components, codemirror, track, index, 'timings', timingsPattern )  
+             Marker._markPattern[ timingsNode.type ]( timingsNode, expressionNode, components, codemirror, channel, index, 'timings', timingsPattern )  
            }
            break;
 
@@ -689,10 +685,14 @@ let Marker = {
         case 3: border = 'left'; break;
       }
 
-      $( className ).add( 'annotation-' + border + '-border' )
+
+      $( className ).remove( 'annotation-' + border + '-border' )
+      $( className ).add( 'annotation-' + border + '-border-cycle' )
       
-      if( lastBorder )
-        $( className ).remove( 'annotation-' + lastBorder + '-border' )
+      if( lastBorder !== null ) {
+        $( className ).remove( 'annotation-' + lastBorder + '-border-cycle' )
+        $( className ).add( 'annotation-' + lastBorder + '-border' )
+      }
       
       lastBorder = border
       lastClassName = className
@@ -702,9 +702,18 @@ let Marker = {
 
     cycle.clear = function() {
       modCount = 1
-      if( lastBorder && lastClassName )
-        $( lastClassName ).remove( 'annotation-' + lastBorder + '-border' )
       
+      if( lastClassName !== null ) {
+        $( lastClassName ).remove( 'annotation-left-border' )
+        $( lastClassName ).remove( 'annotation-left-border-cycle' )
+        $( lastClassName ).remove( 'annotation-right-border' )
+        $( lastClassName ).remove( 'annotation-right-border-cycle' )
+        $( lastClassName ).remove( 'annotation-top-border' )
+        $( lastClassName ).remove( 'annotation-top-border-cycle' )
+        $( lastClassName ).remove( 'annotation-bottom-border' )
+        $( lastClassName ).remove( 'annotation-bottom-border-cycle' )
+      }
+
       lastBorder = null
     }
 
@@ -722,7 +731,7 @@ let Marker = {
 
   _addPatternFilter( patternObject ) {
     patternObject.filters.push( ( args ) => {
-      const wait = Utility.beatsToMs( patternObject.nextTime + .5,  Gibber.Scheduler.bpm ) // TODO: should .25 be a variable representing advance amount?
+      const wait = Utility.beatsToMs( patternObject.nextTime,  Gibber.Scheduler.bpm )
 
       let idx = args[ 2 ],
           shouldUpdate = patternObject.update.shouldUpdate
@@ -737,60 +746,108 @@ let Marker = {
   },
 
   _markPattern: {
-    Literal( patternNode, containerNode, components, cm, track, index=0, patternType, patternObject ) {
-       let [ className, start, end ] = Marker._getNamesAndPosition( patternNode, containerNode, components, index, patternType ),
-           cssName = className + '_0',
-           marker = cm.markText( start, end, { 
-             'className': cssName + ' annotation-border', 
-             inclusiveLeft: true,
-             inclusiveRight: true
-           })
-       
-       track.markup.textMarkers[ className ] = marker
-       
-       if( track.markup.cssClasses[ className ] === undefined ) track.markup.cssClasses[ className ] = []
+    Literal( patternNode, containerNode, components, cm, channel, index=0, patternType, patternObject ) {
+      let [ className, start, end ] = Marker._getNamesAndPosition( patternNode, containerNode, components, index, patternType ),
+          cssName = className + '_0',
+          marker = cm.markText( start, end, { 
+            'className': cssName + ' annotation annotation-full', 
+            inclusiveLeft: true,
+            inclusiveRight: true
+          })
 
-       track.markup.cssClasses[ className ][ index ] = cssName    
-       
-       Marker._addPatternUpdates( patternObject, className )
-       Marker._addPatternFilter( patternObject )
-       
-       patternObject.patternName = className
-       patternObject._onchange = () => { Marker._updatePatternContents( patternObject, className, track ) }
+        channel.markup.textMarkers[ className ] = marker
+
+        if( channel.markup.cssClasses[ className ] === undefined ) channel.markup.cssClasses[ className ] = []
+
+        channel.markup.cssClasses[ className ][ index ] = cssName    
+
+        Marker._addPatternUpdates( patternObject, className )
+        Marker._addPatternFilter( patternObject )
+
+        patternObject.patternName = className
+        patternObject._onchange = () => { Marker._updatePatternContents( patternObject, className, channel ) }
     },
 
-    BinaryExpression( patternNode, containerNode, components, cm, track, index=0, patternType, patternObject ) { // TODO: same as literal, refactor?
-       let [ className, start, end ] = Marker._getNamesAndPosition( patternNode, containerNode, components, index, patternType ),
-           cssName = className + '_0',
-           marker = cm.markText(
-             start, 
-             end,
-             { 
-               'className': cssName + ' annotation-border' ,
-               startStyle: 'annotation-no-right-border',
-               endStyle: 'annotation-no-left-border',
-               inclusiveLeft:true,
-               inclusiveRight:true
-             }
-           ) 
-       
-       track.markup.textMarkers[ className ] = marker
-       
-       if( track.markup.cssClasses[ className ] === undefined ) track.markup.cssClasses[ className ] = []
-       track.markup.cssClasses[ className ][ index ] = cssName
+    UnaryExpression( patternNode, containerNode, components, cm, channel, index=0, patternType, patternObject ) { // -1 etc.
+      let [ className, start, end ] = Marker._getNamesAndPosition( patternNode, containerNode, components, index, patternType ),
+          cssName = className + '_0',
+          marker = cm.markText( start, end, { 
+            'className': cssName + ' annotation', 
+            inclusiveLeft: true,
+            inclusiveRight: true
+          })
 
-       setTimeout( () => { $( '.' + cssName )[ 1 ].classList.add( 'annotation-no-horizontal-border' ) }, 250 )
-       
-       patternObject.patternName = className
+        channel.markup.textMarkers[ className ] = marker
 
-       Marker._addPatternUpdates( patternObject, className )
-       Marker._addPatternFilter( patternObject )
+        if( channel.markup.cssClasses[ className ] === undefined ) channel.markup.cssClasses[ className ] = []
+
+        channel.markup.cssClasses[ className ][ index ] = cssName    
+
+        let start2 = Object.assign( {}, start )
+        start2.ch += 1
+        let marker2 = cm.markText( start, start2, { 
+          'className': cssName + ' annotation-no-right-border', 
+          inclusiveLeft: true,
+          inclusiveRight: true
+        })
+
+        let marker3 = cm.markText( start2, end, { 
+          'className': cssName + ' annotation-no-left-border', 
+          inclusiveLeft: true,
+          inclusiveRight: true
+        })
+
+        Marker._addPatternUpdates( patternObject, className )
+        Marker._addPatternFilter( patternObject )
+
+        patternObject.patternName = className
+        patternObject._onchange = () => { Marker._updatePatternContents( patternObject, className, channel ) }
     },
 
-    ArrayExpression( patternNode, containerNode, components, cm, track, index=0, patternType, patternObject ) {
-      let [ patternName, start, end ] = Marker._getNamesAndPosition( patternNode, containerNode, components, index, patternType ),
-          marker, 
-          count = 0
+    BinaryExpression( patternNode, containerNode, components, cm, channel, index=0, patternType, patternObject ) { // 1/4 etc. 
+      let [ className, start, end ] = Marker._getNamesAndPosition( patternNode, containerNode, components, index, patternType ),
+         cssName = className + '_0',
+         marker = cm.markText(
+           start, 
+           end,
+           { 
+             'className': cssName + ' annotation annotation-border' ,
+             startStyle: 'annotation-no-right-border',
+             endStyle: 'annotation-no-left-border',
+             inclusiveLeft:true,
+             inclusiveRight:true
+           }
+         ) 
+
+      const divStart = Object.assign( {}, start )
+      const divEnd   = Object.assign( {}, end )
+
+      divStart.ch += 1
+      divEnd.ch -= 1
+
+      const marker2 = cm.markText( divStart, divEnd, { className:'annotation-binop-border' })
+
+      channel.markup.textMarkers[ className ] = marker
+
+      if( channel.markup.cssClasses[ className ] === undefined ) channel.markup.cssClasses[ className ] = []
+      channel.markup.cssClasses[ className ][ index ] = cssName
+
+      patternObject.patternName = className
+
+      Marker._addPatternUpdates( patternObject, className )
+      Marker._addPatternFilter( patternObject )
+    },
+
+    ArrayExpression( patternNode, containerNode, components, cm, channel, index=0, patternType, patternObject ) {
+      let [ patternName, start, end ] = Marker._getNamesAndPosition( 
+        patternNode, 
+        containerNode, 
+        components, 
+        index, 
+        patternType 
+      )
+      
+      let count = 0
 
       for( let element of patternNode.elements ) {
         let cssClassName = patternName + '_' + count,
@@ -809,39 +866,73 @@ let Marker = {
              inclusiveLeft:true, inclusiveRight:true
           })
 
-          let count = 0
-          let classAdder = () => {
-            let element = $( '.' + cssClassName )[1]
-            if( element !== undefined ) {
-              element.classList.add( 'annotation-no-horizontal-border' ) 
-            } else {
-              if( count++ < 4 ) {
-                setTimeout( classAdder, 250 )
-              }
-            }
-          }
+          // create specific border for operator: top, bottom, no sides
+          const divStart = Object.assign( {}, elementStart )
+          const divEnd   = Object.assign( {}, elementEnd )
 
-          setTimeout( classAdder, 250 )
+          divStart.ch += 1
+          divEnd.ch -= 1
+
+          const marker2 = cm.markText( divStart, divEnd, { className:cssClassName + '_binop annotation-binop' })
+
+
+        }else if (element.type === 'UnaryExpression' ) {
+          marker = cm.markText( elementStart, elementEnd, { 
+            'className': cssClassName + ' annotation', 
+            inclusiveLeft: true,
+            inclusiveRight: true
+          })
+
+          let start2 = Object.assign( {}, elementStart )
+          start2.ch += 1
+          let marker2 = cm.markText( elementStart, start2, { 
+            'className': cssClassName + ' annotation-no-right-border', 
+            inclusiveLeft: true,
+            inclusiveRight: true
+          })
+
+          let marker3 = cm.markText( start2, elementEnd, { 
+            'className': cssClassName + ' annotation-no-left-border', 
+            inclusiveLeft: true,
+            inclusiveRight: true
+          })
+        }else if( element.type === 'ArrayExpression' ) {
+           marker = cm.markText( elementStart, elementEnd, { 
+            'className': cssClassName + ' annotation',
+            inclusiveLeft:true, inclusiveRight:true,
+            startStyle:'annotation-left-border-start',
+            endStyle: 'annotation-right-border-end',
+           })
+
+           // mark opening array bracket
+           const arrayStart_start = Object.assign( {}, elementStart )
+           const arrayStart_end  = Object.assign( {}, elementStart )
+           arrayStart_end.ch += 1
+           cm.markText( arrayStart_start, arrayStart_end, { className:cssClassName + '_start' })
+
+           // mark closing array bracket
+           const arrayEnd_start = Object.assign( {}, elementEnd )
+           const arrayEnd_end   = Object.assign( {}, elementEnd )
+           arrayEnd_start.ch -=1
+           cm.markText( arrayEnd_start, arrayEnd_end, { className:cssClassName + '_end' })
 
         }else{
           marker = cm.markText( elementStart, elementEnd, { 
             'className': cssClassName + ' annotation',
             inclusiveLeft:true, inclusiveRight:true
-          } )
+          })
         }
 
-        if( track.markup === undefined ) Marker.prepareObject( track )
-
-        if( track.markup.textMarkers[ patternName  ] === undefined ) track.markup.textMarkers[ patternName ] = []
-        track.markup.textMarkers[ patternName ][ count ] = marker
+        if( channel.markup.textMarkers[ patternName  ] === undefined ) channel.markup.textMarkers[ patternName ] = []
+        channel.markup.textMarkers[ patternName ][ count ] = marker
        
-        if( track.markup.cssClasses[ patternName ] === undefined ) track.markup.cssClasses[ patternName ] = []
-        track.markup.cssClasses[ patternName ][ count ] = cssClassName 
+        if( channel.markup.cssClasses[ patternName ] === undefined ) channel.markup.cssClasses[ patternName ] = []
+        channel.markup.cssClasses[ patternName ][ count ] = cssClassName 
         
         count++
       }
       
-      let highlighted = null,
+      let highlighted = { className:null, isArray:false },
           cycle = Marker._createBorderCycleFunction( patternName, patternObject )
       
       patternObject.patternType = patternType 
@@ -852,14 +943,41 @@ let Marker = {
         
         className += '_' + patternObject.update.currentIndex 
 
-        if( patternType === 'timings' ) {
-          //console.log( className, highlighted )
-        }
+        if( highlighted.className !== className ) {
 
-        if( highlighted !== className ) {
-          if( highlighted ) { $( highlighted ).remove( 'annotation-border' ) }
-          $( className ).add( 'annotation-border' )
-          highlighted = className
+          // remove any previous annotations for this pattern
+          if( highlighted.className !== null ) {
+            if( highlighted.isArray === false && highlighted.className ) { 
+              $( highlighted.className ).remove( 'annotation-border' ) 
+            }else{
+              $( highlighted.className ).remove( 'annotation-array' )
+              $( highlighted.className + '_start' ).remove( 'annotation-border-left' )
+              $( highlighted.className + '_end' ).remove( 'annotation-border-right' )
+
+              if( $( highlighted.className + '_binop' ).length > 0 ) {
+                $( highlighted.className + '_binop' ).remove( 'annotation-binop-border' )
+              }
+
+            }
+          }
+
+          // add annotation for current pattern element
+          if( Array.isArray( patternObject.values[ patternObject.update.currentIndex ] ) ) {
+            $( className ).add( 'annotation-array' )
+            $( className + '_start' ).add( 'annotation-border-left' )
+            $( className + '_end' ).add( 'annotation-border-right' )
+            highlighted.isArray = true
+          }else{
+            $( className ).add( 'annotation-border' )
+
+            if( $( className + '_binop' ).length > 0 ) {
+              $( className + '_binop' ).add( 'annotation-binop-border' )
+            }
+            highlighted.isArray = false
+          }
+
+          highlighted.className = className
+
           cycle.clear()
         }else{
           cycle()
@@ -867,17 +985,17 @@ let Marker = {
       }
 
       patternObject.clear = () => {
-        if( highlighted ) { $( highlighted ).remove( 'annotation-border' ) }
+        if( highlighted.className !== null ) { $( highlighted.className ).remove( 'annotation-border' ) }
         cycle.clear()
       }
 
       Marker._addPatternFilter( patternObject )
-      patternObject._onchange = () => { Marker._updatePatternContents( patternObject, patternName, track ) }
+      patternObject._onchange = () => { Marker._updatePatternContents( patternObject, patternName, channel ) }
     },
 
     // CallExpression denotes an array (or other object) that calls a method, like .rnd()
     // could also represent an anonymous function call, like Rndi(19,40)
-    CallExpression( patternNode, containerNode, components, cm, track, index=0, patternType, patternObject ) {
+    CallExpression( patternNode, containerNode, components, cm, channel, index=0, patternType, patternObject ) {
       var args = Array.prototype.slice.call( arguments, 0 )
       // console.log( patternNode.callee.type, patternObject )
 
@@ -891,7 +1009,7 @@ let Marker = {
       }
     },
 
-    Identifier( patternNode, containerNode, components, cm, track, index=0, patternType, patternObject ) {
+    Identifier( patternNode, containerNode, components, cm, channel, index=0, patternType, patternObject ) {
       // mark up anonymous functions with comments here... 
       let [ className, start, end ] = Marker._getNamesAndPosition( patternNode, containerNode, components, index, patternType ),
           commentStart = end,
@@ -904,14 +1022,16 @@ let Marker = {
 
       marker = cm.markText( commentStart, commentEnd, { className })
        
-      //  if( track.markup.textMarkers[ className  ] === undefined ) track.markup.textMarkers[ className ] = []
-      //  track.markup.textMarkers[ className ][ 0 ] = marker
+      //  if( channel.markup.textMarkers[ className  ] === undefined ) channel.markup.textMarkers[ className ] = []
+      //  channel.markup.textMarkers[ className ][ 0 ] = marker
       //  console.log( 'name', patternNode.callee.name )
       let updateName = typeof patternNode.callee !== 'undefined' ? patternNode.callee.name : patternNode.name 
+      if( patternObject.type !== undefined ) updateName = patternObject.type 
+
       if( Marker.patternUpdates[ updateName ] ) {
-        patternObject.update = Marker.patternUpdates[ updateName ]( patternObject, marker, className, cm, track )
+        patternObject.update = Marker.patternUpdates[ updateName ]( patternObject, marker, className, cm, channel )
       } else {
-        patternObject.update = Marker.patternUpdates.anonymousFunction( patternObject, marker, className, cm, track )
+        patternObject.update = Marker.patternUpdates.anonymousFunction( patternObject, marker, className, cm, channel )
       }
       
       patternObject.patternName = className
@@ -923,7 +1043,7 @@ let Marker = {
   },
 
   patternUpdates: {
-    Euclid: ( patternObject, marker, className, cm, track ) => {
+    Euclid: ( patternObject, marker, className, cm, channel ) => {
       let val ='/* ' + patternObject.values.join('')  + ' */',
           pos = marker.find(),
           end = Object.assign( {}, pos.to ),
@@ -941,14 +1061,14 @@ let Marker = {
 
       patternObject.commentMarker = cm.markText( pos.from, end, { className, atomic:true }) //replacedWith:element })
 
-      track.markup.textMarkers[ className ] = {}
+      channel.markup.textMarkers[ className ] = {}
       
       let mark = () => {
         memberAnnotationStart.ch = annotationStartCh
         memberAnnotationEnd.ch   = annotationEndCh
 
         for( let i = 0; i < patternObject.values.length; i++ ) {
-          track.markup.textMarkers[ className ][ i ] = cm.markText(
+          channel.markup.textMarkers[ className ][ i ] = cm.markText(
             memberAnnotationStart,  memberAnnotationEnd,
             { 'className': `${className}_${i}` }
           )
@@ -993,7 +1113,7 @@ let Marker = {
         Gibber.Environment.animationScheduler.add( () => {
           for( let i = 0; i < patternObject.values.length; i++ ) {
    
-            let markerCh = track.markup.textMarkers[ className ][ i ],
+            let markerCh = channel.markup.textMarkers[ className ][ i ],
                 pos = markerCh.find()
             
             marker.doc.replaceRange( '' + patternObject.values[ i ], pos.from, pos.to )
@@ -1052,42 +1172,45 @@ let Marker = {
   },
 
   functions:{
-    Score( node, cm, track, objectName, vOffset=0 ) {
+    Score( node, cm, channel, objectName, vOffset=0 ) {
       let timelineNodes = node.arguments[ 0 ].elements
-      //console.log( timelineNodes )
-      track.markup.textMarkers[ 'score' ] = []
+      const score = window[ objectName ]
+
+      score.markup.textMarkers[ 'score' ] = []
 
       for( let i = 0; i < timelineNodes.length; i+=2 ) {
         let timeNode = timelineNodes[ i ],
             functionNode = timelineNodes[ i + 1 ]
             
-        functionNode.loc.start.line += vOffset - 1
-        functionNode.loc.end.line   += vOffset - 1
-        functionNode.loc.start.ch = functionNode.loc.start.column
-        functionNode.loc.end.ch = functionNode.loc.end.column
+        if( functionNode !== null ) { // check for Score.wait and null
+          functionNode.loc.start.line += vOffset - 1
+          functionNode.loc.end.line   += vOffset - 1
+          functionNode.loc.start.ch = functionNode.loc.start.column
+          functionNode.loc.end.ch = functionNode.loc.end.column
 
-        let marker = cm.markText( functionNode.loc.start, functionNode.loc.end, { className:`score${i/2}` } )
-        track.markup.textMarkers[ 'score' ][ i/2 ] = marker
+          let marker = cm.markText( functionNode.loc.start, functionNode.loc.end, { className:`score${i/2}` } )
+          score.markup.textMarkers[ 'score' ][ i/2 ] = marker
+        }
 
       }
 
       let lastClass = 'score0'
       $( '.' + lastClass ).add( 'scoreCurrentIndex' )
-      // TODO: global object usage is baaaad methinks?
-      window[ objectName ].onadvance = ( idx ) => {
+
+      score.onadvance = ( idx ) => {
         $( '.' + lastClass ).remove( 'scoreCurrentIndex' )
         lastClass = `score${idx}`
         $( '.' + lastClass ).add( 'scoreCurrentIndex' ) 
       }
     },
 
-    Steps( node, cm, track, objectName, vOffset=0 ) {
+    Steps( node, cm, channel, objectName, vOffset=0 ) {
       let steps = node.arguments[ 0 ].properties
 
-      track.markup.textMarkers[ 'step' ] = []
-      track.markup.textMarkers[ 'step' ].children = []
+      channel.markup.textMarkers[ 'step' ] = []
+      channel.markup.textMarkers[ 'step' ].children = []
 
-      let mark = ( _step, _key, _cm, _track ) => {
+      let mark = ( _step, _key, _cm, _channel ) => {
         for( let i = 0; i < _step.value.length; i++ ) {
           let pos = { loc:{ start:{}, end:{}} }
           Object.assign( pos.loc.start, _step.loc.start )
@@ -1095,7 +1218,7 @@ let Marker = {
           pos.loc.start.ch += i
           pos.loc.end.ch = pos.loc.start.ch + 1
           let posMark = _cm.markText( pos.loc.start, pos.loc.end, { className:`step_${_key}_${i}` })
-          _track.markup.textMarkers.step[ _key ].pattern[ i ] = posMark
+          _channel.markup.textMarkers.step[ _key ].pattern[ i ] = posMark
         }
       }
 
@@ -1109,11 +1232,11 @@ let Marker = {
           step.loc.end.ch     = step.loc.end.column - 1
           
           let marker = cm.markText( step.loc.start, step.loc.end, { className:`step${key}` } )
-          track.markup.textMarkers.step[ key ] = marker
+          channel.markup.textMarkers.step[ key ] = marker
 
-          track.markup.textMarkers.step[ key ].pattern = []
+          channel.markup.textMarkers.step[ key ].pattern = []
           
-          mark( step, key, cm, track )
+          mark( step, key, cm, channel )
 
           let count = 0, span, update,
               _key = steps[ key ].key.value,
@@ -1140,11 +1263,12 @@ let Marker = {
           }
 
           patternObject._onchange = () => {
-            let delay = Utility.beatsToMs( 1,  Gibber.Scheduler.bpm )
+            // delay not needed for MIDI version
+            // let delay = Utility.beatsToMs( 1,  Gibber.Scheduler.bpm )
             Gibber.Environment.animationScheduler.add( () => {
               marker.doc.replaceRange( patternObject.values.join(''), step.loc.start, step.loc.end )
-              mark( step, key, cm, track )
-            }, delay ) 
+              mark( step, key, cm, channel )
+            }, 0 ) 
           }
 
           patternObject.update = update
@@ -1158,25 +1282,25 @@ let Marker = {
   },
 
 
-  _updatePatternContents( pattern, patternClassName, track ) {
+  _updatePatternContents( pattern, patternClassName, channel ) {
     let marker, pos, newMarker
 
     if( pattern.values.length > 1 ) {
       // array of values
       for( let i = 0; i < pattern.values.length; i++) {
-        marker = track.markup.textMarkers[ patternClassName ][ i ]
+        marker = channel.markup.textMarkers[ patternClassName ][ i ]
         pos = marker.find()
 
         marker.doc.replaceRange( '' + pattern.values[ i ], pos.from, pos.to )
       }
     }else{
       // single literal
-      marker = track.markup.textMarkers[ patternClassName ]
+      marker = channel.markup.textMarkers[ patternClassName ]
       pos = marker.find()
 
       marker.doc.replaceRange( '' + pattern.values[ 0 ], pos.from, pos.to )
       // newMarker = marker.doc.markText( pos.from, pos.to, { className: patternClassName + ' annotation-border' } )
-      // track.markup.textMarkers[ patternClassName ] = newMarker
+      // channel.markup.textMarkers[ patternClassName ] = newMarker
     }
   },
 
@@ -1189,8 +1313,8 @@ let Marker = {
 
      if( className.includes( 'this' ) ) className.shift()
 
-     if( className.includes( 'tracks' ) ) {
-       //className = [ 'tracks', components[1] ].concat( components.slice( 2, components.length - 1 ) )
+     if( className.includes( 'channels' ) ) {
+       //className = [ 'channels', components[1] ].concat( components.slice( 2, components.length - 1 ) )
        if( index !== 0 ) {
          className.splice( 3, 0, index )
        }
@@ -1237,8 +1361,8 @@ let Marker = {
       }else if( obj.property && obj.property.type === 'Literal' ){ // array index
         pushValue = obj.property.value
 
-        // don't fall for tracks[0] etc.
-        if( depth > 1 ) index = obj.property.value
+        // don't fall for channels[0] etc.
+        // if( depth > 1 ) index = obj.property.value
       }else if( obj.type === 'Identifier' ) {
         pushValue = obj.name
       }
@@ -3034,6 +3158,8 @@ module.exports = function( Gibber ) {
           d.__duration = v
         }
 
+        Gibber.Environment.codeMarkup.prepareObject( d )
+
         let seqKey = `${d.path}midinote`
 
         d.midinote = function( note, velocity, duration ) {
@@ -3045,7 +3171,6 @@ module.exports = function( Gibber ) {
 
         Gibber.addSequencingToMethod( d, 'midinote', 0 ) 
 
-        d.midinote.seq.key = seqKey
         Gibber.Seq.proto.externalMessages[ seqKey ] = ( value, beat ) => {
           let msg = `add ${beat} midinote ${d.path} ${value} ${d.__velocity} ${d.__duration}` 
           return msg
@@ -4215,13 +4340,9 @@ let seqclosure = function( Gibber ) {
         let value = this.values()
         if( typeof value === 'function' ) value = value()
         if( value !== null ) {
-          // delay messages  
           //console.log( 'key:', this.key, 'messages:', this.externalMessages )
           if( this.externalMessages[ this.key ] === undefined ) {
 
-            //let msg = this.externalMessages[ this.key ]( value, beat + _beatOffset, this.trackID )
-            
-            //scheduler.msgs.push( msg, this.priority )
             if( this.object && this.key ) {
               if( typeof this.object[ this.key ] === 'function' ) {
                 this.object[ this.key ]( value, Gibber.Utility.beatsToMs( _beatOffset ), true )
@@ -4229,7 +4350,6 @@ let seqclosure = function( Gibber ) {
                 this.object[ this.key ] = value
               }
             }
-            //Gibber.Communication.send( msg )
 
           } else { // schedule internal method / function call immediately
             const msg = this.externalMessages[ this.key ]( value, beat + _beatOffset )//Gibber.Utility.beatsToMs( _beatOffset ) )

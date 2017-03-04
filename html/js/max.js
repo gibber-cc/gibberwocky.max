@@ -71,6 +71,8 @@ module.exports = function( Gibber ) {
           d.__duration = v
         }
 
+        Gibber.Environment.codeMarkup.prepareObject( d )
+
         let seqKey = `${d.path}midinote`
 
         d.midinote = function( note, velocity, duration ) {
@@ -82,7 +84,6 @@ module.exports = function( Gibber ) {
 
         Gibber.addSequencingToMethod( d, 'midinote', 0 ) 
 
-        d.midinote.seq.key = seqKey
         Gibber.Seq.proto.externalMessages[ seqKey ] = ( value, beat ) => {
           let msg = `add ${beat} midinote ${d.path} ${value} ${d.__velocity} ${d.__duration}` 
           return msg

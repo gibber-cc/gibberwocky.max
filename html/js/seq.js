@@ -176,13 +176,9 @@ let seqclosure = function( Gibber ) {
         let value = this.values()
         if( typeof value === 'function' ) value = value()
         if( value !== null ) {
-          // delay messages  
           //console.log( 'key:', this.key, 'messages:', this.externalMessages )
           if( this.externalMessages[ this.key ] === undefined ) {
 
-            //let msg = this.externalMessages[ this.key ]( value, beat + _beatOffset, this.trackID )
-            
-            //scheduler.msgs.push( msg, this.priority )
             if( this.object && this.key ) {
               if( typeof this.object[ this.key ] === 'function' ) {
                 this.object[ this.key ]( value, Gibber.Utility.beatsToMs( _beatOffset ), true )
@@ -190,7 +186,6 @@ let seqclosure = function( Gibber ) {
                 this.object[ this.key ] = value
               }
             }
-            //Gibber.Communication.send( msg )
 
           } else { // schedule internal method / function call immediately
             const msg = this.externalMessages[ this.key ]( value, beat + _beatOffset )//Gibber.Utility.beatsToMs( _beatOffset ) )
