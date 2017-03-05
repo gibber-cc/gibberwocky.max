@@ -32,9 +32,42 @@ let lomView = {
       //  }
       //}]
     })
-    //elem.addEventListener( 'vtree-select', function( evt ) {
+    //document.querySelector('#lomView').addEventListener( 'vtree-select', function( evt ) {
     //  console.log( evt, evt.detail )
     //});
+  },
+
+  onLeafClick( leaf, evt ) {
+    let path = decodeURI( leaf.name ),
+        split = path.split(':::'),
+        txt
+
+    if( split.length === 3 ) {
+      txt = split[0] + "['" + split[1] + "']['" + split[2] + "']"
+    }else if( split.length === 2 ) {
+      if( split[0] === 'namespaces' ) {
+        txt = "namespace('" + split[1] + "')"
+      }else{
+        txt = split[0] + "['" + split[1] + "']"
+      }
+    }
+
+    const cursorPos = Gibber.Environment.codemirror.getCursor()
+    const end = Object.assign( {}, cursorPos )
+
+    //end.ch += 1
+    
+    //console.log('leaf click', leaf, evt )
+
+    if( txt !== undefined ) { // if they click on an collapse/uncollapse widget
+      if( evt.path[0].className !== 'vtree-toggle' ) {
+        Gibber.Environment.codemirror.replaceRange( txt, cursorPos, end )
+        Gibber.Environment.codemirror.focus()
+      }
+    }
+    
+    // prevent re-adding device['blah'] to end of string
+    return split.length === 3 
   },
 
   processDevice( device, id ) {

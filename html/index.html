@@ -2990,7 +2990,9 @@ signals[2]( sub(1,phasor( 1 ) ) )
 signals[3]( mul( cycle( mul(beats(8), .5 ) ), .15 ) )
 `,
 
-  ['tutorial 1: basic messaging']:`/*
+['tutorial 1: basic messaging']:
+
+`/*
  * gibberwocky.max - tutorial #1: basic messaging
  *
  * This first intro will explain how to execute code, send
@@ -3007,37 +3009,20 @@ signals[3]( mul( cycle( mul(beats(8), .5 ) ), .15 ) )
 // you could create namespaces for individual instruments, or Max objects,
 // or any other routing scheme you can come up with.
 
-// Let's start by sending the following message 'synth1 1'
+// Let's start by sending the following message 'synth1 1'. Connect the left
+// most outlet of the gibberwocky object in Max to a print object, and then
+// run the following three lines code:
 synth1 = namespace('synth1') 
 synth1( 1 )
+synth1( 'test' )
 
-// Each channel has a velocity and a duration method.
+// You can add an extra prefix to your message by appending a property:
+synth1.gollygee( 'willickers?' )
 
-// define a value to be sent as the third byte of all NoteOn messages from channels[0]
+// If you use [route], [routpass], or [sel] objects in Max/MSP you can easily direct 
+// messages to variety of destinations in this way. 
 
-channels[0].velocity( 32 )
-channels[0].midinote( 60 )
-
-channels[0].velocity( 127 )
-channels[0].midinote( 60 )
-
-// define how long gibberwocky waits before sending a NoteOff message after each note
-// is generated. Measured in milliseconds
-
-channels[0].duration( 2000 )
-channels[0].midinote( 60 )
-
-channels[0].duration( 50 )
-channels[0].midinote( 60 )
-
-// We can also call midichord and pass an array of notes:
-channels[0].midichord( [48,55,60] )
-
-// And we can send CC messages as follows (also zero-indexed):
-
-channels[0].cc0( 64 ) // send value 64 on CC 0.
-channels[0].cc1( 32 ) // send value 32 on CC 1.
-
+// gibberwocky can also 
 // Modulation graphs can output continuous streams of CC messages.
 // As a quick example, here's a LFO running at .5 Hz outputting to CC 0:
 
@@ -4148,9 +4133,42 @@ let lomView = {
       //  }
       //}]
     })
-    //elem.addEventListener( 'vtree-select', function( evt ) {
+    //document.querySelector('#lomView').addEventListener( 'vtree-select', function( evt ) {
     //  console.log( evt, evt.detail )
     //});
+  },
+
+  onLeafClick( leaf, evt ) {
+    let path = decodeURI( leaf.name ),
+        split = path.split(':::'),
+        txt
+
+    if( split.length === 3 ) {
+      txt = split[0] + "['" + split[1] + "']['" + split[2] + "']"
+    }else if( split.length === 2 ) {
+      if( split[0] === 'namespaces' ) {
+        txt = "namespace('" + split[1] + "')"
+      }else{
+        txt = split[0] + "['" + split[1] + "']"
+      }
+    }
+
+    const cursorPos = Gibber.Environment.codemirror.getCursor()
+    const end = Object.assign( {}, cursorPos )
+
+    //end.ch += 1
+    
+    //console.log('leaf click', leaf, evt )
+
+    if( txt !== undefined ) { // if they click on an collapse/uncollapse widget
+      if( evt.path[0].className !== 'vtree-toggle' ) {
+        Gibber.Environment.codemirror.replaceRange( txt, cursorPos, end )
+        Gibber.Environment.codemirror.focus()
+      }
+    }
+    
+    // prevent re-adding device['blah'] to end of string
+    return split.length === 3 
   },
 
   processDevice( device, id ) {
@@ -6316,6 +6334,12 @@ module.exports = Utility
         evt.dataTransfer.setData( "text/plain", txt );
         return false
       }, true )
+
+      leaf.addEventListener( 'click', function ( evt ) {
+        const shouldBlock = Gibber.Environment.lomView.onLeafClick( leaf, evt )
+
+        if( shouldBlock ) evt.stopPropagation()
+      })
 
 			leaf.setAttribute( 'data-vtree-id', id = options.id || Math.random() );
 			

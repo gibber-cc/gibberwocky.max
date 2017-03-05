@@ -151,6 +151,12 @@
         return false
       }, true )
 
+      leaf.addEventListener( 'click', function ( evt ) {
+        const shouldBlock = Gibber.Environment.lomView.onLeafClick( leaf, evt )
+
+        if( shouldBlock ) evt.stopPropagation()
+      })
+
 			leaf.setAttribute( 'data-vtree-id', id = options.id || Math.random() );
 			
 			leaf.appendChild( create( 'span', {
