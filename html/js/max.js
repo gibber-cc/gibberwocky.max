@@ -98,7 +98,7 @@ module.exports = function( Gibber ) {
 
     msg( str ) {
       let msg = {}
-      msg.address = str
+      msg.address = msg.path = str
       
       if( Max.namespaces[ str ] ) return Max.namespaces[ str ] 
 
@@ -108,11 +108,10 @@ module.exports = function( Gibber ) {
             Max.createProperty( target, prop )
           }else{
             if( prop === 'seq' ) {
-              if(  target[ '__'+str ] === undefined ) {
-                Max.createProperty( target, '__'+str )
+              if( target[ str ] === undefined ) {
+                Max.createProperty( target, str )
               }
-              Gibber.Environment.codeMarker.prepareObject( target[ '__'+str ] )
-              return target[ '__'+str ].seq
+              return target[ str ].seq
             }
           }
 
@@ -122,10 +121,15 @@ module.exports = function( Gibber ) {
 
       Max.namespaces[ str ] = proxy
 
+      Gibber.Environment.codeMarkup.prepareObject( msg )
       return proxy
     },
 
     createProperty( target, prop ) {
+      Gibber.Seq.proto.externalMessages[ target.address + prop ] = ( value, beat ) => {
+        let msg = `add ${beat} ${prop} ${value}`  
+        return msg
+      }
       Gibber.addMethod( target, prop )
     }
   }

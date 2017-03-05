@@ -215,14 +215,12 @@ let Marker = {
         args = expressionNode.expression.arguments,
         usesThis, targetPattern, isTrack, method, target
       
-      console.log('depth:', depthOfCall, 'index:', index )
       // needed for when blocks are split up into individual nodes that are sent to this method
       let shouldParse = components.includes( 'seq' ) || components.includes( 'Steps' ) || components.includes( 'Score' )
 
       if( shouldParse === false ) return
 
       // if index is passed as argument to .seq call...
-      console.log( 'args length', args.length )
       if( args.length > 2 ) { index = args[ 2 ].value }
       
       //console.log( "depth of call", depthOfCall, components, index )

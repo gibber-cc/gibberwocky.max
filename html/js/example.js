@@ -1,18 +1,21 @@
 const Examples = {
-  default:`tricks = namespace('/tricksy')
+  default:`
+devices['amxd~'].midinote.seq( [41,43,45].rnd(), [1/8,1/16,1/32].rnd(1/16,2,1/32,4) )
 
-tricks.a.seq( [64,127], 1/2 )
+devices['amxd~'].midinote.seq( 36, 1/4, 1 )
 
-tricks.b.seq( 36, 1 )
+params['White_Queen'].seq( Rndi(16,127), [1/4,1/8,1/16].rnd(1/16,2) )
+params['Red_Queen'].seq( Rndi(0,127), 1 )
 
-ramp = phasor(.5)
+namespace('bell').seq( 1, [1/8,1/16,1/4].rnd(1/16,2) )
+namespace('squelch').seq( 1, [1/4,1/16,1].rnd(1/16,4) )
 
-signals[1]( ramp )
-
-ramp[0].seq( [.25,.5,1,4],1 )
-
-params['White_Queen'].seq( [0,32,64,127], 1/4 )
-`,
+signals[0]( cycle(2) )
+signals[1]( beats(3.33) )
+signals[2]( sub(1,phasor( 1 ) ) )
+signals[3]( mul( cycle( mul(beats(4), .8 ) ), .01 ) ) `     
+,
+ 
   default_old : `/* 
  * BEFORE DOING ANYTHING, MAKE SURE YOU CHOOSE
  * A MIDI OUTPUT IN THE MIDI TAB. THEN, SELECT A MIDI INPUT TO ACCEPT

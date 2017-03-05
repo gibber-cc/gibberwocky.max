@@ -1313,14 +1313,12 @@ let Marker = {
         args = expressionNode.expression.arguments,
         usesThis, targetPattern, isTrack, method, target
       
-      console.log('depth:', depthOfCall, 'index:', index )
       // needed for when blocks are split up into individual nodes that are sent to this method
       let shouldParse = components.includes( 'seq' ) || components.includes( 'Steps' ) || components.includes( 'Score' )
 
       if( shouldParse === false ) return
 
       // if index is passed as argument to .seq call...
-      console.log( 'args length', args.length )
       if( args.length > 2 ) { index = args[ 2 ].value }
       
       //console.log( "depth of call", depthOfCall, components, index )
@@ -1541,15 +1539,14 @@ let Marker = {
 
   _addPatternFilter( patternObject ) {
     patternObject.filters.push( ( args ) => {
+      // XXX +1 beat only needed for Live/Max not MIDI
       const wait = Utility.beatsToMs( patternObject.nextTime + 1,  Gibber.Scheduler.bpm )
 
-      // XXX why do I need to delay the idx by 1?
-      let idx = args[2], // (args[ 2 ]) - 1, 
+      let idx = args[2],
           shouldUpdate = patternObject.update.shouldUpdate
       
       if( idx < 0 ) idx = idx + patternObject.values.length
 
-      //console.log( 'wait:', wait ) 
       Gibber.Environment.animationScheduler.add( () => {
         patternObject.update.currentIndex = idx
         patternObject.update()
@@ -2918,20 +2915,23 @@ return Euclid
 
 },{}],8:[function(require,module,exports){
 const Examples = {
-  default:`tricks = namespace('/tricksy')
+  default:`
+devices['amxd~'].midinote.seq( [41,43,45].rnd(), [1/8,1/16,1/32].rnd(1/16,2,1/32,4) )
 
-tricks.a.seq( [64,127], 1/2 )
+devices['amxd~'].midinote.seq( 36, 1/4, 1 )
 
-tricks.b.seq( 36, 1 )
+params['White_Queen'].seq( Rndi(16,127), [1/4,1/8,1/16].rnd(1/16,2) )
+params['Red_Queen'].seq( Rndi(0,127), 1 )
 
-ramp = phasor(.5)
+namespace('bell').seq( 1, [1/8,1/16,1/4].rnd(1/16,2) )
+namespace('squelch').seq( 1, [1/4,1/16,1].rnd(1/16,4) )
 
-signals[1]( ramp )
-
-ramp[0].seq( [.25,.5,1,4],1 )
-
-params['White_Queen'].seq( [0,32,64,127], 1/4 )
-`,
+signals[0]( cycle(2) )
+signals[1]( beats(3.33) )
+signals[2]( sub(1,phasor( 1 ) ) )
+signals[3]( mul( cycle( mul(beats(4), .8 ) ), .01 ) ) `     
+,
+ 
   default_old : `/* 
  * BEFORE DOING ANYTHING, MAKE SURE YOU CHOOSE
  * A MIDI OUTPUT IN THE MIDI TAB. THEN, SELECT A MIDI INPUT TO ACCEPT
@@ -4000,7 +4000,7 @@ module.exports = function( Gibber ) {
 
     msg( str ) {
       let msg = {}
-      msg.address = str
+      msg.address = msg.path = str
       
       if( Max.namespaces[ str ] ) return Max.namespaces[ str ] 
 
@@ -4010,10 +4010,10 @@ module.exports = function( Gibber ) {
             Max.createProperty( target, prop )
           }else{
             if( prop === 'seq' ) {
-              if(  target[ '__'+str ] === undefined ) {
-                Max.createProperty( target, '__'+str )
+              if( target[ str ] === undefined ) {
+                Max.createProperty( target, str )
               }
-              return target[ '__'+str ].seq
+              return target[ str ].seq
             }
           }
 
@@ -4023,10 +4023,15 @@ module.exports = function( Gibber ) {
 
       Max.namespaces[ str ] = proxy
 
+      Gibber.Environment.codeMarkup.prepareObject( msg )
       return proxy
     },
 
     createProperty( target, prop ) {
+      Gibber.Seq.proto.externalMessages[ target.address + prop ] = ( value, beat ) => {
+        let msg = `add ${beat} ${prop} ${value}`  
+        return msg
+      }
       Gibber.addMethod( target, prop )
     }
   }
