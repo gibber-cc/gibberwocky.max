@@ -14,7 +14,7 @@ const callDepths = [
   'CHANNELS[0].METHOD[0].VALUES.REVERSE.SEQ'
 ]
 
-const channelNames = [ 'this', 'channels', 'master', 'returns' ]
+const channelNames = [ 'devices', 'params', 'signals' ] 
 
 const Utility = require( './utility.js' )
 const $ = Utility.create
@@ -215,12 +215,14 @@ let Marker = {
         args = expressionNode.expression.arguments,
         usesThis, targetPattern, isTrack, method, target
       
+      console.log('depth:', depthOfCall, 'index:', index )
       // needed for when blocks are split up into individual nodes that are sent to this method
       let shouldParse = components.includes( 'seq' ) || components.includes( 'Steps' ) || components.includes( 'Score' )
 
       if( shouldParse === false ) return
 
       // if index is passed as argument to .seq call...
+      console.log( 'args length', args.length )
       if( args.length > 2 ) { index = args[ 2 ].value }
       
       //console.log( "depth of call", depthOfCall, components, index )
@@ -273,17 +275,10 @@ let Marker = {
 
          case 'THIS.METHOD[ 0 ].SEQ': // will this ever happen??? I guess after it has been sequenced once?
            isTrack  = channelNames.includes( components[0] )
-           target = null
-
            channel = window[ components[0] ][ components[1] ]
            
-           //if( !isTrack ) { // not a channel! XXX please, please get a better parsing method / rules...
-           //  target = channel
-           //  channel = Gibber.currentTrack
-           //}
-
-           valuesPattern =  target === null ? channel[ components[2] ][ index ].values : target[ components[2] ].values
-           timingsPattern = target === null ? channel[ components[2] ][ index ].timings : target[ components[2] ].timings //channel[ components[2] ][ index ].timings
+           valuesPattern =  channel[ components[2] ][ index ].values 
+           timingsPattern = channel[ components[2] ][ index ].timings
            valuesNode = args[0]
            timingsNode = args[1]
 
@@ -312,7 +307,6 @@ let Marker = {
              targetPattern = channel[ components[1] ][ components[2] ],
              method = targetPattern[ components[3] ]
            }
-        
             
            valuesPattern = method.values
            timingsPattern = method.timings
@@ -449,11 +443,14 @@ let Marker = {
 
   _addPatternFilter( patternObject ) {
     patternObject.filters.push( ( args ) => {
-      const wait = Utility.beatsToMs( patternObject.nextTime,  Gibber.Scheduler.bpm )
+      // XXX +1 beat only needed for Live/Max not MIDI
+      const wait = Utility.beatsToMs( patternObject.nextTime + 1,  Gibber.Scheduler.bpm )
 
-      let idx = args[ 2 ],
+      let idx = args[2],
           shouldUpdate = patternObject.update.shouldUpdate
-        
+      
+      if( idx < 0 ) idx = idx + patternObject.values.length
+
       Gibber.Environment.animationScheduler.add( () => {
         patternObject.update.currentIndex = idx
         patternObject.update()
@@ -1045,6 +1042,7 @@ let Marker = {
      className.push( patternType )
      className = className.join( '_' )
 
+     // XXX c'mon... right the single regex for crying out loud
      let expr = /\[\]/gi
      className = className.replace( expr, '' )
 
@@ -1053,7 +1051,10 @@ let Marker = {
 
      expr = /\ /gi
      className = className.replace( expr, '_' )
-
+     
+     expr = /\~/gi
+     className = className.replace( expr, '_' )
+    
      start.line += containerNode.verticalOffset - 1
      end.line   += containerNode.verticalOffset - 1
      start.ch   = start.column + containerNode.horizontalOffset

@@ -167,6 +167,7 @@ let seqclosure = function( Gibber ) {
 
       //console.log( 'beat:', beat, 'beatOffset:', beatOffset.toFixed() )
 
+      //beatOffset -= .25
       if( shouldExecute ) {
         this.values.nextTime = _beatOffset
         this.values.beat = beat
@@ -196,7 +197,7 @@ let seqclosure = function( Gibber ) {
       } 
 
       //console.log( 'beat', beat )
-      //this.timings.nextTime = _beatOffset // for scheduling pattern updates
+      this.timings.nextTime = _beatOffset // for scheduling pattern updates
     },
     
   }
