@@ -61,8 +61,6 @@ let Marker = {
       }
     }
 
-    console.log( 'should parse?', shouldParse )
-
     if( !shouldParse ) return
 
     let tree = acorn.parse( code, { locations:true, ecmaVersion:6, directSourceFile:true } ).body
@@ -225,7 +223,7 @@ let Marker = {
       // if index is passed as argument to .seq call...
       if( args.length > 2 ) { index = args[ 2 ].value }
       
-      console.log( "depth of call", depthOfCall, components, index )
+      //console.log( "depth of call", depthOfCall, components, index )
       let valuesPattern, timingsPattern, valuesNode, timingsNode
       
       switch( callDepths[ depthOfCall ] ) {
@@ -237,13 +235,15 @@ let Marker = {
            break;
 
          case 'THIS.METHOD': // also for calls to Score([]).start() 
-           console.log('ns.seq')
-
-           let ns 
+           let ns, address 
            if( components.length === 2 ) {
              ns = window[ components[0] ]
+             address = ns.address
            }else{
-             console.log( expressionNode )
+             // namespace('bell').seq( 1, 1/4 )
+             // for some reason components only returns ['seq']
+             // since namespace is anonymous we look it up in the global namespaces dictionary
+             address = expressionNode.expression.callee.object.arguments[0].value            
              ns = Gibber.Max.namespaces[ expressionNode.expression.callee.object.arguments[0].value ]
            }
 
@@ -255,6 +255,9 @@ let Marker = {
            timingsNode= args[ 1 ]
 
            valuesPattern.codemirror = timingsPattern.codemirror = codemirror 
+
+           // add in address of namespace to create unique css class names
+           components.unshift( address )
           
            if( valuesNode ) {
              Marker._markPattern[ valuesNode.type ]( valuesNode, expressionNode, components, codemirror, ns, index, 'values', valuesPattern ) 
@@ -502,7 +505,6 @@ let Marker = {
         channel.markup.cssClasses[ className ][ index ] = cssName    
 
         Marker._addPatternUpdates( patternObject, className )
-        console.log( 'po:', patternObject, patternObject.filters )
         Marker._addPatternFilter( patternObject )
 
         patternObject.patternName = className

@@ -70,7 +70,7 @@ let Environment = {
       mode:'javascript', 
       keyMap:'gibber',
       autofocus:true, 
-      value: Gibber.Examples.default,
+      value: Gibber.Examples.introduction,
       matchBrackets: true,
       autoCloseBrackets: true,
       extraKeys: {"Ctrl-Space": "autocomplete"},

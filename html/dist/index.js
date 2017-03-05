@@ -343,8 +343,6 @@ let Marker = {
       }
     }
 
-    console.log( 'should parse?', shouldParse )
-
     if( !shouldParse ) return
 
     let tree = acorn.parse( code, { locations:true, ecmaVersion:6, directSourceFile:true } ).body
@@ -507,7 +505,7 @@ let Marker = {
       // if index is passed as argument to .seq call...
       if( args.length > 2 ) { index = args[ 2 ].value }
       
-      console.log( "depth of call", depthOfCall, components, index )
+      //console.log( "depth of call", depthOfCall, components, index )
       let valuesPattern, timingsPattern, valuesNode, timingsNode
       
       switch( callDepths[ depthOfCall ] ) {
@@ -519,13 +517,15 @@ let Marker = {
            break;
 
          case 'THIS.METHOD': // also for calls to Score([]).start() 
-           console.log('ns.seq')
-
-           let ns 
+           let ns, address 
            if( components.length === 2 ) {
              ns = window[ components[0] ]
+             address = ns.address
            }else{
-             console.log( expressionNode )
+             // namespace('bell').seq( 1, 1/4 )
+             // for some reason components only returns ['seq']
+             // since namespace is anonymous we look it up in the global namespaces dictionary
+             address = expressionNode.expression.callee.object.arguments[0].value            
              ns = Gibber.Max.namespaces[ expressionNode.expression.callee.object.arguments[0].value ]
            }
 
@@ -537,6 +537,9 @@ let Marker = {
            timingsNode= args[ 1 ]
 
            valuesPattern.codemirror = timingsPattern.codemirror = codemirror 
+
+           // add in address of namespace to create unique css class names
+           components.unshift( address )
           
            if( valuesNode ) {
              Marker._markPattern[ valuesNode.type ]( valuesNode, expressionNode, components, codemirror, ns, index, 'values', valuesPattern ) 
@@ -784,7 +787,6 @@ let Marker = {
         channel.markup.cssClasses[ className ][ index ] = cssName    
 
         Marker._addPatternUpdates( patternObject, className )
-        console.log( 'po:', patternObject, patternObject.filters )
         Marker._addPatternFilter( patternObject )
 
         patternObject.patternName = className
@@ -1663,7 +1665,7 @@ let Environment = {
       mode:'javascript', 
       keyMap:'gibber',
       autofocus:true, 
-      value: Gibber.Examples.default,
+      value: Gibber.Examples.introduction,
       matchBrackets: true,
       autoCloseBrackets: true,
       extraKeys: {"Ctrl-Space": "autocomplete"},
@@ -2127,22 +2129,51 @@ return Euclid
 
 },{}],8:[function(require,module,exports){
 const Examples = {
-  default:`
-devices['amxd~'].midinote.seq( [41,43,45].rnd(), [1/8,1/16,1/32].rnd(1/16,2,1/32,4) )
+  introduction:`/* gibberwocky.max - introduction
+ * 
+ * This introduction assumes that your controlling the gibberwocky
+ * object's help patch in Max. Otherwise your mileage will vary.
+ *
+ * After playing around here, check out some of the tutorials
+ * found in the sidebar on the right. To execute any line of
+ * code, hit Ctrl+Enter. Feel free to modify and re-execute
+ * at any time. To stop all running sequences, hit Ctrl+. (period).
+ */
 
+// start kick drum on Max for Live device
 devices['amxd~'].midinote.seq( 36, 1/4, 1 )
 
-params['White_Queen'].seq( Rndi(16,127), [1/4,1/8,1/16].rnd(1/16,2) )
-params['Red_Queen'].seq( Rndi(0,127), 1 )
+// randomly pick between open and closed hi-hats
+// and eighth notes vs. 1/16th notes. If 1/16th
+// notes are played, always play two back to back.
+devices['amxd~'].midinote.seq( [42,46].rnd(), [1/8,1/16].rnd(1/16,2) )
 
+// create namespaces named 'bell' and 'squelch' 
+// and sequence bangs at different rhythms
 namespace('bell').seq( 1, [1/8,1/16,1/4].rnd(1/16,2) )
 namespace('squelch').seq( 1, [1/4,1/16,1].rnd(1/16,4) )
 
-signals[0]( cycle(2) )
-signals[1]( beats(3.33) )
-signals[2]( sub(1,phasor( 1 ) ) )
-signals[3]( mul( cycle( mul(beats(4), .8 ) ), .01 ) ) `     
-,
+// set values of named UI elements in patcher interface
+params['White_Queen'].seq( [32,64,92,127], 1  )
+params['Red_Queen'].seq( [32,64,96,127], 1 ) 
+
+// rotate and reverse sequences over time
+params['Red_Queen'][0].values.rotate.seq( 1, 2 )
+params['White_Queen'][0].values.reverse.seq( 1, 4 )
+
+// send a sine wave out outlet 2 (the first signal outlet)
+signals[0]( cycle(.1) )
+
+// send a ramp lasting 16 beats out outlet 2
+signals[1]( beats(16) )
+
+// send a reverse sawtooth out outlet 3
+signals[2]( sub(1,phasor( 1 ) ) )  
+
+// send a sine wave with a modulated frequency out outlet 4
+signals[3]( mul( cycle( mul(beats(8), .5 ) ), .15 ) )
+`,
+
  
   default_old : `/* 
  * BEFORE DOING ANYTHING, MAKE SURE YOU CHOOSE

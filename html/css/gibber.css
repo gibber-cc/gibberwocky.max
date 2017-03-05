@@ -40,7 +40,7 @@ body {
   font-family:Menlo, monospace;
   font-size:.8em;
   background:rgba(46,50,53,1);
-  color:rgb( 153 ) !important
+  color:rgb( 183 ) !important
 }
 
 span.cm-comment { color:rgb(121,121,121) !important }
@@ -55,7 +55,7 @@ span.cm-variable-2,
 span.cm-keyword,
 span.cm-number, span.cm-atom { color:rgba(89, 151, 198, 1) !important }
 
-span.cm-string {color: rgb(225, 225, 225) !important }
+span.cm-string {color: rgb(215,215,215) !important }
 
 .CodeMirror-cursor {
  background: rgba(255,255,255,.5);
