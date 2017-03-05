@@ -111,6 +111,7 @@ module.exports = function( Gibber ) {
               if(  target[ '__'+str ] === undefined ) {
                 Max.createProperty( target, '__'+str )
               }
+              Gibber.Environment.codeMarker.prepareObject( target[ '__'+str ] )
               return target[ '__'+str ].seq
             }
           }
