@@ -97,7 +97,9 @@ module.exports = function( Gibber ) {
     },
 
     msg( str ) {
-      let msg = {}
+      let msg = function( ...args ) { 
+        Gibber.Communication.send( str + ' ' + args.join(' ') )
+      }
       msg.address = msg.path = str
       
       if( Max.namespaces[ str ] ) return Max.namespaces[ str ] 
