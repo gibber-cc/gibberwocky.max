@@ -190,8 +190,11 @@ let seqclosure = function( Gibber ) {
 
           } else { // schedule internal method / function call immediately
             const msg = this.externalMessages[ this.key ]( value, beat + _beatOffset )//Gibber.Utility.beatsToMs( _beatOffset ) )
-            Gibber.Communication.send( msg )
-
+            if( Array.isArray(msg) ){
+              msg.forEach( v => Gibber.Communication.send( v ) )
+            }else{
+              Gibber.Communication.send( msg )
+            }
           }
         }
       } 

@@ -76,37 +76,43 @@ synth1.gollygee( 'willickers?' )
 // If you use [route], [routpass], or [sel] objects in Max/MSP you can easily direct 
 // messages to variety of destinations in this way. 
 
-// gibberwocky can also 
-// Modulation graphs can output continuous streams of CC messages.
-// As a quick example, here's a LFO running at .5 Hz outputting to CC 0:
+// gibberwocky can also easily target Max for Live devices embedded in Max
+// patches. Drag a Max for Live instrument into your patch and save it; saving
+// the patch sends updates to patch's description to the browser. If you click
+// on the 'scene' tab of the gibberwocky sidebar, you'll see a tree browser
+// with a 'devices' branch. Open that branch to see all Max for Live devices available
+// in your patch. Now click on the branch for the device you want to send a midinote
+// message to. The associated object path is automatically inserted into your code
+// editor at the current cursor position. Add a call to midinote to the end of this
+// code snippet; it should look similar to the following:
 
-channels[0].cc0( lfo( .5 ) )
+devices['amxd~'].midinote( 60 ) // send middle C
 
-// Try running the above line of code with different Hz values. 
-// To cancel the LFO we can assign a new value to cc0 to replace it:
+// Now uncollapse the branch for your device in the scene browser. This lists
+// all the parameters exposed for control on the Max for Live devie. Click on any
+// leaf to insert the full path to the control into your code editor. Assuming your
+// device is Analog Drums and you chose 'kick-attack', you should see something like
+// the following:
 
-channels[0].cc0( 64 )
+devices['amxd~']['kick-attack']
+
+// This points to a function; we can pass this function a value to manipulate the
+// control.
+
+devices['amxd~']['kick-attack']( 75 )
+
+// If you've used gibberwocky.live before, it's important to note that these controls
+// do not default to a range of {0,1}. For kick-attack, the range is {0,100} percent.
+// For other controls it will be different.
 
 // OK, that's some basics out of the way. Try the sequencing tutorial next!`
   ,
 
-  'tutorial 2: basic sequencing': `/* gibberwocky.midi - tutorial #2: basic sequencing
+ [ 'tutorial 2: basic sequencing' ]: `/* gibberwocky.midi - tutorial #2: basic sequencing
  *
- * This tutorial will provide an introdution to sequencing midinote and
- * cc messages, and a brief overview of rhythm in gibberwocky.
- *
- * Make sure you have a MIDI output selected in the MIDI tab of the sidebar. You will
- * also need to choose a clock source. gibberwocky can generate its own 
- * clock (internal) or you can use incoming MIDI clock messages (external).
- * If you want to accept MIDI Clock sync, make sure you also select a MIDI 
- * input port to receive it on.  These MIDI settings will be remembered from 
- * one gibberwocky.midi session to the next.
- *
- * If you decide to use external clock sync, stop your sync source, rewind your transport, 
- * and restart playback to establish the sync with a timeline.
- * After this initial stopping / starting you should be able to start and
- * stop the transport at will in your DAW and maintain sync in gibberwocky.midi
-
+ * This tutorial will provide an introdution to sequencing messages in gibberwocky. In
+ * order for sequencing in gibberwocky.max to work, you must start the Global Transport
+ * running in Max/MSP. You can find this Max's menuabr under Window > Global Transport.
  */
 
 // In tutorial #1, we saw how we could send MIDI messages to specific MIDI
@@ -114,65 +120,59 @@ channels[0].cc0( 64 )
 // a call to .seq(). For example:
 
 // send noteon message with a first value of 60
-channels[0].midinote( 60 )
+devices['amxd~'].midinote( 60 )
 
 // send same value every quarter note
-channels[0].midinote.seq( 60, 1/4 )
+devices['amxd~'].midinote.seq( 60, 1/4 )
 
 // You can stop all sequences in gibberwocky with the Ctrl+. keyboard shortcut
 // (Ctrl + period). You can also stop all sequences on a specific channel:
 
-channels[0].stop()
+devices['amxd~'].stop()
 
 // Most sequences in gibberwocky contain values (60) and timings (1/4). To
 // sequence multiple values we simply pass an array:
 
-channels[0].midinote.seq( [60,72,48], 1/4 )
+devices['amxd~'].midinote.seq( [60,72,48], 1/4 )
 
 // ... and we can do the same thing with multiple timings:
 
-channels[0].midinote.seq( [60,72,48], [1/4,1/8] )
+devices['amxd~'].midinote.seq( [60,72,48], [1/4,1/8] )
 
 // We can also sequence our note velocities and durations.
-channels[0].midinote.seq( 60, 1/2 )
-channels[0].velocity.seq( [16, 64, 127], 1/2 )
-channels[0].duration.seq( [10, 100,500], 1/2 )
+devices['amxd~'].midinote.seq( 60, 1/2 )
+devices['amxd~'].velocity.seq( [16, 64, 127], 1/2 )
+devices['amxd~'].duration.seq( [10, 100,500], 1/2 )
 
 // the same idea works for CC messages:
-channels[0].cc0( 64 )
-channels[0].cc0.seq( [0, 64, 127], 1/8 )
+devices['amxd~'].cc0( 64 )
+devices['amxd~'].cc0.seq( [0, 64, 127], 1/8 )
 
 // If you experimented with running multiple variations of the midinote 
 // sequences you might have noticed that only one runs at a time. For example,
 // if you run these two lines:
 
-channels[0].midinote.seq( 72, 1/4 )
-channels[0].midinote.seq( 48, 1/4 )
+devices['amxd~'].midinote.seq( 72, 1/4 )
+devices['amxd~'].midinote.seq( 48, 1/4 )
 
 // ...you'll notice only the second one actually triggers. By default, gibberwocky
-// will replace an existing sequence with a new one running on the same channel. If
-// you want to run multiple sequences of notes, you can place them on different channels:
+// will replace an existing sequence with a new one. To stop this, you can pass an ID number 
+// as a third argument to calls to .seq(). In the examples of sequencing we've seen so far,
+// no ID has been given, which means gibberwocky is assuming a default ID of 0 for each
+// sequence. When you launch a sequence on a channel that has the same ID as another running 
+// sequence, the older sequence is stopped. If the sequences have different IDs they run 
+// concurrently. Note this makes it really easy to create polyrhythms.
 
-channels[0].midinote.seq( 72, 1/4 )
-channels[1].midinote.seq( 48, 1/4 )
-
-// Alternatively, you can pass an ID number as a third argument to calls to .seq() 
-// In the examples of sequencing we've seen so far, no ID has been given, which means
-// gibberwocky is assuming a default ID of 0 for each sequence. When you launch a sequence
-// on a channel that has the same ID as another running sequence, the older sequence is stopped.
-// If the sequences have different IDs they run concurrently. Note this makes it really
-// easy to create polyrhythms.
-
-channels[0].midinote.seq( 48, 1 ) // assumes ID of 0
-channels[0].midinote.seq( 60, 1/2, 1 ) 
-channels[0].midinote.seq( 72, 1/3, 2 ) 
-channels[0].midinote.seq( 84, 1/7, 3 ) 
+devices['amxd~'].midinote.seq( 48, 1 ) // assumes ID of 0
+devices['amxd~'].midinote.seq( 60, 1/2, 1 ) 
+devices['amxd~'].midinote.seq( 72, 1/3, 2 ) 
+devices['amxd~'].midinote.seq( 84, 1/7, 3 ) 
 
 // We can also sequence calls to midichord. You might remember from the first tutorial
 // that we pass midichord an array of values, where each value represents one note. This
 // means we need to pass an array of arrays in order to move between different chords.
 
-channels[0].midichord.seq( [[60,64,68], [62,66,72]], 1/2 )
+devices['amxd~'].midichord.seq( [[60,64,68], [62,66,72]], 1/2 )
 
 // Even we're only sequencing a single chord, we still need to pass a 2D array. Of course,
 // specifying arrays of MIDI values is not necessarily an optimal representation for chords.
@@ -194,25 +194,25 @@ channels[0].midichord.seq( [[60,64,68], [62,66,72]], 1/2 )
  */
 
 // In our previous tutorial, we sent out C in the fourth octave by using MIDI number 60:
-channels[0].midinote( 60 )
+devices['amxd~'].midinote( 60 )
 
 // We can also specify notes with calls to the note() method by passing a name and octave.
-channels[0].note( 'c4' )
-channels[0].note( 'fb3' )
+devices['amxd~'].note( 'c4' )
+devices['amxd~'].note( 'fb3' )
 
-channels[0].note.seq( ['c4','e4','g4'], 1/8 )
+devices['amxd~'].note.seq( ['c4','e4','g4'], 1/8 )
 
 // remember, Ctrl+. stops all running sequences.
 
 // In gibberwocky, the default scale employed is C minor, starting in the fourth octave. 
 // This means that if we pass 0 as a value to note(), C4 will also be played.
-channels[0].note( 0 )
+devices['amxd~'].note( 0 )
 
 // sequence C minor scale, starting in the fourth octave:
-channels[0].note.seq( [0,1,2,3,4,5,6,7], 1/8 )
+devices['amxd~'].note.seq( [0,1,2,3,4,5,6,7], 1/8 )
 
 // negative scale indices also work:
-channels[0].note.seq( [-7,-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7], 1/8 )
+devices['amxd~'].note.seq( [-7,-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7], 1/8 )
 
 // there is a global Scale object we can use to change the root and mode
 // for all scales. Run the lines below individually  with the previous note sequence running.
@@ -241,18 +241,18 @@ Scale.mode.seq( ['my mode', 'another mode'], 4 )
 // Last but not least there are a few different ways to specify chords in gibberwocky.
 // First, we can use note names:
 
-channels[0].chord( ['c4','eb4','gb4','a4'] )
+devices['amxd~'].chord( ['c4','eb4','gb4','a4'] )
 
 // Or we can use scale indices:
-channels[0].chord( [0,2,4,5] )
+devices['amxd~'].chord( [0,2,4,5] )
 
-channels[0].chord.seq( [[0,2,4,5], [1,3,4,6]], 1 )
+devices['amxd~'].chord.seq( [[0,2,4,5], [1,3,4,6]], 1 )
 
 // We can also use strings that identify common chord names.
-channels[0].chord( 'c4maj7' )
-channels[0].chord( 'c#4sus7b9' )
+devices['amxd~'].chord( 'c4maj7' )
+devices['amxd~'].chord( 'c#4sus7b9' )
 
-channels[0].chord.seq( ['c4dim7', 'bb3maj7', 'fb3aug7'], 2 )
+devices['amxd~'].chord.seq( ['c4dim7', 'bb3maj7', 'fb3aug7'], 2 )
 
 // OK, that's harmony in a nutshell. Next learn a bit about patterns and
 // pattern manipulation in gibberwocky in tutorial #4.`,
@@ -278,31 +278,31 @@ Gibber.log( myvalues() ) // 65
 Gibber.log( myvalues() ) // back to 60...
 
 // sequence using this pattern:
-channels[0].midinote.seq( myvalues, 1/8 )
+devices['amxd~'].midinote.seq( myvalues, 1/8 )
 
 // Everytime we pass values and timings to .seq(), it converts these into Pattern objects
 // (unless we're already passing a Pattern object(s)). Remember from tutorial #2 that
 // all of our sequences have an ID number, which defaults to 0. We can access these patterns
 // as follows:
 
-channels[0].midinote.seq( [36,48,60,72], [1/2,1/4] )
-Gibber.log( channels[0].midinote[0].values.toString() ) 
-Gibber.log( channels[0].midinote[0].timings.toString() ) 
+devices['amxd~'].midinote.seq( [36,48,60,72], [1/2,1/4] )
+Gibber.log( devices['amxd~'].midinote[0].values.toString() ) 
+Gibber.log( devices['amxd~'].midinote[0].timings.toString() ) 
 
 // Now that we can access them, we can apply transformations:
 
-channels[0].midinote[0].values.reverse()
-channels[0].midinote[0].values.transpose( 1 ) // add 1 to each value
-channels[0].midinote[0].values.scale( 1.5 )   // scale each value by .5
-channels[0].midinote[0].values.rotate( 1 )    // shift values to the right
-channels[0].midinote[0].values.rotate( -1 )   // shift values to the left
-channels[0].midinote[0].values.reset()        // reset to initial values
+devices['amxd~'].midinote[0].values.reverse()
+devices['amxd~'].midinote[0].values.transpose( 1 ) // add 1 to each value
+devices['amxd~'].midinote[0].values.scale( 1.5 )   // scale each value by .5
+devices['amxd~'].midinote[0].values.rotate( 1 )    // shift values to the right
+devices['amxd~'].midinote[0].values.rotate( -1 )   // shift values to the left
+devices['amxd~'].midinote[0].values.reset()        // reset to initial values
 
 // We can sequence these transformations:
-channels[0].midinote[0].values.rotate.seq( 1,1 )
-channels[0].midinote[0].values.reverse.seq( 1, 2 )
-channels[0].midinote[0].values.transpose.seq( 1, 2 )
-channels[0].midinote[0].values.reset.seq( 1, 8 )
+devices['amxd~'].midinote[0].values.rotate.seq( 1,1 )
+devices['amxd~'].midinote[0].values.reverse.seq( 1, 2 )
+devices['amxd~'].midinote[0].values.transpose.seq( 1, 2 )
+devices['amxd~'].midinote[0].values.reset.seq( 1, 8 )
 
 // This enables us to quickly create variation over time. One more tutorial to go!
 // Learn more about creating synthesis graphs to output CC messages in tutorial #5.`,
@@ -317,7 +317,7 @@ Perhaps the most basic modulation is a simple ramp. In your target application /
 a synthesis parameter to be controlled by CC0. To send a repeating ramp to signal to CC0 on channel 0 we
 would use:*/
 
-channels[0].cc0( phasor( 1 ) )
+devices['amxd~'].cc0( phasor( 1 ) )
 
 /* This ramp repeats regularly at 1 Hz. All graphs in genish.js typically output to a range of {-1,1} (or sometimes {0,1}),
 however, for MIDI we want to ensure that we have an output signal in the range of {0,127}. Thus, by default, the {-1,1}
@@ -325,7 +325,7 @@ signal will automatically be transformed to {0,127}. You can turn this off by pa
 paramter to the CC function. The example below is designed to automatically travel between 32 and 96, so we pass false
 to ensure that no additional transformation is applied: */
 
-channels[0].cc0( 
+devices['amxd~'].cc0( 
   add( 
     32, 
     mul(  
@@ -340,7 +340,7 @@ channels[0].cc0(
 gen~ this is the cycle() ugen. The cycle() accepts one parameter, the frequency that it operates at.
 So we can do the following:*/
 
-channels[0].cc0( cycle( .5 ) )
+devices['amxd~'].cc0( cycle( .5 ) )
 
 /* Often times we want to specify a center point (bias) for our sine oscillator, in addition to 
 a specific amplitude and frequency. The lfo() function provides a simpler syntax for doing this:*/
@@ -348,7 +348,7 @@ a specific amplitude and frequency. The lfo() function provides a simpler syntax
 // frequency, amplitude, bias
 mylfo = lfo( 2, .2, .7 )
 
-channels[0].cc0( mylfo )
+devices['amxd~'].cc0( mylfo )
 
 // We can also easily sequence parameters of our LFO XXX CURRENTLY BROKEN:
 
@@ -363,7 +363,7 @@ mycycle = cycle( .25 )
 
 mycycle[ 0 ].seq( [ .25, 1, 2 ], 1 )
 
-channels[0].cc0( add( .5, div( mycycle, 2 ) ) )
+devices['amxd~'].cc0( add( .5, div( mycycle, 2 ) ) )
 
 /*For other ugens that have more than one argument (see the genish.js random tutorial for an example) we
 simply indicate the appropriate index... for example, mysah[ 1 ] etc. For documentation on the types of
@@ -379,7 +379,7 @@ ugens that are available, see the genish.js website: http://charlie-roberts.com/
 // loop(), pause() and rewind() methods.
 
 s = Score([
-  0, ()=> channels[0].note.seq( -14, 1/4 ),
+  0, ()=> devices['amxd~'].note.seq( -14, 1/4 ),
  
   1, ()=> channels[1].note.seq( [0], Euclid(5,8) ),
  
@@ -403,7 +403,7 @@ s2 = Score([
 
   Score.wait, null,
 
-  0,   ()=> channels[0].note( 2 )
+  0,   ()=> devices['amxd~'].note( 2 )
 ])
 
 // restart playback
@@ -439,7 +439,7 @@ myarp = Arp( [0,2,4,5], 4, 'updown' )
 // other modes include 'up' and 'down'. XXX updown2 is broken :( 
 
 // play arpeggiator with 1/16 notes
-channels[0].note.seq( myarp, 1/16 )
+devices['amxd~'].note.seq( myarp, 1/16 )
 
 // change root of Scale (see tutorial #3)
 Scale.root( 'c2' )
@@ -454,7 +454,7 @@ myarp.transpose.seq( 1,1 )
 myarp.reset()
 
 // stop arpeggiator
-channels[0].stop()
+devices['amxd~'].stop()
 
 // The Arp() object can also be used with MIDI note values instead of
 // gibberwocky's system of harmony. However, arp objects are designed
@@ -465,7 +465,7 @@ channels[0].stop()
 
 midiArp = Arp( [60,62,64,67,71], 4, 'down', 12 )
 
-channels[0].midinote.seq( midiArp, 1/32 )
+devices['amxd~'].midinote.seq( midiArp, 1/32 )
 
 // bring everything down an octace
 midiArp.transpose( -12 )
@@ -518,18 +518,18 @@ midiArp.octaves = 2
 E = Euclid
 
 // 5 pulses spread over 8 eighth notes
-channels[0].midinote.seq( 60, E(5,8) )
+devices['amxd~'].midinote.seq( 60, E(5,8) )
 
 // 3 pulses spread over 8 sixteenth notes
-channels[0].midinote.seq( 48, E( 3, 8, 1/16 ), 1  )
+devices['amxd~'].midinote.seq( 48, E( 3, 8, 1/16 ), 1  )
 
 // a quick way of notating x.x.
-channels[0].midinote.seq( 36, E(2,4), 2 ) 
+devices['amxd~'].midinote.seq( 36, E(2,4), 2 ) 
 
 // because Euclid() generates Pattern objects (see tutorial #3)
 // we can transform the patterns it generates:
 
-channels[0].midinote[1].timings.rotate.seq( 1,1 )
+devices['amxd~'].midinote[1].timings.rotate.seq( 1,1 )
 
 `,
 
@@ -566,7 +566,7 @@ steps = Steps({
   [67]: '..c.f....f..f..3',  
   [71]: '.e.a.a...e.a.e.a',  
   [72]: '..............e.',
-}, channels[0] )
+}, devices['amxd~'] )
 
 // rotate one pattern (assigned to midinote 71)
 // in step sequencer  every measure

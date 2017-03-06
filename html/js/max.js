@@ -1,6 +1,10 @@
 'use strict';
 
+
+
 module.exports = function( Gibber ) {
+  const makeDevice = require( './device.js' )( Gibber ) 
+
   let Max = {
     signals:[],
     params:[],
@@ -56,41 +60,42 @@ module.exports = function( Gibber ) {
       }
 
       for( let device of Max.MOM.root.devices ) {
-        const d = Object.assign({}, device) 
-        Max.devices[ d.path ] = d
-        for( let value of d.values ) {
-          d[ value.name ] = function( v ) {
-            Gibber.Communication.send( `set ${d.path} ${value.name} ${v}` )           
-          } 
-          Gibber.addSequencingToMethod( Max.devices[ d.path ], value.name, 0 )
-        }
+        const d = makeDevice( device ) // Object.assign({}, device) 
+        console.log( d )
+        //Max.devices[ d.path ] = d
+        //for( let value of d.values ) {
+        //  d[ value.name ] = function( v ) {
+        //    Gibber.Communication.send( `set ${d.path} ${value.name} ${v}` )           
+        //  } 
+        //  Gibber.addSequencingToMethod( Max.devices[ d.path ], value.name, 0 )
+        //}
         
-        d.__velocity = 127
-        d.__duration = 500 
-        d.velocity = function( v ) {
-          d.__velocity = v
-        }
-        d.duration = function( v ) {
-          d.__duration = v
-        }
+        //d.__velocity = 127
+        //d.__duration = 500 
+        //d.velocity = function( v ) {
+        //  d.__velocity = v
+        //}
+        //d.duration = function( v ) {
+        //  d.__duration = v
+        //}
 
-        Gibber.Environment.codeMarkup.prepareObject( d )
+        //Gibber.Environment.codeMarkup.prepareObject( d )
 
-        let seqKey = `${d.path}midinote`
+        //let seqKey = `${d.path}midinote`
 
-        d.midinote = function( note, velocity, duration ) {
-          if( typeof velocity !== 'number' || velocity === 0) velocity = d.__velocity
-          if( typeof duration !== 'number' ) duration = d.__duration
+        //d.midinote = function( note, velocity, duration ) {
+        //  if( typeof velocity !== 'number' || velocity === 0) velocity = d.__velocity
+        //  if( typeof duration !== 'number' ) duration = d.__duration
 
-          Gibber.Communication.send( `midinote ${d.path} ${note} ${velocity} ${duration}` )
-        }
+        //  Gibber.Communication.send( `midinote ${d.path} ${note} ${velocity} ${duration}` )
+        //}
 
-        Gibber.addSequencingToMethod( d, 'midinote', 0 ) 
+        //Gibber.addSequencingToMethod( d, 'midinote', 0 ) 
 
-        Gibber.Seq.proto.externalMessages[ seqKey ] = ( value, beat ) => {
-          let msg = `add ${beat} midinote ${d.path} ${value} ${d.__velocity} ${d.__duration}` 
-          return msg
-        }
+        //Gibber.Seq.proto.externalMessages[ seqKey ] = ( value, beat ) => {
+        //  let msg = `add ${beat} midinote ${d.path} ${value} ${d.__velocity} ${d.__duration}` 
+        //  return msg
+        //}
       }
 
       Gibber.Environment.lomView.init( Gibber )
