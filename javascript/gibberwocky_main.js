@@ -295,7 +295,7 @@ function make_scene() {
 					} else if (type_id == undefined && type_id == null) {
 						// it's not a live parameter
 						
-						//post("nonlive", name, o.maxclass, "\n");
+						post("nonlive", name, o.maxclass, "\n");
 						
 						// what types can we handle?
 						
