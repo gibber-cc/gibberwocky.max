@@ -121,8 +121,6 @@ function find_connected_boxes(patcher, source, outlet, arr) {
 }
 
 function parse_patcher_json(p, scene){
-
-	
 	var lines = new String();
 	var patcher_file = new File(p.filepath);
 	while (patcher_file.position != patcher_file.eof){
@@ -133,8 +131,16 @@ function parse_patcher_json(p, scene){
 
 	// find the [gibberwocky] object:
 	var g = find_box_by_varname(patcher, "gibberwocky");
-	if (!g) return;
-	
+	if (!g) {
+		var gb = find_boxes_by_op(patcher, "gibberwocky", []);
+		if (gb.length > 0) {
+			g = gb[0];
+		}
+		if (!g) {
+			post("couldn't find the gibberwocky");
+			return;
+		}
+	}
 	// find what it is connected to:
 	var dsts = [];
 	find_connected_boxes(patcher, g, 0, dsts);
@@ -197,7 +203,7 @@ function make_scene() {
 		var patcher_dirname = patcher.filepath.match(/(.*)[\/\\]/)[1]||'';
 		package_dirname = patcher_dirname.match(/(.*)[\/\\]/)[1]||'';
 		outlet(2, package_dirname);
-			
+		
 		// start from topmost patcher:
 		var p = this.patcher;
 		while (p.parentpatcher) { p = p.parentpatcher; }
@@ -216,6 +222,8 @@ function make_scene() {
 	// only the json route can give us patcher connections, snapshots, etc.
 	
 	function explore(p, prefix) {
+		
+		
 		
 		var tree = {	
 			type: "patcher",
@@ -240,9 +248,10 @@ function make_scene() {
 					//post("recurse", o.varname + "::", o.subpatcher, "\n");
 					tree[name] = explore(o.subpatcher(0), path + "::");
 					
+					
 					// is this the gibberwocky?
 					if (name == "gibberwocky") {
-					
+						//post("it's a biggerwocky");
 					}	
 					
 				} else {
