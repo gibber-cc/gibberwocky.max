@@ -298,7 +298,17 @@ function make_scene() {
 						post("nonlive", name, o.maxclass, "\n");
 						
 						// what types can we handle?
+						var value = o.getvalueof();
+						var n = {
+							varname: name,
+							shortname: shortname,
+							path: path,
+							value: value,
+							//range: range,
+							//type: type,
+						};
 						
+						tree.params.push(n);
 						
 					} else {
 						var type;
