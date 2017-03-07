@@ -193,6 +193,16 @@ function parse_patcher_json(p, scene){
 			
 		}
 	}
+	
+	
+	var receives = find_boxes_by_op(patcher, "receive", []);
+	for (var i in receives) {
+		var text = receives[i].text;
+		var args = text.split(" ");
+		var name = args[1];
+		post("rec", i, name, "\n");
+		scene.receives[name] = "receive";
+	}
 }
 
 function make_scene() {
@@ -371,6 +381,7 @@ function make_scene() {
 		transport: transport,
 		signals: [],
 		namespaces: [],
+		receives: {},
 	};
 
 	for (var i in out_boxes) {
