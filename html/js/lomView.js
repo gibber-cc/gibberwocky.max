@@ -88,6 +88,9 @@ let lomView = {
     for( let ns of Gibber.Max.MOM.namespaces ) {
       lomView.tree.add({ label:ns, id:ns, parent:'namespaces' })
     }
+    for( let r in Gibber.Max.MOM.receives ) {
+      lomView.tree.add({ label:r, id:r, parent:'namespaces' })
+    }
 
     let deviceBranch = lomView.tree.add({ label:'devices', id:'devices' })
     for( let deviceName in Gibber.Max.devices ) {

@@ -3493,6 +3493,9 @@ let lomView = {
     for( let ns of Gibber.Max.MOM.namespaces ) {
       lomView.tree.add({ label:ns, id:ns, parent:'namespaces' })
     }
+    for( let r in Gibber.Max.MOM.receives ) {
+      lomView.tree.add({ label:r, id:r, parent:'namespaces' })
+    }
 
     let deviceBranch = lomView.tree.add({ label:'devices', id:'devices' })
     for( let deviceName in Gibber.Max.devices ) {
@@ -3515,9 +3518,10 @@ module.exports = function( Gibber ) {
 
   let Max = {
     signals:[],
-    params:[],
+    params:{},
     devices:{},
     namespaces:{},
+    receives:{},
 
     init() {
       Gibber.Communication.callbacks.scene = Max.handleScene
@@ -3569,6 +3573,13 @@ module.exports = function( Gibber ) {
           Gibber.Communication.send( `set ${param.path} ${v}` )
         }
         Gibber.addSequencingToMethod( Max.params, param.varname, 0 )
+      }
+
+      for( let receive in Max.MOM.receives ) {
+        Max.receives[ receive ] = function( v ) {
+          Gibber.Communication.send( `set ${receive} ${v}` )
+        }
+        Gibber.addSequencingToMethod( Max.receives, receive, 0 )
       }
 
       for( let device of Max.MOM.root.devices ) {
