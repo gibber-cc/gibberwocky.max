@@ -3380,48 +3380,33 @@ devices['amxd~'].midinote[0].values.reset.seq( 1, 8 )
 // This enables us to quickly create variation over time. One more tutorial to go!
 // Learn more about creating synthesis graphs to output CC messages in tutorial #5.`,
  
-['tutorial 5: modulating with genish.js'] : `/* gen~ is an extension for Max for Live for synthesizing audio/video signals.
-In gibberwocky.midi, we can use a JavaScript port of gen~, genish.js to create complex modulation graphs outputting
-CC messages. LFOs, ramps, stochastic signals... genish can create a wide variety of modulation sources for
+['tutorial 5: modulating with genish.js'] :
+ `/* Gen is an extension for Max for Live for synthesizing audio/video signals.
+LFOs, ramps, stochastic signals... Gen can create a wide variety of modulation sources for
 exploration.
 
-Most ugens from genish.js are available for scripting in gibberwocky.
-Perhaps the most basic modulation is a simple ramp. In your target application / MIDI hardware device setup
-a synthesis parameter to be controlled by CC0. To send a repeating ramp to signal to CC0 on channel 0 we
-would use:*/
+We've seen that the first outlet of gibberwocky is used for messaging. The remaining outlets
+are used for signals created by Gen objects. You can determine the number of outlets
+using the @signals property; for example, [gibberwocky @signals 4], as seen in the gibberwocky
+help patch, has four outputs for audio signals in addtion to its messaging output (for a total
+of 5).
+/*
 
-devices['amxd~'].cc0( phasor( 1 ) )
+// Let's experiment! Create a [gibberwocky @signals 1] object and connect the rightmost outlet
+// to a [scope~]. We can send a simple ramp as follows:
+signals[0]( phasor(1) )
 
-/* This ramp repeats regularly at 1 Hz. All graphs in genish.js typically output to a range of {-1,1} (or sometimes {0,1}),
-however, for MIDI we want to ensure that we have an output signal in the range of {0,127}. Thus, by default, the {-1,1}
-signal will automatically be transformed to {0,127}. You can turn this off by passing a value of false as the second
-paramter to the CC function. The example below is designed to automatically travel between 32 and 96, so we pass false
-to ensure that no additional transformation is applied: */
+// This creates a sawtooth wave with a range of {0,1}. We can also do sine waves:
+signals[0]( cycle(1) )
 
-devices['amxd~'].cc0( 
-  add( 
-    32, 
-    mul(  
-      64, 
-      phasor( 1, 0, { min:0 } ) 
-    ) 
-  ), 
-  false 
-)
-
-/* Another common ugen used for modulation is the sine oscillator; in
-gen~ this is the cycle() ugen. The cycle() accepts one parameter, the frequency that it operates at.
-So we can do the following:*/
-
-devices['amxd~'].cc0( cycle( .5 ) )
-
-/* Often times we want to specify a center point (bias) for our sine oscillator, in addition to 
-a specific amplitude and frequency. The lfo() function provides a simpler syntax for doing this:*/
+// Note that the cycle ugen generates a full bandwidth audio signal with a range of {-1,1}
+// Often times we want to specify a center point (bias) for our sine oscillator, in addition to 
+// a specific amplitude and frequency. The lfo() function provides a simpler syntax for doing this:
 
 // frequency, amplitude, bias
 mylfo = lfo( 2, .2, .7 )
 
-devices['amxd~'].cc0( mylfo )
+signals[0]( mylfo )
 
 // We can also easily sequence parameters of our LFO XXX CURRENTLY BROKEN:
 
