@@ -66,11 +66,13 @@ const create = function( spec ) {
 			Gibber.addSequencingToMethod( Gibber.Max.devices[ d.path ], value.name, 0 )
 		}
 
-		// create MIDI sequencing functions
-		Gibber.addSequencingToMethod( d, 'midinote', 0 ) 
-		Gibber.addSequencingToMethod( d, 'note', 0 ) 
-		Gibber.addSequencingToMethod( d, 'midichord', 0 ) 
-		Gibber.addSequencingToMethod( d, 'chord', 0 ) 
+    // create MIDI sequencing functions
+    // pass d.path + method name to force sequencer to use external sequencing methods defined
+    // start ~ line 82. velocity and duration are only used internally.
+		Gibber.addSequencingToMethod( d, 'midinote',  0, d.path+'midinote' ) 
+		Gibber.addSequencingToMethod( d, 'note',      0, d.path+'note' ) 
+		Gibber.addSequencingToMethod( d, 'midichord', 0, d.path+'midichord' ) 
+		Gibber.addSequencingToMethod( d, 'chord',     0, d.path+'chord' ) 
 		Gibber.addSequencingToMethod( d, 'velocity', 1 ) 
 		Gibber.addSequencingToMethod( d, 'duration', 1 ) 
 

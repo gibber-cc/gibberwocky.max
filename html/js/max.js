@@ -33,6 +33,10 @@ module.exports = function( Gibber ) {
     processMOM() {
       for( let signalNumber of Max.MOM.signals ) {
         Max.signals[ signalNumber ] = function( genGraph ) {
+          if( typeof genGraph === 'number' ) {
+            genGraph = Gibber.Gen.functions.param( genGraph )
+          }
+
           genGraph.id = signalNumber
           if( Gibber.Gen.connected.find( e => e.id === signalNumber ) === undefined ) {
             Gibber.Gen.connected.push( genGraph )

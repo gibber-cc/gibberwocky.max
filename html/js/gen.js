@@ -9,8 +9,7 @@ const binops = [
 const monops = [
   'abs','acos','acosh','asin','asinh','atan','atan2','atanh','cos','cosh','degrees',
   'fastcos','fastsin','fasttan','hypot','radians','sin','sinh','tan','tanh', 'floor',
-  'ceil', 'sign', 'trunc', 'fract'
-]
+  'ceil', 'sign', 'trunc', 'fract', 'param']
 
 const noops = [
   'noise'
@@ -69,7 +68,7 @@ let Gen  = {
   
   createBinopFunctions() {
     for( let key of binops ) {
-      Gen.functions[ key ] = {
+     Gen.functions[ key ] = {
         properties:['0','1'], str:key
       }
     }

@@ -113,6 +113,11 @@ let Gibber = {
     Gibber.Environment.codeMarkup.clear()
   },
 
+  // overrideName is used to specify a unique identifier for messages
+  // targeting external applications. Messages that only target internal
+  // objects (like Scale.root, velocity, etc.) do not need an overrideName.
+  // overrideNames typically consist of a unique device id + the method name
+  // for sequencing.
   addSequencingToMethod( obj, methodName, priority, overrideName ) {
     
     if( !obj.sequences ) obj.sequences = {}
@@ -127,15 +132,19 @@ let Gibber = {
 
       if( obj.sequences[ methodName ][ id ] ) obj.sequences[ methodName ][ id ].clear()
 
-      obj.sequences[ methodName ][ id ] = seq = Gibber.Seq( values, timings, overrideName, obj, priority )
+      // we pass methodName initially so that note and chord filters are correctly applied 
+      // by Seq initializer. Then we change the key to the overrideName for sequencing
+      // external messages.
+      obj.sequences[ methodName ][ id ] = seq = Gibber.Seq( values, timings, methodName, obj, priority )
       seq.trackID = obj.id
 
       if( id === 0 ) {
         obj[ methodName ].values  = obj.sequences[ methodName ][ 0 ].values
         obj[ methodName ].timings = obj.sequences[ methodName ][ 0 ].timings
       }
-
-      seq.key = obj.path !== undefined ? obj.path + methodName : methodName
+  
+      // change seq.key for external sequencing
+      if( methodName !== overrideName ) seq.key = overrideName
 
       obj[ methodName ][ id ] = seq
 
