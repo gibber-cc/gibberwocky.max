@@ -56,7 +56,8 @@ module.exports = function( Gibber ) {
         }
         Max.signals[ signalNumber ].id = signalNumber
       }
-
+      
+      // 
       for( let param of Max.MOM.root.params ) {
         Max.params[ param.varname ] = function( v ) {
           Gibber.Communication.send( `set ${param.path} ${v}` )
@@ -66,7 +67,7 @@ module.exports = function( Gibber ) {
 
       for( let receive in Max.MOM.receives ) {
         Max.receives[ receive ] = function( v ) {
-          Gibber.Communication.send( `set ${receive} ${v}` )
+          Gibber.Communication.send( `${receive} ${v}` )
         }
         Gibber.addSequencingToMethod( Max.receives, receive, 0 )
       }
