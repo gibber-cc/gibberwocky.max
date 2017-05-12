@@ -1502,7 +1502,6 @@ let Marker = {
            }
            break;
          case 'CHANNELS[0].METHOD[ 0 ].VALUES.REVERSE.SEQ':
-           console.log( components )
            isTrack  = channelNames.includes( components[0] )
            channel = window[ components[0] ][ components[1] ]
            
@@ -4320,7 +4319,7 @@ let lomView = {
 
     count++
     if( count )
-      Gibber.log( 'the live object model (lom) has been updated.' )
+      Gibber.log( 'The Max scene has been updated.' )
   },
 
   setup() {

@@ -12,7 +12,7 @@ let lomView = {
 
     count++
     if( count )
-      Gibber.log( 'the live object model (lom) has been updated.' )
+      Gibber.log( 'The Max scene has been updated.' )
   },
 
   setup() {
