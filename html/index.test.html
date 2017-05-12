@@ -180,7 +180,7 @@ function seq(beat) {
 	
 	// generate notes etc.
 	var notes = [ 36, 38, 41, 42, 43, 45, 46 ];
-	var instr = "amxd~";
+	var instr = random(2) ? "drums" : "bass";
 	
 	for (var j=0; j<2; j++) {
 		var divs = Math.pow(2, random((j+1)*2)+1);

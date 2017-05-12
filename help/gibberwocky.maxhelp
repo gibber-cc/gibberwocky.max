@@ -4,12 +4,12 @@
 		"appversion" : 		{
 			"major" : 7,
 			"minor" : 3,
-			"revision" : 1,
+			"revision" : 4,
 			"architecture" : "x86",
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 1028.0, 78.0, 596.0, 633.0 ],
+		"rect" : [ 1862.0, 40.0, 1055.0, 632.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -37,6 +37,171 @@
 		"style" : "",
 		"subpatcher_template" : "",
 		"boxes" : [ 			{
+				"box" : 				{
+					"id" : "obj-22",
+					"linecount" : 3,
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 625.0, 73.0, 156.0, 47.0 ],
+					"style" : "",
+					"text" : "Attribute @signals N (from 1 to 32) specifies the number of signal outlets"
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"id" : "obj-8",
+					"maxclass" : "ezdac~",
+					"numinlets" : 2,
+					"numoutlets" : 0,
+					"patching_rect" : [ 507.0, 566.0, 45.0, 45.0 ],
+					"style" : ""
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"autosave" : 1,
+					"bgmode" : 1,
+					"border" : 0,
+					"clickthrough" : 0,
+					"enablehscroll" : 0,
+					"enablevscroll" : 0,
+					"id" : "obj-4",
+					"lockeddragscroll" : 0,
+					"maxclass" : "newobj",
+					"numinlets" : 3,
+					"numoutlets" : 4,
+					"offset" : [ 0.0, 0.0 ],
+					"outlettype" : [ "signal", "signal", "", "" ],
+					"patching_rect" : [ 507.0, 336.0, 525.0, 196.0 ],
+					"presentation_rect" : [ 0.0, 0.0, 525.0, 196.0 ],
+					"saved_attribute_attributes" : 					{
+						"valueof" : 						{
+							"parameter_invisible" : 1,
+							"parameter_longname" : "bass",
+							"parameter_shortname" : "bass",
+							"parameter_type" : 3
+						}
+
+					}
+,
+					"saved_object_attributes" : 					{
+						"annotation_name" : "",
+						"parameter_enable" : 1,
+						"patchername" : "Bassline.amxd",
+						"patchername_fallback" : "C74:/packages/Max for Live/patchers/Max Instrument/Bassline/Bassline.amxd"
+					}
+,
+					"snapshot" : 					{
+						"filetype" : "C74Snapshot",
+						"version" : 2,
+						"minorversion" : 0,
+						"name" : "snapshotlist",
+						"origin" : "max~",
+						"type" : "list",
+						"subtype" : "Undefined",
+						"embed" : 1,
+						"snapshot" : 						{
+							"name" : "Bassline.amxd",
+							"origname" : "C74:/packages/Max for Live/patchers/Max Instrument/Bassline/Bassline.amxd",
+							"valuedictionary" : 							{
+								"parameter_values" : 								{
+									"2nd_wave" : 0.0,
+									"attack" : 0.0,
+									"attack_filt" : 127.0,
+									"cut" : 56.23967,
+									"decay" : 4.133308,
+									"decay_filt" : 11.540629,
+									"env" : 127.0,
+									"filt_type" : 0.0,
+									"glide" : 3.189909,
+									"key" : 0.0,
+									"level" : 0.0,
+									"mod_filt" : 7.805062,
+									"mod_wave" : 2.744493,
+									"polyphony" : 1.0,
+									"release" : 0.0,
+									"release_filt" : 0.0,
+									"res" : 115.71196,
+									"speed" : 23.243782,
+									"subosc" : 127.0,
+									"sustain" : 21.046091,
+									"sustain_filt" : 3.94827,
+									"wave" : 0.0
+								}
+
+							}
+
+						}
+,
+						"snapshotlist" : 						{
+							"current_snapshot" : 0,
+							"entries" : [ 								{
+									"filetype" : "C74Snapshot",
+									"version" : 2,
+									"minorversion" : 0,
+									"name" : "Bassline.amxd",
+									"origin" : "Bassline.amxd",
+									"type" : "amxd",
+									"subtype" : "Undefined",
+									"embed" : 0,
+									"snapshot" : 									{
+										"name" : "Bassline.amxd",
+										"origname" : "C74:/packages/Max for Live/patchers/Max Instrument/Bassline/Bassline.amxd",
+										"valuedictionary" : 										{
+											"parameter_values" : 											{
+												"2nd_wave" : 0.0,
+												"attack" : 0.0,
+												"attack_filt" : 127.0,
+												"cut" : 56.23967,
+												"decay" : 4.133308,
+												"decay_filt" : 11.540629,
+												"env" : 127.0,
+												"filt_type" : 0.0,
+												"glide" : 3.189909,
+												"key" : 0.0,
+												"level" : 0.0,
+												"mod_filt" : 7.805062,
+												"mod_wave" : 2.744493,
+												"polyphony" : 1.0,
+												"release" : 0.0,
+												"release_filt" : 0.0,
+												"res" : 115.71196,
+												"speed" : 23.243782,
+												"subosc" : 127.0,
+												"sustain" : 21.046091,
+												"sustain_filt" : 3.94827,
+												"wave" : 0.0
+											}
+
+										}
+
+									}
+,
+									"fileref" : 									{
+										"name" : "Bassline.amxd",
+										"filename" : "Bassline.amxd.maxsnap",
+										"filepath" : "~/Documents/Max 7/Snapshots",
+										"filepos" : -1,
+										"snapshotfileid" : "bc1819a20bdeb273eb1208cb8a1b15fb"
+									}
+
+								}
+ ]
+						}
+
+					}
+,
+					"style" : "",
+					"text" : "amxd~ Bassline.amxd",
+					"varname" : "bass",
+					"viewvisibility" : 1
+				}
+
+			}
+, 			{
 				"box" : 				{
 					"id" : "obj-11",
 					"maxclass" : "button",
@@ -119,7 +284,7 @@
 						"appversion" : 						{
 							"major" : 7,
 							"minor" : 3,
-							"revision" : 1,
+							"revision" : 4,
 							"architecture" : "x86",
 							"modernui" : 1
 						}
@@ -168,6 +333,7 @@
 								"box" : 								{
 									"comment" : "",
 									"id" : "obj-14",
+									"index" : 2,
 									"maxclass" : "inlet",
 									"numinlets" : 0,
 									"numoutlets" : 1,
@@ -191,7 +357,7 @@
 										"appversion" : 										{
 											"major" : 7,
 											"minor" : 3,
-											"revision" : 1,
+											"revision" : 4,
 											"architecture" : "x86",
 											"modernui" : 1
 										}
@@ -813,6 +979,7 @@
 													"disabled" : 0,
 													"hidden" : 0,
 													"midpoints" : [ 84.5, 189.5, 293.0, 189.5 ],
+													"order" : 0,
 													"source" : [ "obj-14", 0 ]
 												}
 
@@ -822,6 +989,7 @@
 													"destination" : [ "obj-8", 1 ],
 													"disabled" : 0,
 													"hidden" : 0,
+													"order" : 1,
 													"source" : [ "obj-14", 0 ]
 												}
 
@@ -871,6 +1039,7 @@
 													"disabled" : 0,
 													"hidden" : 0,
 													"midpoints" : [ 609.5, 374.0, 673.5, 374.0, 673.5, 275.0, 639.5, 275.0 ],
+													"order" : 0,
 													"source" : [ "obj-19", 0 ]
 												}
 
@@ -881,6 +1050,7 @@
 													"disabled" : 0,
 													"hidden" : 0,
 													"midpoints" : [ 609.5, 374.5, 68.0, 374.5 ],
+													"order" : 2,
 													"source" : [ "obj-19", 0 ]
 												}
 
@@ -891,6 +1061,7 @@
 													"disabled" : 0,
 													"hidden" : 0,
 													"midpoints" : [ 609.5, 374.0, 278.0, 374.0 ],
+													"order" : 1,
 													"source" : [ "obj-19", 0 ]
 												}
 
@@ -958,6 +1129,7 @@
 													"disabled" : 0,
 													"hidden" : 0,
 													"midpoints" : [ 684.5, 207.0, 653.0, 207.0 ],
+													"order" : 1,
 													"source" : [ "obj-27", 0 ]
 												}
 
@@ -968,6 +1140,7 @@
 													"disabled" : 0,
 													"hidden" : 0,
 													"midpoints" : [ 684.5, 207.0, 609.5, 207.0 ],
+													"order" : 2,
 													"source" : [ "obj-27", 0 ]
 												}
 
@@ -977,6 +1150,7 @@
 													"destination" : [ "obj-26", 0 ],
 													"disabled" : 0,
 													"hidden" : 0,
+													"order" : 0,
 													"source" : [ "obj-27", 0 ]
 												}
 
@@ -1059,6 +1233,7 @@
 													"disabled" : 0,
 													"hidden" : 0,
 													"midpoints" : [ 54.5, 129.5, 399.5, 129.5 ],
+													"order" : 0,
 													"source" : [ "obj-39", 0 ]
 												}
 
@@ -1068,6 +1243,7 @@
 													"destination" : [ "obj-4", 0 ],
 													"disabled" : 0,
 													"hidden" : 0,
+													"order" : 3,
 													"source" : [ "obj-39", 0 ]
 												}
 
@@ -1078,6 +1254,7 @@
 													"disabled" : 0,
 													"hidden" : 0,
 													"midpoints" : [ 54.5, 129.5, 189.5, 129.5 ],
+													"order" : 1,
 													"source" : [ "obj-39", 0 ]
 												}
 
@@ -1088,6 +1265,7 @@
 													"disabled" : 0,
 													"hidden" : 0,
 													"midpoints" : [ 54.5, 159.5, 69.5, 159.5 ],
+													"order" : 2,
 													"source" : [ "obj-39", 0 ]
 												}
 
@@ -1106,6 +1284,7 @@
 													"destination" : [ "obj-10", 0 ],
 													"disabled" : 0,
 													"hidden" : 0,
+													"order" : 2,
 													"source" : [ "obj-5", 0 ]
 												}
 
@@ -1116,6 +1295,7 @@
 													"disabled" : 0,
 													"hidden" : 0,
 													"midpoints" : [ 189.5, 160.5, 279.5, 160.5 ],
+													"order" : 0,
 													"source" : [ "obj-5", 0 ]
 												}
 
@@ -1126,6 +1306,7 @@
 													"disabled" : 0,
 													"hidden" : 0,
 													"midpoints" : [ 189.5, 160.5, 264.5, 160.5 ],
+													"order" : 1,
 													"source" : [ "obj-5", 0 ]
 												}
 
@@ -1248,6 +1429,7 @@
 								"box" : 								{
 									"comment" : "",
 									"id" : "obj-30",
+									"index" : 6,
 									"maxclass" : "inlet",
 									"numinlets" : 0,
 									"numoutlets" : 1,
@@ -1261,6 +1443,7 @@
 								"box" : 								{
 									"comment" : "",
 									"id" : "obj-29",
+									"index" : 5,
 									"maxclass" : "inlet",
 									"numinlets" : 0,
 									"numoutlets" : 1,
@@ -1274,6 +1457,7 @@
 								"box" : 								{
 									"comment" : "",
 									"id" : "obj-27",
+									"index" : 4,
 									"maxclass" : "inlet",
 									"numinlets" : 0,
 									"numoutlets" : 1,
@@ -1287,6 +1471,7 @@
 								"box" : 								{
 									"comment" : "",
 									"id" : "obj-26",
+									"index" : 3,
 									"maxclass" : "inlet",
 									"numinlets" : 0,
 									"numoutlets" : 1,
@@ -1300,6 +1485,7 @@
 								"box" : 								{
 									"comment" : "",
 									"id" : "obj-25",
+									"index" : 8,
 									"maxclass" : "inlet",
 									"numinlets" : 0,
 									"numoutlets" : 1,
@@ -1313,6 +1499,7 @@
 								"box" : 								{
 									"comment" : "",
 									"id" : "obj-24",
+									"index" : 7,
 									"maxclass" : "inlet",
 									"numinlets" : 0,
 									"numoutlets" : 1,
@@ -1336,7 +1523,7 @@
 										"appversion" : 										{
 											"major" : 7,
 											"minor" : 3,
-											"revision" : 1,
+											"revision" : 4,
 											"architecture" : "x86",
 											"modernui" : 1
 										}
@@ -1958,6 +2145,7 @@
 													"disabled" : 0,
 													"hidden" : 0,
 													"midpoints" : [ 83.0, 189.5, 293.0, 189.5 ],
+													"order" : 0,
 													"source" : [ "obj-14", 0 ]
 												}
 
@@ -1967,6 +2155,7 @@
 													"destination" : [ "obj-8", 1 ],
 													"disabled" : 0,
 													"hidden" : 0,
+													"order" : 1,
 													"source" : [ "obj-14", 0 ]
 												}
 
@@ -2016,6 +2205,7 @@
 													"disabled" : 0,
 													"hidden" : 0,
 													"midpoints" : [ 609.5, 374.0, 673.5, 374.0, 673.5, 275.0, 639.5, 275.0 ],
+													"order" : 0,
 													"source" : [ "obj-19", 0 ]
 												}
 
@@ -2026,6 +2216,7 @@
 													"disabled" : 0,
 													"hidden" : 0,
 													"midpoints" : [ 609.5, 374.5, 68.0, 374.5 ],
+													"order" : 2,
 													"source" : [ "obj-19", 0 ]
 												}
 
@@ -2036,6 +2227,7 @@
 													"disabled" : 0,
 													"hidden" : 0,
 													"midpoints" : [ 609.5, 374.0, 278.0, 374.0 ],
+													"order" : 1,
 													"source" : [ "obj-19", 0 ]
 												}
 
@@ -2103,6 +2295,7 @@
 													"disabled" : 0,
 													"hidden" : 0,
 													"midpoints" : [ 684.5, 207.0, 653.0, 207.0 ],
+													"order" : 1,
 													"source" : [ "obj-27", 0 ]
 												}
 
@@ -2113,6 +2306,7 @@
 													"disabled" : 0,
 													"hidden" : 0,
 													"midpoints" : [ 684.5, 207.0, 609.5, 207.0 ],
+													"order" : 2,
 													"source" : [ "obj-27", 0 ]
 												}
 
@@ -2122,6 +2316,7 @@
 													"destination" : [ "obj-26", 0 ],
 													"disabled" : 0,
 													"hidden" : 0,
+													"order" : 0,
 													"source" : [ "obj-27", 0 ]
 												}
 
@@ -2204,6 +2399,7 @@
 													"disabled" : 0,
 													"hidden" : 0,
 													"midpoints" : [ 54.5, 129.5, 399.5, 129.5 ],
+													"order" : 0,
 													"source" : [ "obj-39", 0 ]
 												}
 
@@ -2213,6 +2409,7 @@
 													"destination" : [ "obj-4", 0 ],
 													"disabled" : 0,
 													"hidden" : 0,
+													"order" : 3,
 													"source" : [ "obj-39", 0 ]
 												}
 
@@ -2223,6 +2420,7 @@
 													"disabled" : 0,
 													"hidden" : 0,
 													"midpoints" : [ 54.5, 129.5, 189.5, 129.5 ],
+													"order" : 1,
 													"source" : [ "obj-39", 0 ]
 												}
 
@@ -2233,6 +2431,7 @@
 													"disabled" : 0,
 													"hidden" : 0,
 													"midpoints" : [ 54.5, 159.5, 69.5, 159.5 ],
+													"order" : 2,
 													"source" : [ "obj-39", 0 ]
 												}
 
@@ -2251,6 +2450,7 @@
 													"destination" : [ "obj-10", 0 ],
 													"disabled" : 0,
 													"hidden" : 0,
+													"order" : 2,
 													"source" : [ "obj-5", 0 ]
 												}
 
@@ -2261,6 +2461,7 @@
 													"disabled" : 0,
 													"hidden" : 0,
 													"midpoints" : [ 189.5, 160.5, 279.5, 160.5 ],
+													"order" : 0,
 													"source" : [ "obj-5", 0 ]
 												}
 
@@ -2271,6 +2472,7 @@
 													"disabled" : 0,
 													"hidden" : 0,
 													"midpoints" : [ 189.5, 160.5, 264.5, 160.5 ],
+													"order" : 1,
 													"source" : [ "obj-5", 0 ]
 												}
 
@@ -2326,6 +2528,7 @@
 								"box" : 								{
 									"comment" : "",
 									"id" : "obj-3",
+									"index" : 2,
 									"maxclass" : "outlet",
 									"numinlets" : 1,
 									"numoutlets" : 0,
@@ -2338,6 +2541,7 @@
 								"box" : 								{
 									"comment" : "",
 									"id" : "obj-2",
+									"index" : 1,
 									"maxclass" : "outlet",
 									"numinlets" : 1,
 									"numoutlets" : 0,
@@ -2350,6 +2554,7 @@
 								"box" : 								{
 									"comment" : "",
 									"id" : "obj-1",
+									"index" : 1,
 									"maxclass" : "inlet",
 									"numinlets" : 0,
 									"numoutlets" : 1,
@@ -2464,6 +2669,7 @@
 									"destination" : [ "obj-12", 0 ],
 									"disabled" : 0,
 									"hidden" : 0,
+									"order" : 1,
 									"source" : [ "obj-26", 0 ]
 								}
 
@@ -2473,6 +2679,7 @@
 									"destination" : [ "obj-23", 2 ],
 									"disabled" : 0,
 									"hidden" : 0,
+									"order" : 0,
 									"source" : [ "obj-26", 0 ]
 								}
 
@@ -2482,6 +2689,7 @@
 									"destination" : [ "obj-12", 1 ],
 									"disabled" : 0,
 									"hidden" : 0,
+									"order" : 1,
 									"source" : [ "obj-27", 0 ]
 								}
 
@@ -2491,6 +2699,7 @@
 									"destination" : [ "obj-23", 3 ],
 									"disabled" : 0,
 									"hidden" : 0,
+									"order" : 0,
 									"source" : [ "obj-27", 0 ]
 								}
 
@@ -2767,8 +2976,8 @@
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
 							"parameter_invisible" : 1,
-							"parameter_longname" : "amxd~",
-							"parameter_shortname" : "amxd~",
+							"parameter_longname" : "drums",
+							"parameter_shortname" : "drums",
 							"parameter_type" : 3
 						}
 
@@ -2796,25 +3005,25 @@
 							"valuedictionary" : 							{
 								"parameter_values" : 								{
 									"ad-level" : 0.0,
-									"clhat-decay" : 640.180847,
-									"hat-level" : 72.736717,
-									"hat-tone" : 38.0,
-									"kick-attack" : 88.0,
-									"kick-decay" : 1170.500122,
-									"kick-level" : 63.0,
-									"kick-sweep" : 32.0,
-									"kick-tune" : 87.0,
-									"ophat-decay" : 1820.866089,
-									"snare-decay" : 977.397827,
-									"snare-hicut" : 1101.574829,
-									"snare-level" : 85.0,
-									"snare-snap" : 74.0,
-									"snare-tune" : 297.958038,
-									"tom-decay" : 3000.0,
-									"tom-hi" : 327.559052,
-									"tom-level" : 44.994976,
-									"tom-low" : 143.385834,
-									"tom-mid" : 243.70079
+									"clhat-decay" : 1000.0,
+									"hat-level" : 3.200401,
+									"hat-tone" : 16.351404,
+									"kick-attack" : 84.197762,
+									"kick-decay" : 6.006042,
+									"kick-level" : 3.075688,
+									"kick-sweep" : 100.0,
+									"kick-tune" : 20.0,
+									"ophat-decay" : 161.964432,
+									"snare-decay" : 78.666786,
+									"snare-hicut" : 5429.666992,
+									"snare-level" : 0.654721,
+									"snare-snap" : 39.797401,
+									"snare-tune" : 193.41713,
+									"tom-decay" : 19.521162,
+									"tom-hi" : 200.0,
+									"tom-level" : 99.101593,
+									"tom-low" : 127.668701,
+									"tom-mid" : 128.098312
 								}
 
 							}
@@ -2838,25 +3047,25 @@
 										"valuedictionary" : 										{
 											"parameter_values" : 											{
 												"ad-level" : 0.0,
-												"clhat-decay" : 640.180847,
-												"hat-level" : 72.736717,
-												"hat-tone" : 38.0,
-												"kick-attack" : 88.0,
-												"kick-decay" : 1170.500122,
-												"kick-level" : 63.0,
-												"kick-sweep" : 32.0,
-												"kick-tune" : 87.0,
-												"ophat-decay" : 1820.866089,
-												"snare-decay" : 977.397827,
-												"snare-hicut" : 1101.574829,
-												"snare-level" : 85.0,
-												"snare-snap" : 74.0,
-												"snare-tune" : 297.958038,
-												"tom-decay" : 3000.0,
-												"tom-hi" : 327.559052,
-												"tom-level" : 44.994976,
-												"tom-low" : 143.385834,
-												"tom-mid" : 243.70079
+												"clhat-decay" : 1000.0,
+												"hat-level" : 3.200401,
+												"hat-tone" : 16.351404,
+												"kick-attack" : 84.197762,
+												"kick-decay" : 6.006042,
+												"kick-level" : 3.075688,
+												"kick-sweep" : 100.0,
+												"kick-tune" : 20.0,
+												"ophat-decay" : 161.964432,
+												"snare-decay" : 78.666786,
+												"snare-hicut" : 5429.666992,
+												"snare-level" : 0.654721,
+												"snare-snap" : 39.797401,
+												"snare-tune" : 193.41713,
+												"tom-decay" : 19.521162,
+												"tom-hi" : 200.0,
+												"tom-level" : 99.101593,
+												"tom-low" : 127.668701,
+												"tom-mid" : 128.098312
 											}
 
 										}
@@ -2868,7 +3077,7 @@
 										"filename" : "Analogue Drums.amxd.maxsnap",
 										"filepath" : "~/Documents/Max 7/Snapshots",
 										"filepos" : -1,
-										"snapshotfileid" : "eb77e511ade593da58f2f10f23135acd"
+										"snapshotfileid" : "3b69c9bbeda3cffbb3e3cfe34c2e5136"
 									}
 
 								}
@@ -2879,7 +3088,7 @@
 ,
 					"style" : "",
 					"text" : "amxd~ \"Big Ben Bell.amxd\"",
-					"varname" : "amxd~",
+					"varname" : "drums",
 					"viewvisibility" : 1
 				}
 
@@ -2935,9 +3144,9 @@
 					"numinlets" : 1,
 					"numoutlets" : 5,
 					"outlettype" : [ "", "signal", "signal", "signal", "signal" ],
-					"patching_rect" : [ 90.714287, 105.0, 267.0, 29.0 ],
+					"patching_rect" : [ 90.714302, 103.0, 267.428558, 29.0 ],
 					"style" : "",
-					"text" : "gibberwocky @signals 4",
+					"text" : "gibberwocky",
 					"varname" : "gibberwocky"
 				}
 
@@ -2948,6 +3157,7 @@
 					"destination" : [ "obj-15", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
+					"order" : 0,
 					"source" : [ "obj-1", 1 ]
 				}
 
@@ -2957,6 +3167,7 @@
 					"destination" : [ "obj-16", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
+					"order" : 0,
 					"source" : [ "obj-1", 3 ]
 				}
 
@@ -2966,6 +3177,7 @@
 					"destination" : [ "obj-17", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
+					"order" : 0,
 					"source" : [ "obj-1", 2 ]
 				}
 
@@ -2975,6 +3187,7 @@
 					"destination" : [ "obj-18", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
+					"order" : 0,
 					"source" : [ "obj-1", 4 ]
 				}
 
@@ -2984,6 +3197,7 @@
 					"destination" : [ "obj-3", 5 ],
 					"disabled" : 0,
 					"hidden" : 0,
+					"order" : 1,
 					"source" : [ "obj-1", 4 ]
 				}
 
@@ -2993,6 +3207,7 @@
 					"destination" : [ "obj-3", 4 ],
 					"disabled" : 0,
 					"hidden" : 0,
+					"order" : 1,
 					"source" : [ "obj-1", 3 ]
 				}
 
@@ -3002,6 +3217,7 @@
 					"destination" : [ "obj-3", 3 ],
 					"disabled" : 0,
 					"hidden" : 0,
+					"order" : 1,
 					"source" : [ "obj-1", 2 ]
 				}
 
@@ -3011,6 +3227,7 @@
 					"destination" : [ "obj-3", 2 ],
 					"disabled" : 0,
 					"hidden" : 0,
+					"order" : 1,
 					"source" : [ "obj-1", 1 ]
 				}
 
@@ -3020,7 +3237,7 @@
 					"destination" : [ "obj-34", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
-					"midpoints" : [ 100.214287, 147.0, 36.5, 147.0 ],
+					"midpoints" : [ 100.214302, 147.0, 36.5, 147.0 ],
 					"source" : [ "obj-1", 0 ]
 				}
 
@@ -3099,6 +3316,24 @@
 			}
 , 			{
 				"patchline" : 				{
+					"destination" : [ "obj-8", 1 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-4", 1 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-8", 0 ],
+					"disabled" : 0,
+					"hidden" : 0,
+					"source" : [ "obj-4", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
 					"destination" : [ "obj-3", 0 ],
 					"disabled" : 0,
 					"hidden" : 0,
@@ -3127,7 +3362,8 @@
  ],
 		"parameters" : 		{
 			"obj-33" : [ "White_Queen", "whitequeen", 0 ],
-			"obj-7" : [ "amxd~", "amxd~", 0 ],
+			"obj-7" : [ "drums", "drums", 0 ],
+			"obj-4" : [ "bass", "bass", 0 ],
 			"obj-2" : [ "Red_Queen", "redqueen", 0 ]
 		}
 ,
@@ -3206,6 +3442,32 @@
 			}
 , 			{
 				"name" : "analog.Tom~.maxpat",
+				"type" : "JSON",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "Bassline.amxd.maxsnap",
+				"bootpath" : "~/Documents/Max 7/Snapshots",
+				"type" : "mx@s",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "Bassline.amxd",
+				"type" : "JSON",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "bass_voice.maxpat",
+				"type" : "JSON",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "pluggo.voiceExclude.maxpat",
+				"type" : "JSON",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "pluggo.MiscCtrl.maxpat",
 				"type" : "JSON",
 				"implicit" : 1
 			}

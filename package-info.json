@@ -3,7 +3,7 @@
     "type": "package",
     "authors": ["Charlie Roberts", "Graham Wakefield" ],
 	"description": "Live coding Max from the browser.",
-	"version": "0.0",
+	"version": "0.1",
     "major_version": "0",
     "minor_version": "0",
     "min_max_version": "700",
