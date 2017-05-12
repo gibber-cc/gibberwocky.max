@@ -149,7 +149,7 @@ function seq(beat) {
 	// do some gen testing:
 	if (random(2) == 0) {
 		var phase = 0;
-		var param = pick(scene.signals);
+		var param = "0"; //pick(scene.signals);
 		
 		if (gens[param]) {
 			
@@ -198,7 +198,7 @@ function seq(beat) {
 	}	
 	
 	if (scene.root && scene.root.devices && scene.root.devices.length) {
-		var dev = pick(scene.root.devices);
+		var dev = "drums"; //pick(scene.root.devices);
 		if (dev.values && dev.values.length) {
 			var param = pick(dev.values);
 			for (var p = 0; p<1; p+= 0.25) {
