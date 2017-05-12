@@ -200,7 +200,7 @@ function parse_patcher_json(p, scene){
 		var text = receives[i].text;
 		var args = text.split(" ");
 		var name = args[1];
-		post("rec", i, name, "\n");
+		//post("rec", i, name, "\n");
 		scene.receives[name] = "receive";
 	}
 }
@@ -305,7 +305,7 @@ function make_scene() {
 					} else if (type_id == undefined && type_id == null) {
 						// it's not a live parameter
 						
-						post("nonlive", name, o.maxclass, "\n");
+						//post("nonlive", name, o.maxclass, "\n");
 						
 						// what types can we handle?
 						var value = o.getvalueof();
