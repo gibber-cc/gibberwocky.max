@@ -76,6 +76,15 @@ const create = function( spec ) {
 		Gibber.addSequencingToMethod( d, 'velocity', 1 ) 
 		Gibber.addSequencingToMethod( d, 'duration', 1 ) 
 
+    d.stop = ()=> {
+      for( let key in d.sequences ) {
+        let sequencesForKey = d.sequences[ key ]
+
+        sequencesForKey.forEach( s => s.stop() )
+        //s.stop()
+      }
+    }
+    
 		// create external sequencing messages
 		// these are not needed for velocity and duration, which are
 		// only used internally to the client

@@ -118,36 +118,36 @@ let seqclosure = function( Gibber ) {
 
 
     externalMessages: {
-      note( number, beat, trackID ) {
-        let msgstring = "add " + beat + " " + t + " " + n + " " + v + " " + d
+      //note( number, beat, trackID ) {
+      //  let msgstring = "add " + beat + " " + t + " " + n + " " + v + " " + d
 
-        return `${trackID} add ${beat} note ${number}` 
-      },
-      midinote( number, beat, object, seq ) {
-			  let msg = `add ${beat} midinote '${object.path}' ${number} ${object.__velocity} ${object.__duration}` 
-        return msg 
-      },
-      duration( value, beat, trackID ) {
-        return `${trackID} add ${beat} duration ${value}` 
-      },
+      //  return `${trackID} add ${beat} note ${number}` 
+      //},
+      //midinote( number, beat, object, seq ) {
+			//  let msg = `add ${beat} midinote '${object.path}' ${number} ${object.__velocity} ${object.__duration}` 
+      //  return msg 
+      //},
+      //duration( value, beat, trackID ) {
+      //  return `${trackID} add ${beat} duration ${value}` 
+      //},
 
-      velocity( value, beat, trackID ) {
-        return `${trackID} add ${beat} velocity ${value}` 
-      },
+      //velocity( value, beat, trackID ) {
+      //  return `${trackID} add ${beat} velocity ${value}` 
+      //},
 
-      chord( chord, beat, trackID ) {
-        //console.log( chord )
-        let msg = []
+      //chord( chord, beat, trackID ) {
+      //  //console.log( chord )
+      //  let msg = []
 
-        for( let i = 0; i < chord.length; i++ ) {
-          msg.push( `${trackID} add ${beat} note ${chord[i]}` )
-        }
+      //  for( let i = 0; i < chord.length; i++ ) {
+      //    msg.push( `${trackID} add ${beat} note ${chord[i]}` )
+      //  }
 
-        return msg
-      },
-      cc( number, value, beat ) {
-        return `${trackID} add ${beat} cc ${number} ${value}`
-      },
+      //  return msg
+      //},
+      //cc( number, value, beat ) {
+      //  return `${trackID} add ${beat} cc ${number} ${value}`
+      //},
     },
 
     start() {
