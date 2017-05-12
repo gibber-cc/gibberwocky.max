@@ -18,7 +18,11 @@ let seqclosure = function( Gibber ) {
         for( let key in seq.object.markup.textMarkers ) {
           let marker = seq.object.markup.textMarkers[ key ]
 
-          if( marker.clear ) marker.clear() 
+          if( Array.isArray( marker ) ) {
+            marker.forEach( m => m.clear() )
+          }else{
+            if( marker.clear ) marker.clear() 
+          }
         }
       }
       

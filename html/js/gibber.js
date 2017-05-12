@@ -130,7 +130,42 @@ let Gibber = {
 
       if( obj.sequences[ methodName ] === undefined ) obj.sequences[ methodName ] = []
 
-      if( obj.sequences[ methodName ][ id ] ) obj.sequences[ methodName ][ id ].clear()
+      if( obj.sequences[ methodName ][ id ] ) {
+        let s = obj.sequences[ methodName ][ id ]
+        let markers = obj.markup.textMarkers[ s.values.patternName ]
+        if( Array.isArray( markers ) ) {
+          markers.forEach( m => m.clear() )
+        }else{
+          let count = 0
+          while( markers[ count ] !== undefined ) {
+            markers[ count ].clear()
+            count++
+          }
+
+          markers.clear()
+        }
+
+        if( s.values.cycle !== undefined ) s.values.cycle.clear()
+
+        markers = obj.markup.textMarkers[ s.timings.patternName ]
+
+        if( Array.isArray( markers ) ) {
+          markers.forEach( m => m.clear() )
+        }else{
+          let count = 0
+          while( markers[ count ] !== undefined ) {
+            markers[ count ].clear()
+            count++
+          }
+
+          markers.clear()
+        }
+        
+        if( s.timings.cycle !== undefined ) s.timings.cycle.clear()
+
+        obj.sequences[ methodName ][ id ].clear()
+
+      }
 
       // we pass methodName initially so that note and chord filters are correctly applied 
       // by Seq initializer. Then we change the key to the overrideName for sequencing

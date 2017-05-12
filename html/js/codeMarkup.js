@@ -28,7 +28,26 @@ let Marker = {
   prepareObject( obj ) {
     obj.markup = {
       textMarkers: {},
-      cssClasses:  {} 
+      cssClasses:  {},
+      clear() {
+        for( let key in obj.markup.textMarkers ) {
+          let marker = obj.markup.textMarkers[ key ]
+          if( Array.isArray( marker ) ) {
+            marker.forEach( m => m.clear() )
+          }else{
+            let count = 0
+            while( marker[ count ] !== undefined ) {
+              marker[ count ].clear()
+              count++
+            }
+
+            marker.clear()
+          }
+        }
+
+        obj.markup.cssClass = {}
+        obj.markup.textMarkers = {}
+      } 
     }  
   },
 
@@ -680,6 +699,7 @@ let Marker = {
       
       patternObject.patternType = patternType 
       patternObject.patternName = patternName
+      patternObject.cycle = cycle
 
       patternObject.update = () => {
         let className = '.' + patternName
