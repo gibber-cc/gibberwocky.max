@@ -131,6 +131,26 @@ function clear() {
 }
 
 function seq(beat) {
+	console.log(beat);
+	
+	var msgarr = [];
+	
+	switch (beat) {
+	case 1: 
+	msgarr.push("add 1 midinote bass 36 127 500");
+	msgarr.push("add 1.5 midinote bass 48 127 500");
+	break;
+	case 4: 
+	msgarr.push("add 4 midinote bass 36 127 500");
+	msgarr.push("add 4.5 midinote bass 48 127 500");
+	msgarr.push("midinote drums 36 127 500");
+	break;
+	}
+	
+	if (msgarr.length) send(msgarr.join("|"));	
+}
+
+function seq1(beat) {
 	if (!scene) return;
 	var msgarr = []; 
 	
@@ -149,7 +169,7 @@ function seq(beat) {
 	// do some gen testing:
 	if (random(2) == 0) {
 		var phase = 0;
-		var param = pick(scene.signals);
+		var param = "0"; //pick(scene.signals);
 		
 		if (gens[param]) {
 			
@@ -180,7 +200,7 @@ function seq(beat) {
 	
 	// generate notes etc.
 	var notes = [ 36, 38, 41, 42, 43, 45, 46 ];
-	var instr = random(2) ? "drums" : "bass";
+	var instr = "bass"; //random(2) ? "drums" : "bass";
 	
 	for (var j=0; j<2; j++) {
 		var divs = Math.pow(2, random((j+1)*2)+1);
@@ -197,8 +217,9 @@ function seq(beat) {
 		}
 	}	
 	
+	/*
 	if (scene.root && scene.root.devices && scene.root.devices.length) {
-		var dev = pick(scene.root.devices);
+		var dev = "drums"; //pick(scene.root.devices);
 		if (dev.values && dev.values.length) {
 			var param = pick(dev.values);
 			for (var p = 0; p<1; p+= 0.25) {
@@ -206,7 +227,7 @@ function seq(beat) {
 				msgarr.push("add " + (beat + p) + " set " + dev.path + " " + param.name + " " + val);
 			}
 		}
-	}
+	}*/
 	
 	
 	// do some namespace testing:
