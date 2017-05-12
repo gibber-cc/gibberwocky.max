@@ -305,9 +305,9 @@ devices['amxd~'].midinote[0].values.transpose.seq( 1, 2 )
 devices['amxd~'].midinote[0].values.reset.seq( 1, 8 )
 
 // This enables us to quickly create variation over time. One more tutorial to go!
-// Learn more about creating synthesis graphs to output CC messages in tutorial #5.`,
+// Learn more about creating synthesis graphs for modulation in tutorial #5.`,
  
-['tutorial 5: modulating with genish.js'] :
+['tutorial 5: modulating with gen~'] :
  `/* Gen is an extension for Max for Live for synthesizing audio/video signals.
 LFOs, ramps, stochastic signals... Gen can create a wide variety of modulation sources for
 exploration.
@@ -317,7 +317,7 @@ are used for signals created by Gen objects. You can determine the number of out
 using the @signals property; for example, [gibberwocky @signals 4], as seen in the gibberwocky
 help patch, has four outputs for audio signals in addtion to its messaging output (for a total
 of 5).
-/*
+*/
 
 // Let's experiment! Create a [gibberwocky @signals 1] object and connect the rightmost outlet
 // to a [scope~]. We can send a simple ramp as follows:
@@ -348,13 +348,14 @@ mycycle = cycle( .25 )
 
 mycycle[ 0 ].seq( [ .25, 1, 2 ], 1 )
 
-devices['amxd~'].cc0( add( .5, div( mycycle, 2 ) ) )
+signals[0]( add( .5, div( mycycle, 2 ) ) )
 
 /*For other ugens that have more than one argument (see the genish.js random tutorial for an example) we
 simply indicate the appropriate index... for example, mysah[ 1 ] etc. For documentation on the types of
-ugens that are available, see the genish.js website: http://charlie-roberts.com/genish/docs/index.html */`,
+ugens that are available, see the gen~ reference: https://docs.cycling74.com/max7/vignettes/gen~_operators*/`, 
 
-[ 'using the Score() object' ]  : `// Scores are lists of functions with associated
+[ 'using the Score() object' ]  : 
+`// Scores are lists of functions with associated
 // relative time values. In the score below, the first function has
 // a time value of 0, which means it begins playing immediately. The
 // second has a value of 1, which means it beings playing one measure
@@ -540,22 +541,25 @@ devices['amxd~'].midinote[1].timings.rotate.seq( 1,1 )
  * accessed at a[60]. Note that you have to access with brackets
  * as a.60 is not valid JavaScript.
  *
- * The second argument to Steps is the channel to target.  
- */ 
+ * The second argument to Steps is the channel to target. Note
+ * that while the example below is designed to work with the
+ * Analogue Drums device found in the gibberwocky help file,
+ * that instrument is NOT velocity sensitive. 
+ */
 
 steps = Steps({
-  [60]: 'ffff', 
-  [62]: '.a.a',
-  [64]: '........7.9.c..d',
-  [65]: '..6..78..b......',
-  [67]: '..c.f....f..f..3',  
-  [71]: '.e.a.a...e.a.e.a',  
-  [72]: '..............e.',
+  [36]: 'ffff', 
+  [38]: '.a.a',
+  [41]: '........7.9.c..d',
+  [43]: '..6..78..b......',
+  [45]: '..c.f....f..f..3',  
+  [42]: '.e.a.a...e.a.e.a',  
+  [46]: '..............e.',
 }, devices['amxd~'] )
 
 // rotate one pattern (assigned to midinote 71)
 // in step sequencer  every measure
-steps[71].rotate.seq( 1,1 )
+steps[42].rotate.seq( 1,1 )
 
 // reverse all steps each measure
 steps.reverse.seq( 1, 2 )`,

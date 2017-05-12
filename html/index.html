@@ -2048,6 +2048,7 @@ let Marker = {
     Steps( node, cm, channel, objectName, vOffset=0 ) {
       let steps = node.arguments[ 0 ].properties
 
+      Marker.prepareObject( channel )
       channel.markup.textMarkers[ 'step' ] = []
       channel.markup.textMarkers[ 'step' ].children = []
 
@@ -2464,7 +2465,7 @@ const create = function( spec ) {
 			},
 		})
 
-		Gibber.Max.devices[ d.path ] = d
+		//Gibber.Max.devices[ d.path ] = d
 
 		// add annotation dictionaries
 		Gibber.Environment.codeMarkup.prepareObject( d )
@@ -2474,7 +2475,7 @@ const create = function( spec ) {
 			d[ value.name ] = function( v ) {
 				Gibber.Communication.send( `set ${d.path} ${value.name} ${v}` )           
 			} 
-			Gibber.addSequencingToMethod( Gibber.Max.devices[ d.path ], value.name, 0 )
+			Gibber.addSequencingToMethod( d, value.name, 0 )
 		}
 
     // create MIDI sequencing functions
@@ -3378,9 +3379,9 @@ devices['amxd~'].midinote[0].values.transpose.seq( 1, 2 )
 devices['amxd~'].midinote[0].values.reset.seq( 1, 8 )
 
 // This enables us to quickly create variation over time. One more tutorial to go!
-// Learn more about creating synthesis graphs to output CC messages in tutorial #5.`,
+// Learn more about creating synthesis graphs for modulation in tutorial #5.`,
  
-['tutorial 5: modulating with genish.js'] :
+['tutorial 5: modulating with gen~'] :
  `/* Gen is an extension for Max for Live for synthesizing audio/video signals.
 LFOs, ramps, stochastic signals... Gen can create a wide variety of modulation sources for
 exploration.
@@ -3390,7 +3391,7 @@ are used for signals created by Gen objects. You can determine the number of out
 using the @signals property; for example, [gibberwocky @signals 4], as seen in the gibberwocky
 help patch, has four outputs for audio signals in addtion to its messaging output (for a total
 of 5).
-/*
+*/
 
 // Let's experiment! Create a [gibberwocky @signals 1] object and connect the rightmost outlet
 // to a [scope~]. We can send a simple ramp as follows:
@@ -3421,13 +3422,14 @@ mycycle = cycle( .25 )
 
 mycycle[ 0 ].seq( [ .25, 1, 2 ], 1 )
 
-devices['amxd~'].cc0( add( .5, div( mycycle, 2 ) ) )
+signals[0]( add( .5, div( mycycle, 2 ) ) )
 
 /*For other ugens that have more than one argument (see the genish.js random tutorial for an example) we
 simply indicate the appropriate index... for example, mysah[ 1 ] etc. For documentation on the types of
-ugens that are available, see the genish.js website: http://charlie-roberts.com/genish/docs/index.html */`,
+ugens that are available, see the gen~ reference: https://docs.cycling74.com/max7/vignettes/gen~_operators*/`, 
 
-[ 'using the Score() object' ]  : `// Scores are lists of functions with associated
+[ 'using the Score() object' ]  : 
+`// Scores are lists of functions with associated
 // relative time values. In the score below, the first function has
 // a time value of 0, which means it begins playing immediately. The
 // second has a value of 1, which means it beings playing one measure
@@ -3613,22 +3615,25 @@ devices['amxd~'].midinote[1].timings.rotate.seq( 1,1 )
  * accessed at a[60]. Note that you have to access with brackets
  * as a.60 is not valid JavaScript.
  *
- * The second argument to Steps is the channel to target.  
- */ 
+ * The second argument to Steps is the channel to target. Note
+ * that while the example below is designed to work with the
+ * Analogue Drums device found in the gibberwocky help file,
+ * that instrument is NOT velocity sensitive. 
+ */
 
 steps = Steps({
-  [60]: 'ffff', 
-  [62]: '.a.a',
-  [64]: '........7.9.c..d',
-  [65]: '..6..78..b......',
-  [67]: '..c.f....f..f..3',  
-  [71]: '.e.a.a...e.a.e.a',  
-  [72]: '..............e.',
+  [36]: 'ffff', 
+  [38]: '.a.a',
+  [41]: '........7.9.c..d',
+  [43]: '..6..78..b......',
+  [45]: '..c.f....f..f..3',  
+  [42]: '.e.a.a...e.a.e.a',  
+  [46]: '..............e.',
 }, devices['amxd~'] )
 
 // rotate one pattern (assigned to midinote 71)
 // in step sequencer  every measure
-steps[71].rotate.seq( 1,1 )
+steps[42].rotate.seq( 1,1 )
 
 // reverse all steps each measure
 steps.reverse.seq( 1, 2 )`,
@@ -4327,8 +4332,6 @@ module.exports = lomView
 },{"./vanillatree.js":23}],14:[function(require,module,exports){
 'use strict';
 
-
-
 module.exports = function( Gibber ) {
   const makeDevice = require( './device.js' )( Gibber ) 
 
@@ -4384,7 +4387,6 @@ module.exports = function( Gibber ) {
         Max.signals[ signalNumber ].id = signalNumber
       }
       
-      // 
       for( let param of Max.MOM.root.params ) {
         Max.params[ param.varname ] = function( v ) {
           Gibber.Communication.send( `set ${param.path} ${v}` )
@@ -4400,42 +4402,7 @@ module.exports = function( Gibber ) {
       }
 
       for( let device of Max.MOM.root.devices ) {
-        const d = makeDevice( device ) // Object.assign({}, device) 
-        console.log( d )
-        //Max.devices[ d.path ] = d
-        //for( let value of d.values ) {
-        //  d[ value.name ] = function( v ) {
-        //    Gibber.Communication.send( `set ${d.path} ${value.name} ${v}` )           
-        //  } 
-        //  Gibber.addSequencingToMethod( Max.devices[ d.path ], value.name, 0 )
-        //}
-        
-        //d.__velocity = 127
-        //d.__duration = 500 
-        //d.velocity = function( v ) {
-        //  d.__velocity = v
-        //}
-        //d.duration = function( v ) {
-        //  d.__duration = v
-        //}
-
-        //Gibber.Environment.codeMarkup.prepareObject( d )
-
-        //let seqKey = `${d.path}midinote`
-
-        //d.midinote = function( note, velocity, duration ) {
-        //  if( typeof velocity !== 'number' || velocity === 0) velocity = d.__velocity
-        //  if( typeof duration !== 'number' ) duration = d.__duration
-
-        //  Gibber.Communication.send( `midinote ${d.path} ${note} ${velocity} ${duration}` )
-        //}
-
-        //Gibber.addSequencingToMethod( d, 'midinote', 0 ) 
-
-        //Gibber.Seq.proto.externalMessages[ seqKey ] = ( value, beat ) => {
-        //  let msg = `add ${beat} midinote ${d.path} ${value} ${d.__velocity} ${d.__duration}` 
-        //  return msg
-        //}
+        Max.devices[ device.path ] = makeDevice( device )
       }
 
       Gibber.Environment.lomView.init( Gibber )
@@ -5548,7 +5515,38 @@ let seqclosure = function( Gibber ) {
       this.values.nextTime = this.timings.nextTime = 0
     },
 
+
     externalMessages: {
+      note( number, beat, trackID ) {
+        let msgstring = "add " + beat + " " + t + " " + n + " " + v + " " + d
+
+        return `${trackID} add ${beat} note ${number}` 
+      },
+      midinote( number, beat, object, seq ) {
+			  let msg = `add ${beat} midinote '${object.path}' ${number} ${object.__velocity} ${object.__duration}` 
+        return msg 
+      },
+      duration( value, beat, trackID ) {
+        return `${trackID} add ${beat} duration ${value}` 
+      },
+
+      velocity( value, beat, trackID ) {
+        return `${trackID} add ${beat} velocity ${value}` 
+      },
+
+      chord( chord, beat, trackID ) {
+        //console.log( chord )
+        let msg = []
+
+        for( let i = 0; i < chord.length; i++ ) {
+          msg.push( `${trackID} add ${beat} note ${chord[i]}` )
+        }
+
+        return msg
+      },
+      cc( number, value, beat ) {
+        return `${trackID} add ${beat} cc ${number} ${value}`
+      },
     },
 
     start() {
@@ -5620,7 +5618,7 @@ let seqclosure = function( Gibber ) {
             }
 
           } else { // schedule internal method / function call immediately
-            const msg = this.externalMessages[ this.key ]( value, beat + _beatOffset )//Gibber.Utility.beatsToMs( _beatOffset ) )
+            const msg = this.externalMessages[ this.key ]( value, beat + _beatOffset, this.object )//Gibber.Utility.beatsToMs( _beatOffset ) )
             if( Array.isArray(msg) ){
               msg.forEach( v => Gibber.Communication.send( v ) )
             }else{
@@ -5676,7 +5674,8 @@ let Steps = {
         // TODO: is there a better way to get access to beat, beatOffset and scheduler?
         if( velocity !== 0 ) {
           //let msg = seq.externalMessages[ 'velocity' ]( velocity, seq.values.beat + seq.values.beatOffset, seq.trackID )
-          track.velocity( velocity )
+          //track.velocity( velocity )
+          track.__velocity = velocity
           //seq.values.scheduler.msgs.push( msg ) 
         }
 
@@ -5696,7 +5695,7 @@ let Steps = {
   },
   
   addPatternMethods() {
-    groupMethodNames.map( (name) => {
+    groupMethodNames.map( name => {
       this[ name ] = function( ...args ) {
         for( let key in this.seqs ) {
           this.seqs[ key ].values[ name ].apply( this, args )

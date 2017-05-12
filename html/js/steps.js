@@ -26,7 +26,8 @@ let Steps = {
         // TODO: is there a better way to get access to beat, beatOffset and scheduler?
         if( velocity !== 0 ) {
           //let msg = seq.externalMessages[ 'velocity' ]( velocity, seq.values.beat + seq.values.beatOffset, seq.trackID )
-          track.velocity( velocity )
+          //track.velocity( velocity )
+          track.__velocity = velocity
           //seq.values.scheduler.msgs.push( msg ) 
         }
 
@@ -46,7 +47,7 @@ let Steps = {
   },
   
   addPatternMethods() {
-    groupMethodNames.map( (name) => {
+    groupMethodNames.map( name => {
       this[ name ] = function( ...args ) {
         for( let key in this.seqs ) {
           this.seqs[ key ].values[ name ].apply( this, args )

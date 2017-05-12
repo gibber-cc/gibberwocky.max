@@ -53,7 +53,7 @@ const create = function( spec ) {
 			},
 		})
 
-		Gibber.Max.devices[ d.path ] = d
+		//Gibber.Max.devices[ d.path ] = d
 
 		// add annotation dictionaries
 		Gibber.Environment.codeMarkup.prepareObject( d )
@@ -63,7 +63,7 @@ const create = function( spec ) {
 			d[ value.name ] = function( v ) {
 				Gibber.Communication.send( `set ${d.path} ${value.name} ${v}` )           
 			} 
-			Gibber.addSequencingToMethod( Gibber.Max.devices[ d.path ], value.name, 0 )
+			Gibber.addSequencingToMethod( d, value.name, 0 )
 		}
 
     // create MIDI sequencing functions

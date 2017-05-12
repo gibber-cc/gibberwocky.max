@@ -116,7 +116,38 @@ let seqclosure = function( Gibber ) {
       this.values.nextTime = this.timings.nextTime = 0
     },
 
+
     externalMessages: {
+      note( number, beat, trackID ) {
+        let msgstring = "add " + beat + " " + t + " " + n + " " + v + " " + d
+
+        return `${trackID} add ${beat} note ${number}` 
+      },
+      midinote( number, beat, object, seq ) {
+			  let msg = `add ${beat} midinote '${object.path}' ${number} ${object.__velocity} ${object.__duration}` 
+        return msg 
+      },
+      duration( value, beat, trackID ) {
+        return `${trackID} add ${beat} duration ${value}` 
+      },
+
+      velocity( value, beat, trackID ) {
+        return `${trackID} add ${beat} velocity ${value}` 
+      },
+
+      chord( chord, beat, trackID ) {
+        //console.log( chord )
+        let msg = []
+
+        for( let i = 0; i < chord.length; i++ ) {
+          msg.push( `${trackID} add ${beat} note ${chord[i]}` )
+        }
+
+        return msg
+      },
+      cc( number, value, beat ) {
+        return `${trackID} add ${beat} cc ${number} ${value}`
+      },
     },
 
     start() {
@@ -188,7 +219,7 @@ let seqclosure = function( Gibber ) {
             }
 
           } else { // schedule internal method / function call immediately
-            const msg = this.externalMessages[ this.key ]( value, beat + _beatOffset )//Gibber.Utility.beatsToMs( _beatOffset ) )
+            const msg = this.externalMessages[ this.key ]( value, beat + _beatOffset, this.object )//Gibber.Utility.beatsToMs( _beatOffset ) )
             if( Array.isArray(msg) ){
               msg.forEach( v => Gibber.Communication.send( v ) )
             }else{

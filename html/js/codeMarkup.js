@@ -950,6 +950,7 @@ let Marker = {
     Steps( node, cm, channel, objectName, vOffset=0 ) {
       let steps = node.arguments[ 0 ].properties
 
+      Marker.prepareObject( channel )
       channel.markup.textMarkers[ 'step' ] = []
       channel.markup.textMarkers[ 'step' ].children = []
 
