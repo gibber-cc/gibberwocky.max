@@ -53,8 +53,10 @@ signals[3]( mul( cycle( mul(beats(8), .5 ) ), .15 ) )
  * MIDI note messages, sequence arbitrary messages, and 
  * control UI objects.
  *
- * To start make sure you have a gibberwocky object open in Max.
- */
+ * To start make sure you open the patch: 
+ * gibberwocky_tutorial_2-5
+ *  ... that is included in the gibberwocky pacakge.
+*/
 
 // Messaging in gibberwocky.max can be done in two ways. First, 
 // we can send messages out the first outlet of the gibberwocky.max
@@ -65,7 +67,7 @@ signals[3]( mul( cycle( mul(beats(8), .5 ) ), .15 ) )
 
 // Let's start by sending the following message 'synth1 1'. Connect the left
 // most outlet of the gibberwocky object in Max to a print object, and then
-// run the following three lines code:
+// run the following three lines code and look at the console in Max:
 synth1 = namespace('synth1') 
 synth1( 1 )
 synth1( 'test' )
@@ -77,38 +79,35 @@ synth1.gollygee( 'willickers?' )
 // messages to variety of destinations in this way. 
 
 // gibberwocky can also easily target Max for Live devices embedded in Max
-// patches. Drag a Max for Live instrument into your patch and save it; saving
-// the patch sends updates to patch's description to the browser. If you click
-// on the 'scene' tab of the gibberwocky sidebar, you'll see a tree browser
-// with a 'devices' branch. Open that branch to see all Max for Live devices available
-// in your patch. Now click on the branch for the device you want to send a midinote
-// message to. The associated object path is automatically inserted into your code
-// editor at the current cursor position. Add a call to midinote to the end of this
+// patches. In the patcher for this tutorial there's an included Laverne
+// instrument. If you click on the 'scene' tab of the gibberwocky sidebar, 
+// you'll see a tree browser with a 'devices' branch. Open that branch to see all 
+// Max for Live devices available in your patch. Now click on the branch for the device
+// you want to send a midinote message to. The associated object path is automatically 
+// inserted into your code editor at the current cursor position. Add a call to midinote to the end of this
 // code snippet; it should look similar to the following:
 
 devices['amxd~'].midinote( 60 ) // send middle C
 
 // Now uncollapse the branch for your device in the scene browser. This lists
 // all the parameters exposed for control on the Max for Live devie. Click on any
-// leaf to insert the full path to the control into your code editor. Assuming your
-// device is Analog Drums and you chose 'kick-attack', you should see something like
-// the following:
+// leaf to insert the full path to the control into your code editor. Assuming you chose
+// the 'filter_resonance' property you should see the following:
 
-devices['amxd~']['kick-attack']
+devices['amxd~']['filter_resonance']
 
 // This points to a function; we can pass this function a value to manipulate the
 // control.
 
-devices['amxd~']['kick-attack']( 75 )
+devices['amxd~']['filter_resonance'](0)
 
 // If you've used gibberwocky.live before, it's important to note that these controls
-// do not default to a range of {0,1}. For kick-attack, the range is {0,100} percent.
-// For other controls it will be different.
+// do not default to a range of {0,1}, although for the resonance parameter that happens
+// to be the correct range. For other controls it will be different.
 
-// OK, that's some basics out of the way. Try the sequencing tutorial next!`
-  ,
+// OK, that's some basics out of the way. Try the sequencing tutorial next!`,
 
- [ 'tutorial 2: basic sequencing' ]: `/* gibberwocky.midi - tutorial #2: basic sequencing
+[ 'tutorial 2: basic sequencing' ]: `/* gibberwocky.midi - tutorial #2: basic sequencing
  *
  * This tutorial will provide an introdution to sequencing messages in gibberwocky. In
  * order for sequencing in gibberwocky.max to work, you must start the Global Transport
