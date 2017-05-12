@@ -598,6 +598,7 @@ let Marker = {
       const marker2 = cm.markText( divStart, divEnd, { className:'annotation-binop-border' })
 
       channel.markup.textMarkers[ className ] = marker
+      channel.markup.textMarkers[ className + '_binop' ] = marker2
 
       if( channel.markup.cssClasses[ className ] === undefined ) channel.markup.cssClasses[ className ] = []
       channel.markup.cssClasses[ className ][ index ] = cssName

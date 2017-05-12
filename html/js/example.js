@@ -11,12 +11,15 @@ const Examples = {
  */
 
 // start kick drum on Max for Live device
-devices['amxd~'].midinote.seq( 36, 1/4, 1 )
+devices['drums'].midinote.seq( 36, 1/4, 1 )
 
 // randomly pick between open and closed hi-hats
 // and eighth notes vs. 1/16th notes. If 1/16th
 // notes are played, always play two back to back.
-devices['amxd~'].midinote.seq( [42,46].rnd(), [1/8,1/16].rnd(1/16,2) )
+devices['drums'].midinote.seq( [42,46].rnd(), [1/8,1/16].rnd(1/16,2) )
+
+// play a scintillating bass line
+devices['bass'].note.seq( [-14,-12,-9,-8], 1/8 )
 
 // create namespaces named 'bell' and 'squelch' 
 // and sequence bangs at different rhythms
@@ -32,13 +35,13 @@ params['Red_Queen'][0].values.rotate.seq( 1, 2 )
 params['White_Queen'][0].values.reverse.seq( 1, 4 )
 
 // send a sine wave out outlet 2 (the first signal outlet)
-signals[0]( cycle(.1) )
+signals[0]( cycle(.1) ) 
 
 // send a ramp lasting 16 beats out outlet 2
-signals[1]( beats(16) )
+signals[1]( beats(16) ) 
 
 // send a reverse sawtooth out outlet 3
-signals[2]( sub(1,phasor( 1 ) ) )  
+signals[2]( sub(1,phasor( 1 ) ) )   
 
 // send a sine wave with a modulated frequency out outlet 4
 signals[3]( mul( cycle( mul(beats(8), .5 ) ), .15 ) )

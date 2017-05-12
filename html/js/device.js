@@ -92,7 +92,7 @@ const create = function( spec ) {
 		  [	d.path + 'note' ]  : ( value, beat ) => {
 			  const midivalue = value // Theory.Note.convertToMIDI( value )
 
-			  let msg = `add ${beat} midinote '${d.path}' ${midivalue} ${d.__velocity} ${d.__duration}` 
+			  let msg = `add ${beat} midinote ${d.path} ${midivalue} ${d.__velocity} ${d.__duration}` 
 			  return msg
 		  },
 

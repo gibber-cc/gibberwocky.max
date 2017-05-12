@@ -1696,6 +1696,7 @@ let Marker = {
       const marker2 = cm.markText( divStart, divEnd, { className:'annotation-binop-border' })
 
       channel.markup.textMarkers[ className ] = marker
+      channel.markup.textMarkers[ className + '_binop' ] = marker2
 
       if( channel.markup.cssClasses[ className ] === undefined ) channel.markup.cssClasses[ className ] = []
       channel.markup.cssClasses[ className ][ index ] = cssName
@@ -2532,7 +2533,7 @@ const create = function( spec ) {
 		  [	d.path + 'note' ]  : ( value, beat ) => {
 			  const midivalue = value // Theory.Note.convertToMIDI( value )
 
-			  let msg = `add ${beat} midinote '${d.path}' ${midivalue} ${d.__velocity} ${d.__duration}` 
+			  let msg = `add ${beat} midinote ${d.path} ${midivalue} ${d.__velocity} ${d.__duration}` 
 			  return msg
 		  },
 
@@ -3122,12 +3123,15 @@ const Examples = {
  */
 
 // start kick drum on Max for Live device
-devices['amxd~'].midinote.seq( 36, 1/4, 1 )
+devices['drums'].midinote.seq( 36, 1/4, 1 )
 
 // randomly pick between open and closed hi-hats
 // and eighth notes vs. 1/16th notes. If 1/16th
 // notes are played, always play two back to back.
-devices['amxd~'].midinote.seq( [42,46].rnd(), [1/8,1/16].rnd(1/16,2) )
+devices['drums'].midinote.seq( [42,46].rnd(), [1/8,1/16].rnd(1/16,2) )
+
+// play a scintillating bass line
+devices['bass'].note.seq( [-14,-12,-9,-8], 1/8 )
 
 // create namespaces named 'bell' and 'squelch' 
 // and sequence bangs at different rhythms
@@ -3143,13 +3147,13 @@ params['Red_Queen'][0].values.rotate.seq( 1, 2 )
 params['White_Queen'][0].values.reverse.seq( 1, 4 )
 
 // send a sine wave out outlet 2 (the first signal outlet)
-signals[0]( cycle(.1) )
+signals[0]( cycle(.1) ) 
 
 // send a ramp lasting 16 beats out outlet 2
-signals[1]( beats(16) )
+signals[1]( beats(16) ) 
 
 // send a reverse sawtooth out outlet 3
-signals[2]( sub(1,phasor( 1 ) ) )  
+signals[2]( sub(1,phasor( 1 ) ) )   
 
 // send a sine wave with a modulated frequency out outlet 4
 signals[3]( mul( cycle( mul(beats(8), .5 ) ), .15 ) )
@@ -4098,6 +4102,7 @@ let Gibber = {
   // objects (like Scale.root, velocity, etc.) do not need an overrideName.
   // overrideNames typically consist of a unique device id + the method name
   // for sequencing.
+
   addSequencingToMethod( obj, methodName, priority, overrideName ) {
     
     if( !obj.sequences ) obj.sequences = {}
@@ -4125,6 +4130,9 @@ let Gibber = {
           markers.clear()
         }
 
+        let binop = obj.markup.textMarkers[ s.values.patternName + '_binop' ]
+        if( binop !== undefined ) binop.clear()
+
         if( s.values.cycle !== undefined ) s.values.cycle.clear()
 
         markers = obj.markup.textMarkers[ s.timings.patternName ]
@@ -4140,7 +4148,10 @@ let Gibber = {
 
           markers.clear()
         }
-        
+
+        binop = obj.markup.textMarkers[ s.timings.patternName + '_binop' ]
+        if( binop !== undefined ) binop.clear()
+       
         if( s.timings.cycle !== undefined ) s.timings.cycle.clear()
 
         obj.sequences[ methodName ][ id ].clear()

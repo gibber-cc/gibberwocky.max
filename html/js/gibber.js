@@ -118,6 +118,7 @@ let Gibber = {
   // objects (like Scale.root, velocity, etc.) do not need an overrideName.
   // overrideNames typically consist of a unique device id + the method name
   // for sequencing.
+
   addSequencingToMethod( obj, methodName, priority, overrideName ) {
     
     if( !obj.sequences ) obj.sequences = {}
@@ -145,6 +146,9 @@ let Gibber = {
           markers.clear()
         }
 
+        let binop = obj.markup.textMarkers[ s.values.patternName + '_binop' ]
+        if( binop !== undefined ) binop.clear()
+
         if( s.values.cycle !== undefined ) s.values.cycle.clear()
 
         markers = obj.markup.textMarkers[ s.timings.patternName ]
@@ -160,7 +164,10 @@ let Gibber = {
 
           markers.clear()
         }
-        
+
+        binop = obj.markup.textMarkers[ s.timings.patternName + '_binop' ]
+        if( binop !== undefined ) binop.clear()
+       
         if( s.timings.cycle !== undefined ) s.timings.cycle.clear()
 
         obj.sequences[ methodName ][ id ].clear()
