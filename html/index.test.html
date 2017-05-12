@@ -130,27 +130,50 @@ function clear() {
 	gens = [];
 }
 
-function seq(beat) {
+function seq1(beat) {
 	console.log(beat);
 	
 	var msgarr = [];
 	
 	switch (beat) {
 	case 1: 
-	msgarr.push("add 1 midinote bass 36 127 500");
-	msgarr.push("add 1.5 midinote bass 48 127 500");
+		msgarr.push("add 1 midinote drums 42 127 500");
+		msgarr.push("add 1.5 midinote drums 42 127 500");
+		msgarr.push("add 1 midinote drums 36 127 500");
+		msgarr.push("add 1 midinote drums 45 127 500");
+		msgarr.push("add 1.75 midinote drums 43 127 500");
+		
+		msgarr.push("add 1 midinote bass 36 127 500");
+		msgarr.push("add 1.5 midinote bass 48 127 500");
+	break;
+	case 2:
+		msgarr.push("add 2 midinote drums 42 127 500");
+		msgarr.push("add 2.5 midinote drums 42 127 500");
+		msgarr.push("add 2 midinote drums 38 127 500");
+		msgarr.push("add 2.5 midinote drums 36 127 500");
+	
+	break;
+	case 3:
+		msgarr.push("add 3 midinote drums 42 127 500");
+		msgarr.push("add 3.5 midinote drums 43 127 500");
+		msgarr.push("add 3.5 midinote drums 38 127 500");
+		
+		msgarr.push("add 3 midinote bass 42 127 1500");
+	
 	break;
 	case 4: 
-	msgarr.push("add 4 midinote bass 36 127 500");
-	msgarr.push("add 4.5 midinote bass 48 127 500");
-	msgarr.push("midinote drums 36 127 500");
+		msgarr.push("add 4 midinote drums 42 127 500");
+		msgarr.push("add 4.5 midinote drums 42 127 500");
+		msgarr.push("add 4 midinote drums 36 127 500");
+		
+		msgarr.push("add 4 midinote bass 48 127 500");
 	break;
 	}
 	
 	if (msgarr.length) send(msgarr.join("|"));	
 }
 
-function seq1(beat) {
+function seq(beat) {
 	if (!scene) return;
 	var msgarr = []; 
 	
@@ -200,7 +223,7 @@ function seq1(beat) {
 	
 	// generate notes etc.
 	var notes = [ 36, 38, 41, 42, 43, 45, 46 ];
-	var instr = "bass"; //random(2) ? "drums" : "bass";
+	var instr = random(2) ? "drums" : "bass";
 	
 	for (var j=0; j<2; j++) {
 		var divs = Math.pow(2, random((j+1)*2)+1);
