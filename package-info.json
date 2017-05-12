@@ -1,11 +1,23 @@
 {
     "name": "Gibberwocky",
     "type": "package",
-    "author": "Charlie Roberts & Graham Wakefield",
+    "authors": ["Charlie Roberts", "Graham Wakefield" ],
 	"description": "Live coding Max from the browser.",
-	"version": "0.0",
+	"version": "0.1",
     "major_version": "0",
     "minor_version": "0",
     "min_max_version": "700",
-    
+    "homepatcher" : "gibberwocky.maxhelp",
+    "os" : 	{
+		"macintosh" : 		{
+			"platform" : [ "ia32", "x64" ],
+			"min_version" : "none"
+		},
+		"windows" : 		{
+			"platform" : [ "ia32", "x64" ],
+			"min_version" : "none"
+		}
+	},
+	"tags" : [ "gibberwocky" ],
+	"website" : "http://gibberwocky.cc"
 }
