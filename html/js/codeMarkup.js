@@ -404,13 +404,21 @@ let Marker = {
            }
            break;
          case 'CHANNELS[0].METHOD[ 0 ].VALUES.REVERSE.SEQ':
-           channel = window[ 'channels' ][ components[ 1 ] ]
+           isTrack  = channelNames.includes( components[0] )
+           channel = window[ components[0] ][ components[1] ]
+           
+           valuesPattern =  channel[ components[2] ][ index ][ components[ 4 ] ][ components[5] ].values
+           timingsPattern = channel[ components[2] ][ index ][ components[ 4 ] ][ components[5] ].timings
+           valuesNode = args[0]
+           timingsNode = args[1]
 
-           components[3] = components[3]
-           valuesPattern =  channel[ components[ 2 ] ][ components[3] ][ components[4] ][ components[5] ].values
-           timingsPattern = channel[ components[ 2 ] ][ components[3] ][ components[4] ][ components[5] ].timings
-           valuesNode = args[ 0 ]
-           timingsNode= args[ 1 ]
+           //channel = window[ 'channels' ][ components[ 1 ] ]
+
+           //components[3] = components[3]
+           //valuesPattern =  channel[ components[ 2 ] ][ components[3] ][ components[4] ][ components[5] ].values
+           //timingsPattern = channel[ components[ 2 ] ][ components[3] ][ components[4] ][ components[5] ].timings
+           //valuesNode = args[ 0 ]
+           //timingsNode= args[ 1 ]
           
            valuesPattern.codemirror = timingsPattern.codemirror = codemirror
 

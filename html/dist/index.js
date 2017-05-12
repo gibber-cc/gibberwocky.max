@@ -686,13 +686,22 @@ let Marker = {
            }
            break;
          case 'CHANNELS[0].METHOD[ 0 ].VALUES.REVERSE.SEQ':
-           channel = window[ 'channels' ][ components[ 1 ] ]
+           console.log( components )
+           isTrack  = channelNames.includes( components[0] )
+           channel = window[ components[0] ][ components[1] ]
+           
+           valuesPattern =  channel[ components[2] ][ index ][ components[ 4 ] ][ components[5] ].values
+           timingsPattern = channel[ components[2] ][ index ][ components[ 4 ] ][ components[5] ].timings
+           valuesNode = args[0]
+           timingsNode = args[1]
 
-           components[3] = components[3]
-           valuesPattern =  channel[ components[ 2 ] ][ components[3] ][ components[4] ][ components[5] ].values
-           timingsPattern = channel[ components[ 2 ] ][ components[3] ][ components[4] ][ components[5] ].timings
-           valuesNode = args[ 0 ]
-           timingsNode= args[ 1 ]
+           //channel = window[ 'channels' ][ components[ 1 ] ]
+
+           //components[3] = components[3]
+           //valuesPattern =  channel[ components[ 2 ] ][ components[3] ][ components[4] ][ components[5] ].values
+           //timingsPattern = channel[ components[ 2 ] ][ components[3] ][ components[4] ][ components[5] ].timings
+           //valuesNode = args[ 0 ]
+           //timingsNode= args[ 1 ]
           
            valuesPattern.codemirror = timingsPattern.codemirror = codemirror
 
@@ -2340,8 +2349,10 @@ signals[3]( mul( cycle( mul(beats(8), .5 ) ), .15 ) )
  * MIDI note messages, sequence arbitrary messages, and 
  * control UI objects.
  *
- * To start make sure you have a gibberwocky object open in Max.
- */
+ * To start make sure you open the patch: 
+ * gibberwocky_tutorial_1-4
+ *  ... that is included in the gibberwocky pacakge.
+*/
 
 // Messaging in gibberwocky.max can be done in two ways. First, 
 // we can send messages out the first outlet of the gibberwocky.max
@@ -2352,7 +2363,7 @@ signals[3]( mul( cycle( mul(beats(8), .5 ) ), .15 ) )
 
 // Let's start by sending the following message 'synth1 1'. Connect the left
 // most outlet of the gibberwocky object in Max to a print object, and then
-// run the following three lines code:
+// run the following three lines code and look at the console in Max:
 synth1 = namespace('synth1') 
 synth1( 1 )
 synth1( 'test' )
@@ -2364,42 +2375,41 @@ synth1.gollygee( 'willickers?' )
 // messages to variety of destinations in this way. 
 
 // gibberwocky can also easily target Max for Live devices embedded in Max
-// patches. Drag a Max for Live instrument into your patch and save it; saving
-// the patch sends updates to patch's description to the browser. If you click
-// on the 'scene' tab of the gibberwocky sidebar, you'll see a tree browser
-// with a 'devices' branch. Open that branch to see all Max for Live devices available
-// in your patch. Now click on the branch for the device you want to send a midinote
-// message to. The associated object path is automatically inserted into your code
-// editor at the current cursor position. Add a call to midinote to the end of this
+// patches. In the patcher for this tutorial there's an included Laverne
+// instrument. If you click on the 'scene' tab of the gibberwocky sidebar, 
+// you'll see a tree browser with a 'devices' branch. Open that branch to see all 
+// Max for Live devices available in your patch. Now click on the branch for the device
+// you want to send a midinote message to. The associated object path is automatically 
+// inserted into your code editor at the current cursor position. Add a call to midinote to the end of this
 // code snippet; it should look similar to the following:
 
 devices['amxd~'].midinote( 60 ) // send middle C
 
 // Now uncollapse the branch for your device in the scene browser. This lists
 // all the parameters exposed for control on the Max for Live devie. Click on any
-// leaf to insert the full path to the control into your code editor. Assuming your
-// device is Analog Drums and you chose 'kick-attack', you should see something like
-// the following:
+// leaf to insert the full path to the control into your code editor. Assuming you chose
+// the 'filter_resonance' property you should see the following:
 
-devices['amxd~']['kick-attack']
+devices['amxd~']['filter_resonance']
 
 // This points to a function; we can pass this function a value to manipulate the
 // control.
 
-devices['amxd~']['kick-attack']( 75 )
+devices['amxd~']['filter_resonance'](0)
 
 // If you've used gibberwocky.live before, it's important to note that these controls
-// do not default to a range of {0,1}. For kick-attack, the range is {0,100} percent.
-// For other controls it will be different.
+// do not default to a range of {0,1}, although for the resonance parameter that happens
+// to be the correct range. For other controls it will be different.
 
-// OK, that's some basics out of the way. Try the sequencing tutorial next!`
-  ,
+// OK, that's some basics out of the way. Try the sequencing tutorial next!`,
 
- [ 'tutorial 2: basic sequencing' ]: `/* gibberwocky.midi - tutorial #2: basic sequencing
+[ 'tutorial 2: basic sequencing' ]: `/* gibberwocky.max - tutorial #2: basic sequencing
  *
  * This tutorial will provide an introdution to sequencing messages in gibberwocky. In
  * order for sequencing in gibberwocky.max to work, you must start the Global Transport
- * running in Max/MSP. You can find this Max's menuabr under Window > Global Transport.
+ * running in Max/MSP. In the patcher for this tutorial (gibberwocky_tutorial_1-4) there's
+ * a link to open the Global Transport. Make sure you've opened this patcher to complete
+ * this tutorial, as we'll be using the included Laverne instrument.
  */
 
 // In tutorial #1, we saw how we could send MIDI messages to specific MIDI
@@ -2466,11 +2476,12 @@ devices['amxd~'].midichord.seq( [[60,64,68], [62,66,72]], 1/2 )
 // Move on to tutorial #3 to learn more about how to leverage music theory in gibberwocky.
 `,
 
-['tutorial 3: harmony'] :`
-/* gibberwocky.midi - tutorial #3: Harmony
+['tutorial 3: harmony'] :`/* gibberwocky.max - tutorial #3: Harmony
  *
  * This tutorial covers the basics of using harmony in gibberwocky.midi. It assumes you
  * know the basics of sequencing (tutorial #2) and have an appropriate MIDI output setup.
+ * It also assumes you have the patcher gibberwocky_tutorial_1-4 (included in the 
+ * gibberwocky package) opened and the transport runnning.
  *
  * In the previous tutorials we looked at using raw MIDI values to send messages. However,
  * using MIDI note numbers is not an ideal representation. gibberwocky includes knoweldge of
@@ -2506,12 +2517,17 @@ devices['amxd~'].note.seq( [-7,-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7], 1/8 )
 Scale.root( 'd4' )
 Scale.mode( 'lydian' )
 
-Scale.root( 'g2' )
+Scale.root( 'c4' )
 Scale.mode( 'phrygian' )
 
 // We can also sequence changes to the root / mode:
-Scale.root.seq( ['c2','d2','f2,'g2'], 2 )
+Scale.root.seq( ['c2','d2','f2','g2'], 2 )
 Scale.mode.seq( ['lydian', 'ionian', 'locrian'], 2 )
+
+// stop the scale sequencing
+Scale.root[0].stop()
+Scale.mode[0].stop()
+Scale.root( 'c4' )
 
 // We can also define our own scales using chromatic scale indices. Unfortunately, 
 // microtuning with MIDI is very diffcult, so only the standard eleven notes of 
@@ -2539,15 +2555,16 @@ devices['amxd~'].chord.seq( [[0,2,4,5], [1,3,4,6]], 1 )
 devices['amxd~'].chord( 'c4maj7' )
 devices['amxd~'].chord( 'c#4sus7b9' )
 
-devices['amxd~'].chord.seq( ['c4dim7', 'bb3maj7', 'fb3aug7'], 2 )
+devices['amxd~'].chord.seq( ['c4dim7', 'bb3maj7', 'fb3aug7'], 1 )
 
 // OK, that's harmony in a nutshell. Next learn a bit about patterns and
 // pattern manipulation in gibberwocky in tutorial #4.`,
 
-['tutorial 4: patterns and pattern transformations']:`/* gibberwocky.midi - tutorial #4: Patterns and Transformations
+['tutorial 4: patterns and pattern transformations']:`/* gibberwocky.max - tutorial #4: Patterns and Transformations
  *
- * This tutorial covers the basics of using patterns in gibberwocky.midi. It assumes you
- * know the basics of sequencing (tutorial #2) and have an appropriate MIDI output setup.
+ * This tutorial covers the basics of using patterns in gibberwocky.max. It assumes you
+ * know the basics of sequencing (tutorial #2), have the patcher that accompanies this tutorial
+ * running (gibberwocky_tutorial_1-4), and the Global Transport running.
  *
  * In tutorial #2 we briefly mentioned that sequences consist of values and timings. These
  * are both stored in Pattern objects in gibberwocky, and these patterns can be controlled
@@ -2654,12 +2671,11 @@ ugens that are available, see the gen~ reference: https://docs.cycling74.com/max
 s = Score([
   0, ()=> devices['amxd~'].note.seq( -14, 1/4 ),
  
-  1, ()=> channels[1].note.seq( [0], Euclid(5,8) ),
+  1, ()=> devices['amxd~'].note.seq( [0], Euclid(5,8) ),
  
   2, ()=> {
     arp = Arp( [0,1,3,5], 3, 'updown2' )
-    channels[ 2 ].velocity( 8 )
-    channels[ 2 ].note.seq( arp, 1/32 )
+    devices['amxd~'].note.seq( arp, 1/32 )
   },
  
   2, ()=> arp.transpose( 1 ),
@@ -2670,9 +2686,9 @@ s = Score([
 // Scores can also be stopped automatically to await manual retriggering.
 
 s2 = Score([
-  0,   ()=> channels[ 0 ].note( 0 ),
+  0,   ()=> devices['amxd~'].note( 0 ),
 
-  1/2, ()=> channels[ 0 ].note( 1 ),
+  1/2, ()=> devices['amxd~'].note( 1 ),
 
   Score.wait, null,
 
@@ -2687,9 +2703,9 @@ s2.next()
  * an amount of time to wait between the end of one loop and the start of the next.*/
 
 s3 = Score([
-  0, ()=> channels[ 0 ].note.seq( 0, 1/4 ),
-  1, ()=> channels[ 0 ].note.seq( [0,7], 1/8 ),
-  1, ()=> channels[ 0 ].note.seq( [0, 7, 14], 1/12 )
+  0, ()=> devices['amxd~'].note.seq( 0, 1/4 ),
+  1, ()=> devices['amxd~'].note.seq( [0,7], 1/8 ),
+  1, ()=> devices['amxd~'].note.seq( [0, 7, 14], 1/12 )
 ])
 
 s3.loop( 1 )
@@ -2789,6 +2805,8 @@ midiArp.octaves = 2
 
 // store for faster reference
 E = Euclid
+
+devices['amxd~'].duration( 10 )
 
 // 5 pulses spread over 8 eighth notes
 devices['amxd~'].midinote.seq( 60, E(5,8) )
@@ -4662,13 +4680,15 @@ let seqclosure = function( Gibber ) {
       for( let seq of proto._seqs ) {
         seq.clear()
 
-        for( let key in seq.object.markup.textMarkers ) {
-          let marker = seq.object.markup.textMarkers[ key ]
+        if( seq.object !== undefined && seq.object.markup !== undefined ) {
+          for( let key in seq.object.markup.textMarkers ) {
+            let marker = seq.object.markup.textMarkers[ key ]
 
-          if( Array.isArray( marker ) ) {
-            marker.forEach( m => m.clear() )
-          }else{
-            if( marker.clear ) marker.clear() 
+            if( Array.isArray( marker ) ) {
+              marker.forEach( m => m.clear() )
+            }else{
+              if( marker.clear ) marker.clear() 
+            }
           }
         }
       }

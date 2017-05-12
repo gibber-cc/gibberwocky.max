@@ -54,7 +54,7 @@ signals[3]( mul( cycle( mul(beats(8), .5 ) ), .15 ) )
  * control UI objects.
  *
  * To start make sure you open the patch: 
- * gibberwocky_tutorial_2-5
+ * gibberwocky_tutorial_1-4
  *  ... that is included in the gibberwocky pacakge.
 */
 
@@ -107,11 +107,13 @@ devices['amxd~']['filter_resonance'](0)
 
 // OK, that's some basics out of the way. Try the sequencing tutorial next!`,
 
-[ 'tutorial 2: basic sequencing' ]: `/* gibberwocky.midi - tutorial #2: basic sequencing
+[ 'tutorial 2: basic sequencing' ]: `/* gibberwocky.max - tutorial #2: basic sequencing
  *
  * This tutorial will provide an introdution to sequencing messages in gibberwocky. In
  * order for sequencing in gibberwocky.max to work, you must start the Global Transport
- * running in Max/MSP. You can find this Max's menuabr under Window > Global Transport.
+ * running in Max/MSP. In the patcher for this tutorial (gibberwocky_tutorial_1-4) there's
+ * a link to open the Global Transport. Make sure you've opened this patcher to complete
+ * this tutorial, as we'll be using the included Laverne instrument.
  */
 
 // In tutorial #1, we saw how we could send MIDI messages to specific MIDI
@@ -178,11 +180,12 @@ devices['amxd~'].midichord.seq( [[60,64,68], [62,66,72]], 1/2 )
 // Move on to tutorial #3 to learn more about how to leverage music theory in gibberwocky.
 `,
 
-['tutorial 3: harmony'] :`
-/* gibberwocky.midi - tutorial #3: Harmony
+['tutorial 3: harmony'] :`/* gibberwocky.max - tutorial #3: Harmony
  *
  * This tutorial covers the basics of using harmony in gibberwocky.midi. It assumes you
  * know the basics of sequencing (tutorial #2) and have an appropriate MIDI output setup.
+ * It also assumes you have the patcher gibberwocky_tutorial_1-4 (included in the 
+ * gibberwocky package) opened and the transport runnning.
  *
  * In the previous tutorials we looked at using raw MIDI values to send messages. However,
  * using MIDI note numbers is not an ideal representation. gibberwocky includes knoweldge of
@@ -218,12 +221,17 @@ devices['amxd~'].note.seq( [-7,-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7], 1/8 )
 Scale.root( 'd4' )
 Scale.mode( 'lydian' )
 
-Scale.root( 'g2' )
+Scale.root( 'c4' )
 Scale.mode( 'phrygian' )
 
 // We can also sequence changes to the root / mode:
-Scale.root.seq( ['c2','d2','f2,'g2'], 2 )
+Scale.root.seq( ['c2','d2','f2','g2'], 2 )
 Scale.mode.seq( ['lydian', 'ionian', 'locrian'], 2 )
+
+// stop the scale sequencing
+Scale.root[0].stop()
+Scale.mode[0].stop()
+Scale.root( 'c4' )
 
 // We can also define our own scales using chromatic scale indices. Unfortunately, 
 // microtuning with MIDI is very diffcult, so only the standard eleven notes of 
@@ -251,15 +259,16 @@ devices['amxd~'].chord.seq( [[0,2,4,5], [1,3,4,6]], 1 )
 devices['amxd~'].chord( 'c4maj7' )
 devices['amxd~'].chord( 'c#4sus7b9' )
 
-devices['amxd~'].chord.seq( ['c4dim7', 'bb3maj7', 'fb3aug7'], 2 )
+devices['amxd~'].chord.seq( ['c4dim7', 'bb3maj7', 'fb3aug7'], 1 )
 
 // OK, that's harmony in a nutshell. Next learn a bit about patterns and
 // pattern manipulation in gibberwocky in tutorial #4.`,
 
-['tutorial 4: patterns and pattern transformations']:`/* gibberwocky.midi - tutorial #4: Patterns and Transformations
+['tutorial 4: patterns and pattern transformations']:`/* gibberwocky.max - tutorial #4: Patterns and Transformations
  *
- * This tutorial covers the basics of using patterns in gibberwocky.midi. It assumes you
- * know the basics of sequencing (tutorial #2) and have an appropriate MIDI output setup.
+ * This tutorial covers the basics of using patterns in gibberwocky.max. It assumes you
+ * know the basics of sequencing (tutorial #2), have the patcher that accompanies this tutorial
+ * running (gibberwocky_tutorial_1-4), and the Global Transport running.
  *
  * In tutorial #2 we briefly mentioned that sequences consist of values and timings. These
  * are both stored in Pattern objects in gibberwocky, and these patterns can be controlled
@@ -366,12 +375,11 @@ ugens that are available, see the gen~ reference: https://docs.cycling74.com/max
 s = Score([
   0, ()=> devices['amxd~'].note.seq( -14, 1/4 ),
  
-  1, ()=> channels[1].note.seq( [0], Euclid(5,8) ),
+  1, ()=> devices['amxd~'].note.seq( [0], Euclid(5,8) ),
  
   2, ()=> {
     arp = Arp( [0,1,3,5], 3, 'updown2' )
-    channels[ 2 ].velocity( 8 )
-    channels[ 2 ].note.seq( arp, 1/32 )
+    devices['amxd~'].note.seq( arp, 1/32 )
   },
  
   2, ()=> arp.transpose( 1 ),
@@ -382,9 +390,9 @@ s = Score([
 // Scores can also be stopped automatically to await manual retriggering.
 
 s2 = Score([
-  0,   ()=> channels[ 0 ].note( 0 ),
+  0,   ()=> devices['amxd~'].note( 0 ),
 
-  1/2, ()=> channels[ 0 ].note( 1 ),
+  1/2, ()=> devices['amxd~'].note( 1 ),
 
   Score.wait, null,
 
@@ -399,9 +407,9 @@ s2.next()
  * an amount of time to wait between the end of one loop and the start of the next.*/
 
 s3 = Score([
-  0, ()=> channels[ 0 ].note.seq( 0, 1/4 ),
-  1, ()=> channels[ 0 ].note.seq( [0,7], 1/8 ),
-  1, ()=> channels[ 0 ].note.seq( [0, 7, 14], 1/12 )
+  0, ()=> devices['amxd~'].note.seq( 0, 1/4 ),
+  1, ()=> devices['amxd~'].note.seq( [0,7], 1/8 ),
+  1, ()=> devices['amxd~'].note.seq( [0, 7, 14], 1/12 )
 ])
 
 s3.loop( 1 )
@@ -501,6 +509,8 @@ midiArp.octaves = 2
 
 // store for faster reference
 E = Euclid
+
+devices['amxd~'].duration( 10 )
 
 // 5 pulses spread over 8 eighth notes
 devices['amxd~'].midinote.seq( 60, E(5,8) )

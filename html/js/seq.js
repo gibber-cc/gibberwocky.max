@@ -15,13 +15,15 @@ let seqclosure = function( Gibber ) {
       for( let seq of proto._seqs ) {
         seq.clear()
 
-        for( let key in seq.object.markup.textMarkers ) {
-          let marker = seq.object.markup.textMarkers[ key ]
+        if( seq.object !== undefined && seq.object.markup !== undefined ) {
+          for( let key in seq.object.markup.textMarkers ) {
+            let marker = seq.object.markup.textMarkers[ key ]
 
-          if( Array.isArray( marker ) ) {
-            marker.forEach( m => m.clear() )
-          }else{
-            if( marker.clear ) marker.clear() 
+            if( Array.isArray( marker ) ) {
+              marker.forEach( m => m.clear() )
+            }else{
+              if( marker.clear ) marker.clear() 
+            }
           }
         }
       }
