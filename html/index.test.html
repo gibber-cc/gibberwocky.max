@@ -192,7 +192,7 @@ function seq(beat) {
 	// do some gen testing:
 	if (random(2) == 0) {
 		var phase = 0;
-		var param = "0"; //pick(scene.signals);
+		var param = pick(scene.signals);
 		
 		if (gens[param]) {
 			
