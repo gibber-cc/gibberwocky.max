@@ -29,14 +29,27 @@ module.exports = function( Gibber ) {
       }
     },
 
+    addIdToUgen( id, ugen ) {
+      if( typeof ugen === 'number' ) return
+      ugen.id = id
+      let count = 0
+      //debugger
+      while( typeof ugen[ count ] !== 'undefined' ) {
+        let _ugen = typeof ugen[count] === 'function' ? ugen[count]() : ugen[count]
+        Max.addIdToUgen( id, _ugen )
+        count++
+      }
+    },
+
     processMOM() {
       for( let signalNumber of Max.MOM.signals ) {
         Max.signals[ signalNumber ] = function( genGraph ) {
           if( typeof genGraph === 'number' ) {
             genGraph = Gibber.Gen.functions.param( genGraph )
           }
+          
+          Max.addIdToUgen( signalNumber, genGraph )
 
-          genGraph.id = signalNumber
           if( Gibber.Gen.connected.find( e => e.id === signalNumber ) === undefined ) {
             Gibber.Gen.connected.push( genGraph )
           }

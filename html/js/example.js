@@ -90,74 +90,72 @@ synth1.gollygee( 'willickers?' )
 // inserted into your code editor at the current cursor position. Add a call to midinote to the end of this
 // code snippet; it should look similar to the following:
 
-devices['amxd~'].midinote( 60 ) // send middle C
+devices['bass'].midinote( 60 ) // send middle C
 
 // Now uncollapse the branch for your device in the scene browser. This lists
-// all the parameters exposed for control on the Max for Live devie. Click on any
-// leaf to insert the full path to the control into your code editor. Assuming you chose
-// the 'filter_resonance' property you should see the following:
+// all the parameters exposed for control on the Max for Live device. Click on any
+// leaf to insert the full path to the control into your code editor. Here's the 
+// 'res' parameter controlling the resonance of the filter on the bassline instrument.
 
-devices['amxd~']['filter_resonance']
+devices['bass']['res']
 
 // This points to a function; we can pass this function a value to manipulate the
 // control.
 
-devices['amxd~']['filter_resonance'](0)
+devices['bass']['res']( 100 )
+
+devices['bass'].note( 'eb4' )
 
 // If you've used gibberwocky.live before, it's important to note that these controls
-// do not default to a range of {0,1}, although for the resonance parameter that happens
-// to be the correct range. For other controls it will be different.
+// do not default to a range of {0,1}. Many of the controls on bassline default to the 
+// standard MIDI range of {0,127}.
 
 // OK, that's some basics out of the way. Try the sequencing tutorial next!`,
 
-[ 'tutorial 2: basic sequencing' ]: `/* gibberwocky.max - tutorial #2: basic sequencing
+[ 'tutorial 2: basic sequencing' ]: `//* gibberwocky.max - tutorial #2: basic sequencing
  *
  * This tutorial will provide an introdution to sequencing messages in gibberwocky. In
  * order for sequencing in gibberwocky.max to work, you must start the Global Transport
- * running in Max/MSP. In the patcher for this tutorial (gibberwocky_tutorial_1-4) there's
+ * running in Max/MSP. In the gibberwocky help patcher there's
  * a link to open the Global Transport. Make sure you've opened this patcher to complete
- * this tutorial, as we'll be using the included Laverne instrument.
+ * this tutorial, as we'll be using the included Bassline instrument.
  */
 
 // In tutorial #1, we saw how we could send MIDI messages to specific MIDI
 // channel objects. We can easily sequence any of these methods by adding
 // a call to .seq(). For example:
 
-// send noteon message with a first value of 60
-devices['amxd~'].midinote( 60 )
+// send noteon message with a first value of 36
+devices['bass'].midinote( 36 )
 
 // send same value every quarter note
-devices['amxd~'].midinote.seq( 60, 1/4 )
+devices['bass'].midinote.seq( 36, 1/4 )
 
 // You can stop all sequences in gibberwocky with the Ctrl+. keyboard shortcut
 // (Ctrl + period). You can also stop all sequences on a specific channel:
 
-devices['amxd~'].stop()
+devices['bass'].stop()
 
 // Most sequences in gibberwocky contain values (60) and timings (1/4). To
 // sequence multiple values we simply pass an array:
 
-devices['amxd~'].midinote.seq( [60,72,48], 1/4 )
+devices['bass'].midinote.seq( [60,72,48], 1/4 )
 
 // ... and we can do the same thing with multiple timings:
 
-devices['amxd~'].midinote.seq( [60,72,48], [1/4,1/8] )
+devices['bass'].midinote.seq( [60,72,48], [1/4,1/8] )
 
 // We can also sequence our note velocities and durations.
-devices['amxd~'].midinote.seq( 60, 1/2 )
-devices['amxd~'].velocity.seq( [16, 64, 127], 1/2 )
-devices['amxd~'].duration.seq( [10, 100,500], 1/2 )
-
-// the same idea works for CC messages:
-devices['amxd~'].cc0( 64 )
-devices['amxd~'].cc0.seq( [0, 64, 127], 1/8 )
+devices['bass'].midinote.seq( 60, 1/2 )
+devices['bass'].velocity.seq( [16, 64, 127], 1/2 )
+devices['bass'].duration.seq( [10, 100,500], 1/2 )
 
 // If you experimented with running multiple variations of the midinote 
 // sequences you might have noticed that only one runs at a time. For example,
 // if you run these two lines:
 
-devices['amxd~'].midinote.seq( 72, 1/4 )
-devices['amxd~'].midinote.seq( 48, 1/4 )
+devices['bass'].midinote.seq( 72, 1/4 )
+devices['bass'].midinote.seq( 48, 1/4 )
 
 // ...you'll notice only the second one actually triggers. By default, gibberwocky
 // will replace an existing sequence with a new one. To stop this, you can pass an ID number 
@@ -167,28 +165,26 @@ devices['amxd~'].midinote.seq( 48, 1/4 )
 // sequence, the older sequence is stopped. If the sequences have different IDs they run 
 // concurrently. Note this makes it really easy to create polyrhythms.
 
-devices['amxd~'].midinote.seq( 48, 1 ) // assumes ID of 0
-devices['amxd~'].midinote.seq( 60, 1/2, 1 ) 
-devices['amxd~'].midinote.seq( 72, 1/3, 2 ) 
-devices['amxd~'].midinote.seq( 84, 1/7, 3 ) 
+devices['bass'].midinote.seq( 48, 1 ) // assumes ID of 0
+devices['bass'].midinote.seq( 60, 1/2, 1 ) 
+devices['bass'].midinote.seq( 72, 1/3, 2 ) 
+devices['bass'].midinote.seq( 84, 1/7, 3 ) 
 
 // We can also sequence calls to midichord. You might remember from the first tutorial
 // that we pass midichord an array of values, where each value represents one note. This
 // means we need to pass an array of arrays in order to move between different chords.
 
-devices['amxd~'].midichord.seq( [[60,64,68], [62,66,72]], 1/2 )
+devices['bass'].midichord.seq( [[60,64,68], [62,66,72]], 1/2 )
 
 // Even we're only sequencing a single chord, we still need to pass a 2D array. Of course,
 // specifying arrays of MIDI values is not necessarily an optimal representation for chords.
-// Move on to tutorial #3 to learn more about how to leverage music theory in gibberwocky.
-`,
+// Move on to tutorial #3 to learn more about how to leverage music theory in gibberwocky.`,
 
 ['tutorial 3: harmony'] :`/* gibberwocky.max - tutorial #3: Harmony
  *
  * This tutorial covers the basics of using harmony in gibberwocky.midi. It assumes you
  * know the basics of sequencing (tutorial #2) and have an appropriate MIDI output setup.
- * It also assumes you have the patcher gibberwocky_tutorial_1-4 (included in the 
- * gibberwocky package) opened and the transport runnning.
+ * It also assumes you have the gibberwocky help patch open and the transport running.
  *
  * In the previous tutorials we looked at using raw MIDI values to send messages. However,
  * using MIDI note numbers is not an ideal representation. gibberwocky includes knoweldge of
@@ -199,25 +195,25 @@ devices['amxd~'].midichord.seq( [[60,64,68], [62,66,72]], 1/2 )
  */
 
 // In our previous tutorial, we sent out C in the fourth octave by using MIDI number 60:
-devices['amxd~'].midinote( 60 )
+devices['bass'].midinote( 60 )
 
 // We can also specify notes with calls to the note() method by passing a name and octave.
-devices['amxd~'].note( 'c4' )
-devices['amxd~'].note( 'fb3' )
+devices['bass'].note( 'c4' )
+devices['bass'].note( 'fb3' )
 
-devices['amxd~'].note.seq( ['c4','e4','g4'], 1/8 )
+devices['bass'].note.seq( ['c4','e4','g4'], 1/8 )
 
 // remember, Ctrl+. stops all running sequences.
 
 // In gibberwocky, the default scale employed is C minor, starting in the fourth octave. 
 // This means that if we pass 0 as a value to note(), C4 will also be played.
-devices['amxd~'].note( 0 )
+devices['bass'].note( 0 )
 
 // sequence C minor scale, starting in the fourth octave:
-devices['amxd~'].note.seq( [0,1,2,3,4,5,6,7], 1/8 )
+devices['bass'].note.seq( [0,1,2,3,4,5,6,7], 1/8 )
 
 // negative scale indices also work:
-devices['amxd~'].note.seq( [-7,-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7], 1/8 )
+devices['bass'].note.seq( [-7,-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7], 1/8 )
 
 // there is a global Scale object we can use to change the root and mode
 // for all scales. Run the lines below individually  with the previous note sequence running.
@@ -249,20 +245,26 @@ Scale.mode.seq( ['my mode', 'another mode'], 4 )
 
 /******** chords **********/
 // Last but not least there are a few different ways to specify chords in gibberwocky.
-// First, we can use note names:
+// First, clear the current scene using Ctrl+.
 
-devices['amxd~'].chord( ['c4','eb4','gb4','a4'] )
+// change the release time, scale mode, and root
+devices['bass'].release( 75 )
+
+// We can use note names:
+devices['bass'].chord( ['c4','eb4','gb4','a4'] )
 
 // Or we can use scale indices:
-devices['amxd~'].chord( [0,2,4,5] )
+devices['bass'].chord( [0,2,4,5] )
 
-devices['amxd~'].chord.seq( [[0,2,4,5], [1,3,4,6]], 1 )
+// sequence in two-dimensional array
+devices['bass'].chord.seq( [[0,2,4,5], [1,3,4,6]], 1 )
 
 // We can also use strings that identify common chord names.
-devices['amxd~'].chord( 'c4maj7' )
-devices['amxd~'].chord( 'c#4sus7b9' )
+devices['bass'].chord( 'c4maj7' )
+devices['bass'].chord( 'c#4sus7b9' )
 
-devices['amxd~'].chord.seq( ['c4dim7', 'bb3maj7', 'fb3aug7'], 1 )
+
+devices['bass'].chord.seq( ['c4dim7', 'bb3maj7', 'fb3aug7'], 1 )
 
 // OK, that's harmony in a nutshell. Next learn a bit about patterns and
 // pattern manipulation in gibberwocky in tutorial #4.`,
@@ -270,8 +272,8 @@ devices['amxd~'].chord.seq( ['c4dim7', 'bb3maj7', 'fb3aug7'], 1 )
 ['tutorial 4: patterns and pattern transformations']:`/* gibberwocky.max - tutorial #4: Patterns and Transformations
  *
  * This tutorial covers the basics of using patterns in gibberwocky.max. It assumes you
- * know the basics of sequencing (tutorial #2), have the patcher that accompanies this tutorial
- * running (gibberwocky_tutorial_1-4), and the Global Transport running.
+ * know the basics of sequencing (tutorial #2), have the the gibberwocky help patch
+ * loaded, and the Global Transport running.
  *
  * In tutorial #2 we briefly mentioned that sequences consist of values and timings. These
  * are both stored in Pattern objects in gibberwocky, and these patterns can be controlled
@@ -289,31 +291,31 @@ Gibber.log( myvalues() ) // 65
 Gibber.log( myvalues() ) // back to 60...
 
 // sequence using this pattern:
-devices['amxd~'].midinote.seq( myvalues, 1/8 )
+devices['bass'].midinote.seq( myvalues, 1/8 )
 
 // Everytime we pass values and timings to .seq(), it converts these into Pattern objects
 // (unless we're already passing a Pattern object(s)). Remember from tutorial #2 that
 // all of our sequences have an ID number, which defaults to 0. We can access these patterns
 // as follows:
 
-devices['amxd~'].midinote.seq( [36,48,60,72], [1/2,1/4] )
-Gibber.log( devices['amxd~'].midinote[0].values.toString() ) 
-Gibber.log( devices['amxd~'].midinote[0].timings.toString() ) 
+devices['bass'].midinote.seq( [62,74,38,50], [1/2,1/4] )
+Gibber.log( devices['bass'].midinote[0].values.toString() ) 
+Gibber.log( devices['bass'].midinote[0].timings.toString() ) 
 
 // Now that we can access them, we can apply transformations:
 
-devices['amxd~'].midinote[0].values.reverse()
-devices['amxd~'].midinote[0].values.transpose( 1 ) // add 1 to each value
-devices['amxd~'].midinote[0].values.scale( 1.5 )   // scale each value by .5
-devices['amxd~'].midinote[0].values.rotate( 1 )    // shift values to the right
-devices['amxd~'].midinote[0].values.rotate( -1 )   // shift values to the left
-devices['amxd~'].midinote[0].values.reset()        // reset to initial values
+devices['bass'].midinote[0].values.reverse()
+devices['bass'].midinote[0].values.transpose( 1 ) // add 1 to each value
+devices['bass'].midinote[0].values.scale( 1.5 )    // scale each value by .5
+devices['bass'].midinote[0].values.rotate( 1 )    // shift values to the right
+devices['bass'].midinote[0].values.rotate( -1 )   // shift values to the left
+devices['bass'].midinote[0].values.reset()        // reset to initial values
 
 // We can sequence these transformations:
-devices['amxd~'].midinote[0].values.rotate.seq( 1,1 )
-devices['amxd~'].midinote[0].values.reverse.seq( 1, 2 )
-devices['amxd~'].midinote[0].values.transpose.seq( 1, 2 )
-devices['amxd~'].midinote[0].values.reset.seq( 1, 8 )
+devices['bass'].midinote[0].values.rotate.seq( 1,1 )
+devices['bass'].midinote[0].values.reverse.seq( 1, 2 )
+devices['bass'].midinote[0].values.transpose.seq( 1, 2 )
+devices['bass'].midinote[0].values.reset.seq( 1, 8 )
 
 // This enables us to quickly create variation over time. One more tutorial to go!
 // Learn more about creating synthesis graphs for modulation in tutorial #5.`,
