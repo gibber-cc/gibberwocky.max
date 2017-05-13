@@ -3142,10 +3142,6 @@ namespace('squelch').seq( 1, [1/4,1/16,1].rnd(1/16,4) )
 params['White_Queen'].seq( [32,64,92,127], 1  )
 params['Red_Queen'].seq( [32,64,96,127], 1 ) 
 
-// rotate and reverse sequences over time
-params['Red_Queen'][0].values.rotate.seq( 1, 2 )
-params['White_Queen'][0].values.reverse.seq( 1, 4 )
-
 // send a sine wave out outlet 2 (the first signal outlet)
 signals[0]( cycle(.1) ) 
 
@@ -4458,7 +4454,7 @@ module.exports = function( Gibber ) {
     },
 
     addIdToUgen( id, ugen ) {
-      if( typeof ugen === 'number' ) return
+      if( typeof ugen === 'number' || ugen === 'in1' ) return
       ugen.id = id
       let count = 0
       //debugger

@@ -11,12 +11,12 @@ const Examples = {
  */
 
 // start kick drum on Max for Live device
-devices['drums'].midinote.seq( 36, 1/4, 1 )
+devices['drums'].midinote.seq( 36, Euclid(5,8) )
 
 // randomly pick between open and closed hi-hats
 // and eighth notes vs. 1/16th notes. If 1/16th
 // notes are played, always play two back to back.
-devices['drums'].midinote.seq( [42,46].rnd(), [1/8,1/16].rnd(1/16,2) )
+devices['drums'].midinote.seq( [42,46].rnd(), [1/8,1/16].rnd(1/16,2), 1 )
 
 // play a scintillating bass line
 devices['bass'].note.seq( [-14,-12,-9,-8], 1/8 )
@@ -29,10 +29,6 @@ namespace('squelch').seq( 1, [1/4,1/16,1].rnd(1/16,4) )
 // set values of named UI elements in patcher interface
 params['White_Queen'].seq( [32,64,92,127], 1  )
 params['Red_Queen'].seq( [32,64,96,127], 1 ) 
-
-// rotate and reverse sequences over time
-params['Red_Queen'][0].values.rotate.seq( 1, 2 )
-params['White_Queen'][0].values.reverse.seq( 1, 4 )
 
 // send a sine wave out outlet 2 (the first signal outlet)
 signals[0]( cycle(.1) ) 
