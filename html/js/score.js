@@ -23,6 +23,8 @@ let Score = {
   create( data, track = Gibber.currentTrack ) {
     let score = Object.create( this )
     
+    Gibber.Environment.codeMarkup.prepareObject( score )
+
     Object.assign( score, {
       track,
       timeline:   [],
@@ -153,7 +155,7 @@ let Score = {
             fnc.call( this.track )
           }
           
-          let marker      = Gibber.currentTrack.markup.textMarkers[ 'score' ][ this.index - 1 ],
+          let marker      = this.markup.textMarkers[ 'score' ][ this.index - 1 ],
               pos         = marker.find(),
               funcBody    = fnc.toString(),
               isMultiLine = funcBody.includes('\n'),
@@ -196,7 +198,7 @@ let Score = {
           //code = funcBody.match(/(?:(?:\(\))*(?:_)*(?:=>)\s*(?:\{)*)([\"\'\.\{\}\(\)\w\d\s\n]+)(?:\})/i)[1]
 
           // TODO: should not be Gibber.currentTrack ?
-          Gibber.Environment.codeMarkup.process( code, pos, Gibber.Environment.codemirror, Gibber.currentTrack )
+          Gibber.Environment.codeMarkup.process( code, pos, Gibber.Environment.codemirror, this )
 
           if( typeof this.onadvance === 'function' ) this.onadvance( this.index - 1 )
         }

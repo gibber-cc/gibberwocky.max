@@ -374,13 +374,13 @@ ugens that are available, see the gen~ reference: https://docs.cycling74.com/max
 // loop(), pause() and rewind() methods.
 
 s = Score([
-  0, ()=> devices['amxd~'].note.seq( -14, 1/4 ),
+  0, ()=> devices['bass'].note.seq( -14, 1/4 ),
  
-  1, ()=> devices['amxd~'].note.seq( [0], Euclid(5,8) ),
+  1, ()=> devices['bass'].note.seq( 0, Euclid(5,8) ),
  
   2, ()=> {
     arp = Arp( [0,1,3,5], 3, 'updown2' )
-    devices['amxd~'].note.seq( arp, 1/32 )
+    devices['bass'].note.seq( arp, 1/32 )
   },
  
   2, ()=> arp.transpose( 1 ),
@@ -391,13 +391,13 @@ s = Score([
 // Scores can also be stopped automatically to await manual retriggering.
 
 s2 = Score([
-  0,   ()=> devices['amxd~'].note( 0 ),
+  0,   ()=> devices['bass'].note( 0 ),
 
-  1/2, ()=> devices['amxd~'].note( 1 ),
+  1/2, ()=> devices['bass'].note( 1 ),
 
   Score.wait, null,
 
-  0,   ()=> devices['amxd~'].note( 2 )
+  0,   ()=> devices['bass'].note( 2 )
 ])
 
 // restart playback
@@ -408,12 +408,13 @@ s2.next()
  * an amount of time to wait between the end of one loop and the start of the next.*/
 
 s3 = Score([
-  0, ()=> devices['amxd~'].note.seq( 0, 1/4 ),
-  1, ()=> devices['amxd~'].note.seq( [0,7], 1/8 ),
-  1, ()=> devices['amxd~'].note.seq( [0, 7, 14], 1/12 )
+  0, ()=> devices['bass'].note.seq( 0, 1/4 ),
+  1, ()=> devices['bass'].note.seq( [0,7], 1/8 ),
+  1, ()=> devices['bass'].note.seq( [0, 7, 14], 1/12 )
 ])
 
 s3.loop( 1 )
+
 `,
 
 ['using the Arp() object (arpeggiator)']:
@@ -433,7 +434,7 @@ myarp = Arp( [0,2,4,5], 4, 'updown' )
 // other modes include 'up' and 'down'. XXX updown2 is broken :( 
 
 // play arpeggiator with 1/16 notes
-devices['amxd~'].note.seq( myarp, 1/16 )
+devices['bass'].note.seq( myarp, 1/16 )
 
 // change root of Scale (see tutorial #3)
 Scale.root( 'c2' )
@@ -448,7 +449,7 @@ myarp.transpose.seq( 1,1 )
 myarp.reset()
 
 // stop arpeggiator
-devices['amxd~'].stop()
+devices['bass'].stop()
 
 // The Arp() object can also be used with MIDI note values instead of
 // gibberwocky's system of harmony. However, arp objects are designed
@@ -459,7 +460,7 @@ devices['amxd~'].stop()
 
 midiArp = Arp( [60,62,64,67,71], 4, 'down', 12 )
 
-devices['amxd~'].midinote.seq( midiArp, 1/32 )
+devices['bass'].midinote.seq( midiArp, 1/32 )
 
 // bring everything down an octace
 midiArp.transpose( -12 )
@@ -511,21 +512,21 @@ midiArp.octaves = 2
 // store for faster reference
 E = Euclid
 
-devices['amxd~'].duration( 10 )
+devices['bass'].duration( 10 )
 
 // 5 pulses spread over 8 eighth notes
-devices['amxd~'].midinote.seq( 60, E(5,8) )
+devices['bass'].midinote.seq( 60, E(5,8) )
 
 // 3 pulses spread over 8 sixteenth notes
-devices['amxd~'].midinote.seq( 48, E( 3, 8, 1/16 ), 1  )
+devices['bass'].midinote.seq( 48, E( 3, 8, 1/16 ), 1  )
 
 // a quick way of notating x.x.
-devices['amxd~'].midinote.seq( 36, E(2,4), 2 ) 
+devices['bass'].midinote.seq( 36, E(2,4), 2 ) 
 
 // because Euclid() generates Pattern objects (see tutorial #3)
 // we can transform the patterns it generates:
 
-devices['amxd~'].midinote[1].timings.rotate.seq( 1,1 )
+devices['bass'].midinote[1].timings.rotate.seq( 1,1 )
 
 `,
 

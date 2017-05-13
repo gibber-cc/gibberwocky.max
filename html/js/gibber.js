@@ -162,7 +162,7 @@ let Gibber = {
             count++
           }
 
-          markers.clear()
+          //markers.clear()
         }
 
         binop = obj.markup.textMarkers[ s.timings.patternName + '_binop' ]
