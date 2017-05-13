@@ -2307,12 +2307,12 @@ const Examples = {
  */
 
 // start kick drum on Max for Live device
-devices['drums'].midinote.seq( 36, 1/4, 1 )
+devices['drums'].midinote.seq( 36, Euclid(5,8) )
 
 // randomly pick between open and closed hi-hats
 // and eighth notes vs. 1/16th notes. If 1/16th
 // notes are played, always play two back to back.
-devices['drums'].midinote.seq( [42,46].rnd(), [1/8,1/16].rnd(1/16,2) )
+devices['drums'].midinote.seq( [42,46].rnd(), [1/8,1/16].rnd(1/16,2), 1 )
 
 // play a scintillating bass line
 devices['bass'].note.seq( [-14,-12,-9,-8], 1/8 )
@@ -2323,7 +2323,7 @@ namespace('bell').seq( 1, [1/8,1/16,1/4].rnd(1/16,2) )
 namespace('squelch').seq( 1, [1/4,1/16,1].rnd(1/16,4) )
 
 // set values of named UI elements in patcher interface
-params['White_Queen'].seq( [32,64,92,127], 1  )
+params['White_Queen'].seq( [10,32,64,92,127], 1  )
 params['Red_Queen'].seq( [32,64,96,127], 1 ) 
 
 // send a sine wave out outlet 2 (the first signal outlet)
@@ -4945,6 +4945,39 @@ module.exports = function( Gibber ) {
   
 let Steps = {
   type:'Steps',
+  externalMessages: {
+    note( number, beat, trackID ) {
+      let msgstring = "add " + beat + " " + t + " " + n + " " + v + " " + d
+
+      return `${trackID} add ${beat} note ${number}` 
+    },
+    midinote( number, beat, object, seq ) {
+      console.log( object, seq )
+      let msg = `add ${beat} midinote ${object.path} ${number} ${object.__velocity} ${object.__duration}` 
+      return msg 
+    },
+    duration( value, beat, trackID ) {
+      return `${trackID} add ${beat} duration ${value}` 
+    },
+
+    velocity( value, beat, trackID ) {
+      return `${trackID} add ${beat} velocity ${value}` 
+    },
+
+    chord( chord, beat, trackID ) {
+      //console.log( chord )
+      let msg = []
+
+      for( let i = 0; i < chord.length; i++ ) {
+        msg.push( `${trackID} add ${beat} note ${chord[i]}` )
+      }
+
+      return msg
+    },
+    cc( number, value, beat ) {
+      return `${trackID} add ${beat} cc ${number} ${value}`
+    },
+  },
   create( _steps, track = Gibber.currentTrack ) {
     let stepseq = Object.create( Steps )
     
@@ -4956,6 +4989,8 @@ let Steps = {
           key = parseInt( _key )
 
       let seq = Gibber.Seq( values, 1 / values.length, 'midinote', track, 0 )
+      seq.externalMessages = Steps.externalMessages
+
       seq.trackID = track.id
 
       seq.values.filters.push( function( args ) {

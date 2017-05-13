@@ -27,7 +27,7 @@ namespace('bell').seq( 1, [1/8,1/16,1/4].rnd(1/16,2) )
 namespace('squelch').seq( 1, [1/4,1/16,1].rnd(1/16,4) )
 
 // set values of named UI elements in patcher interface
-params['White_Queen'].seq( [32,64,92,127], 1  )
+params['White_Queen'].seq( [10,32,64,92,127], 1  )
 params['Red_Queen'].seq( [32,64,96,127], 1 ) 
 
 // send a sine wave out outlet 2 (the first signal outlet)
@@ -551,10 +551,10 @@ devices['amxd~'].midinote[1].timings.rotate.seq( 1,1 )
  * accessed at a[60]. Note that you have to access with brackets
  * as a.60 is not valid JavaScript.
  *
- * The second argument to Steps is the channel to target. Note
+ * The second argument to Steps is the instrument to target. Note
  * that while the example below is designed to work with the
  * Analogue Drums device found in the gibberwocky help file,
- * that instrument is NOT velocity sensitive. 
+ * that instrument is actually NOT velocity sensitive. 
  */
 
 steps = Steps({
@@ -565,7 +565,7 @@ steps = Steps({
   [45]: '..c.f....f..f..3',  
   [42]: '.e.a.a...e.a.e.a',  
   [46]: '..............e.',
-}, devices['amxd~'] )
+}, devices['drums'] )
 
 // rotate one pattern (assigned to midinote 71)
 // in step sequencer  every measure
