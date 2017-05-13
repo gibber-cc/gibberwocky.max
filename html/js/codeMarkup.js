@@ -29,9 +29,11 @@ let Marker = {
     obj.markup = {
       textMarkers: {},
       cssClasses:  {},
+
       clear() {
         for( let key in obj.markup.textMarkers ) {
           let marker = obj.markup.textMarkers[ key ]
+          console.log( marker )
           if( Array.isArray( marker ) ) {
             marker.forEach( m => m.clear() )
           }else{
@@ -646,6 +648,7 @@ let Marker = {
 
           const marker2 = cm.markText( divStart, divEnd, { className:cssClassName + '_binop annotation-binop' })
 
+          channel.markup.textMarkers[ cssClassName + '_binop' ] = marker2
 
         }else if (element.type === 'UnaryExpression' ) {
           marker = cm.markText( elementStart, elementEnd, { 

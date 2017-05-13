@@ -1127,9 +1127,11 @@ let Marker = {
     obj.markup = {
       textMarkers: {},
       cssClasses:  {},
+
       clear() {
         for( let key in obj.markup.textMarkers ) {
           let marker = obj.markup.textMarkers[ key ]
+          console.log( marker )
           if( Array.isArray( marker ) ) {
             marker.forEach( m => m.clear() )
           }else{
@@ -1744,6 +1746,7 @@ let Marker = {
 
           const marker2 = cm.markText( divStart, divEnd, { className:cssClassName + '_binop annotation-binop' })
 
+          channel.markup.textMarkers[ cssClassName + '_binop' ] = marker2
 
         }else if (element.type === 'UnaryExpression' ) {
           marker = cm.markText( elementStart, elementEnd, { 
@@ -3663,10 +3666,10 @@ devices['amxd~'].midinote[1].timings.rotate.seq( 1,1 )
  * accessed at a[60]. Note that you have to access with brackets
  * as a.60 is not valid JavaScript.
  *
- * The second argument to Steps is the channel to target. Note
+ * The second argument to Steps is the instrument to target. Note
  * that while the example below is designed to work with the
  * Analogue Drums device found in the gibberwocky help file,
- * that instrument is NOT velocity sensitive. 
+ * that instrument is actually NOT velocity sensitive. 
  */
 
 steps = Steps({
@@ -3677,7 +3680,7 @@ steps = Steps({
   [45]: '..c.f....f..f..3',  
   [42]: '.e.a.a...e.a.e.a',  
   [46]: '..............e.',
-}, devices['amxd~'] )
+}, devices['drums'] )
 
 // rotate one pattern (assigned to midinote 71)
 // in step sequencer  every measure
@@ -5768,7 +5771,6 @@ let Steps = {
       return `${trackID} add ${beat} note ${number}` 
     },
     midinote( number, beat, object, seq ) {
-      console.log( object, seq )
       let msg = `add ${beat} midinote ${object.path} ${number} ${object.__velocity} ${object.__duration}` 
       return msg 
     },
