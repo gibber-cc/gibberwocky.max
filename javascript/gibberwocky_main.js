@@ -151,7 +151,7 @@ function parse_patcher_json(p, scene){
 		var args = text.split(" ");
 		var op = args.shift();
 		
-		post("conected", i, op, args.join(""), "\n");
+		//post("conected", i, op, args.join(""), "\n");
 		
 		switch(op) {
 		case "route":
