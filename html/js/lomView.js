@@ -79,25 +79,20 @@ let lomView = {
   },
 
   create() {
-    let paramsBranch = lomView.tree.add({ label:'params', id:'params' })
+    let paramsBranch = lomView.tree.add({ label:'params', id:'params', opened:true })
     for( let param of Gibber.Max.MOM.root.params ) {
-      lomView.tree.add({ label:param.varname, id:param.varname, parent:'params' })
+      lomView.tree.add({ label:param.varname, id:param.varname, parent:'params', opened:true })
     }
 
-    let namespaceBranch = lomView.tree.add({ label:'namespaces', id:'namespaces' })
+    let namespaceBranch = lomView.tree.add({ label:'namespaces', id:'namespaces', opened:true })
     for( let ns of Gibber.Max.MOM.namespaces ) {
       lomView.tree.add({ label:ns, id:ns, parent:'namespaces' })
     }
-    for( let r in Gibber.Max.MOM.receives ) {
-      lomView.tree.add({ label:r, id:r, parent:'namespaces' })
-    }
 
-    let deviceBranch = lomView.tree.add({ label:'devices', id:'devices' })
+    let deviceBranch = lomView.tree.add({ label:'devices', id:'devices', opened:true })
     for( let deviceName in Gibber.Max.devices ) {
       lomView.processDevice( Gibber.Max.devices[ deviceName ] )
     }
-    //Gibber.Live.returns.forEach( v => lomView.processTrack( v ) ) // 'return ' + v.id ) )
-    //lomView.processTrack( Gibber.Live.master )
   }
 }
 

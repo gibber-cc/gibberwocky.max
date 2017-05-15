@@ -108,7 +108,7 @@ devices['bass'].note( 'eb4' )
 
 // OK, that's some basics out of the way. Try the sequencing tutorial next!`,
 
-[ 'tutorial 2: basic sequencing' ]: `//* gibberwocky.max - tutorial #2: basic sequencing
+[ 'tutorial 2: basic sequencing' ]: `/* gibberwocky.max - tutorial #2: basic sequencing
  *
  * This tutorial will provide an introdution to sequencing messages in gibberwocky. In
  * order for sequencing in gibberwocky.max to work, you must start the Global Transport

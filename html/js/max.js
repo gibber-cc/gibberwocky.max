@@ -91,6 +91,7 @@ module.exports = function( Gibber ) {
 
     msg( str ) {
       let msg = function( ...args ) { 
+        console.log('args', args )
         Gibber.Communication.send( str + ' ' + args.join(' ') )
       }
       msg.address = msg.path = str
@@ -121,11 +122,13 @@ module.exports = function( Gibber ) {
     },
 
     createProperty( target, prop ) {
-      Gibber.Seq.proto.externalMessages[ target.address + prop ] = ( value, beat ) => {
+      Gibber.addMethod( target, prop )
+
+      // override external message so that it doesn't send the property name twice
+      Gibber.Seq.proto.externalMessages[ target.address + ' ' + prop ] = ( value, beat ) => {
         let msg = `add ${beat} ${prop} ${value}`  
         return msg
       }
-      Gibber.addMethod( target, prop )
     }
   }
 

@@ -3223,7 +3223,7 @@ devices['bass'].note( 'eb4' )
 
 // OK, that's some basics out of the way. Try the sequencing tutorial next!`,
 
-[ 'tutorial 2: basic sequencing' ]: `//* gibberwocky.max - tutorial #2: basic sequencing
+[ 'tutorial 2: basic sequencing' ]: `/* gibberwocky.max - tutorial #2: basic sequencing
  *
  * This tutorial will provide an introdution to sequencing messages in gibberwocky. In
  * order for sequencing in gibberwocky.max to work, you must start the Global Transport
@@ -4401,25 +4401,20 @@ let lomView = {
   },
 
   create() {
-    let paramsBranch = lomView.tree.add({ label:'params', id:'params' })
+    let paramsBranch = lomView.tree.add({ label:'params', id:'params', opened:true })
     for( let param of Gibber.Max.MOM.root.params ) {
-      lomView.tree.add({ label:param.varname, id:param.varname, parent:'params' })
+      lomView.tree.add({ label:param.varname, id:param.varname, parent:'params', opened:true })
     }
 
-    let namespaceBranch = lomView.tree.add({ label:'namespaces', id:'namespaces' })
+    let namespaceBranch = lomView.tree.add({ label:'namespaces', id:'namespaces', opened:true })
     for( let ns of Gibber.Max.MOM.namespaces ) {
       lomView.tree.add({ label:ns, id:ns, parent:'namespaces' })
     }
-    for( let r in Gibber.Max.MOM.receives ) {
-      lomView.tree.add({ label:r, id:r, parent:'namespaces' })
-    }
 
-    let deviceBranch = lomView.tree.add({ label:'devices', id:'devices' })
+    let deviceBranch = lomView.tree.add({ label:'devices', id:'devices', opened:true })
     for( let deviceName in Gibber.Max.devices ) {
       lomView.processDevice( Gibber.Max.devices[ deviceName ] )
     }
-    //Gibber.Live.returns.forEach( v => lomView.processTrack( v ) ) // 'return ' + v.id ) )
-    //lomView.processTrack( Gibber.Live.master )
   }
 }
 
@@ -4519,6 +4514,7 @@ module.exports = function( Gibber ) {
 
     msg( str ) {
       let msg = function( ...args ) { 
+        console.log('args', args )
         Gibber.Communication.send( str + ' ' + args.join(' ') )
       }
       msg.address = msg.path = str
@@ -4549,11 +4545,14 @@ module.exports = function( Gibber ) {
     },
 
     createProperty( target, prop ) {
-      Gibber.Seq.proto.externalMessages[ target.address + prop ] = ( value, beat ) => {
+      console.log('TARGET', target )
+
+      Gibber.addMethod( target, prop )
+      Gibber.Seq.proto.externalMessages[ target.address + ' ' + prop ] = ( value, beat ) => {
+        console.log('seq', prop, value )
         let msg = `add ${beat} ${prop} ${value}`  
         return msg
       }
-      Gibber.addMethod( target, prop )
     }
   }
 
