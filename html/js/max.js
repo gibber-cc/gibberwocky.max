@@ -91,7 +91,6 @@ module.exports = function( Gibber ) {
 
     msg( str ) {
       let msg = function( ...args ) { 
-        console.log('args', args )
         Gibber.Communication.send( str + ' ' + args.join(' ') )
       }
       msg.address = msg.path = str

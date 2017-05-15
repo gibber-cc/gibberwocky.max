@@ -3204,6 +3204,10 @@ let Gibber = {
     window.params        = this.Max.params
     window.namespace     = this.Max.msg
     window.devices       = this.Max.devices
+
+    window.note = v => {
+       return window.Theory.Note.create( v )
+    }
     
     Gibber.Gen.export( window )
 
@@ -3698,7 +3702,6 @@ module.exports = function( Gibber ) {
 
     msg( str ) {
       let msg = function( ...args ) { 
-        console.log('args', args )
         Gibber.Communication.send( str + ' ' + args.join(' ') )
       }
       msg.address = msg.path = str
@@ -3729,11 +3732,10 @@ module.exports = function( Gibber ) {
     },
 
     createProperty( target, prop ) {
-      console.log('TARGET', target )
-
       Gibber.addMethod( target, prop )
+
+      // override external message so that it doesn't send the property name twice
       Gibber.Seq.proto.externalMessages[ target.address + ' ' + prop ] = ( value, beat ) => {
-        console.log('seq', prop, value )
         let msg = `add ${beat} ${prop} ${value}`  
         return msg
       }

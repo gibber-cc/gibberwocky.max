@@ -34,6 +34,10 @@ let Gibber = {
     window.params        = this.Max.params
     window.namespace     = this.Max.msg
     window.devices       = this.Max.devices
+
+    window.note = v => {
+       return window.Theory.Note.create( v )
+    }
     
     Gibber.Gen.export( window )
 
