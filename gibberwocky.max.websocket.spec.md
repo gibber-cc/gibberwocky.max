@@ -12,7 +12,7 @@ Read more about the project here: [http://homes.create.aau.dk/dano/nime17/papers
 
 Messages are sent as regular strings with spaces for arguments. Multiple messages can be packed into a single packet send by delimiting with the "|" bar symbol. 
 
-Most messages are prefixed with timing info for scheduling in the future (the ```add <time> ``` prefix). The ```time``` parameter here is a floating point value measured in the underlying pulse, or beats, of Max's global transport. So, for example, to schedule an event half-way through the 2nd beat of the bar, prefix the event message with ```add 2.5 ```. In most cases the integer portion of the ```<time>``` argument should be the same value as received by the ```seq <time>``` message described below. 
+Most messages are prefixed with timing info for scheduling in the future (the ```add <time> ``` prefix). The ```time``` parameter here is a floating point value measured in the underlying pulse, or beats, of Max's global transport. So, for example, to schedule an event half-way through the 2nd beat of the bar, prefix the event message with ```add 2.5 ```. Note that Max counts pulse/beat values from 1. In any case, for most cases the integer portion of the ```<time>``` argument should be the same value as received by the ```seq <time>``` message described below. 
 
 > Note: the ```add <time> ``` prefix is optional. If ommitted, the message will be executed as soon as it arrives (subject to unpredictable network and processing latencies). For example, to send a MIDI note immediately use ```midinote <pitch> <velocity> <duration>``` instead of ```add <time> midinote <pitch> <velocity> <duration>```.
 
@@ -53,7 +53,7 @@ defines a new signal modulation for one of the gibberwocky signal outlets.
 - index: the signal outlet index, where the first signal outlet is 0, the second is 1, etc.
 - genexpr: a string of valid GenExpr code (see [documentation](https://docs.cycling74.com/max7/vignettes/gen_genexpr)) which defines one output (e.g. ```out1=0.5;```).
 
-E.g. ```add 0.5 sig 0 expr "Param p0(5); out1=cycle(p0);"``` will assign a 5Hz oscillator to the first signal outlet of gibberwocky at time 0.5 beats.
+E.g. ```add 3.5 sig 0 expr "Param p0(5); out1=cycle(p0);"``` will assign a 5Hz oscillator to the first signal outlet of gibberwocky at time 3.5 beats.
 
 ```add <time> sig <index> param <name> <value>```
 
