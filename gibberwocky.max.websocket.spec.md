@@ -10,17 +10,19 @@ Read more about the project here: [http://homes.create.aau.dk/dano/nime17/papers
 
 ## What the client (browser) sends to Max:
 
-Most messages can be either prefixed with timing info for scheduling in the future (the "add <time in beats> " prefix), or this prefix can be ommitted, in which case the message will be executed as soon as it arrives. For example, to send a MIDI note immediately use "midinote pitch velocity duration" instead of "add time pitch velocity duration".
-
 Messages are sent as regular strings with spaces for arguments. Multiple messages can be packed into a single packet send by delimiting with the "|" bar symbol. 
+
+Most messages are prefixed with timing info for scheduling in the future (the ```add <time> ``` prefix). The ```time``` parameter here is a floating point value measured in the underlying pulse, or beats, of Max's global transport. So, for example, to schedule an event half-way through the 2nd beat of the bar, prefix the event message with ```add 2.5 ```. In most cases the integer portion of the ```<time>``` argument should be the same value as received by the ```seq <time>``` message described below. 
+
+> Note: the ```add <time> ``` prefix is optional. If ommitted, the message will be executed as soon as it arrives (subject to unpredictable network and processing latencies). For example, to send a MIDI note immediately use ```midinote <pitch> <velocity> <duration>``` instead of ```add <time> midinote <pitch> <velocity> <duration>```.
 
 ### Global
 
-```get_scene``` -- requests Gibberwocky to inspect the patcher's available modulation points. The response will be a stringified JSON dictionary. Typically send this message when the client connects to Gibberwocky.
+```get_scene``` -- requests Gibberwocky to inspect the patcher's available modulation points. The response will be a stringified JSON dictionary (described below). Typically send this message when the client connects to Gibberwocky.
 
-### Params
+### Scripting-name messages ("parameters")
 
-```set <name> <message...>```
+```add <time> set <name> <message...>```
 
 sends a message to any valid object via its scripting name (via pattrforward)
 - name: the valid scripting name / pattr path of the target object
@@ -32,7 +34,7 @@ E.g. ```set amxd~ snare-decay 300``` means immediately send the message ```snare
 
 ### MIDI notes
 
-```midinote <name> <pitch> <velocity> <duration>```
+```add <time> midinote <name> <pitch> <velocity> <duration>```
 
 triggers a MIDI note on a device in the patcher.
 - name: the scripting name of the device
@@ -45,7 +47,7 @@ E.g. ```add 1 midinote drums 42 127 500``` schedules a midinote at beat 1.0 on t
 
 Messages to control the audio signal outlets of gibberwocky use the ```sig``` prefix, followed by an index number, where the first signal outlet is index 0, etc. 
 
-```sig <index> expr <genexpr>```
+```add <time> sig <index> expr <genexpr>```
 
 defines a new signal modulation for one of the gibberwocky signal outlets.
 - index: the signal outlet index, where the first signal outlet is 0, the second is 1, etc.
@@ -53,7 +55,7 @@ defines a new signal modulation for one of the gibberwocky signal outlets.
 
 E.g. ```add 0.5 sig 0 expr "Param p0(5); out1=cycle(p0);"``` will assign a 5Hz oscillator to the first signal outlet of gibberwocky at time 0.5 beats.
 
-```sig <index> param <name> <value>```
+```add <time> sig <index> param <name> <value>```
 
 changes a param defined in the genexpr.
 - index: as above
@@ -62,17 +64,19 @@ changes a param defined in the genexpr.
 
 E.g. ```add 1.0 sig 0 param p0 13``` will set the param ```p0``` of the signal graph in the first signal outlet of gibberwocky to a value of 13, at the time 1.0 beats.
 
-```sig <index> clear```
+```add <time> sig <index> clear```
 
 removes the genexpr, but holds the last output signal value as a constant
 - index: as above
 
-```sig <index> zero```
+```add <time> sig <index> zero```
 
 removes the genexpr, and sets the output value to zero
 - index: as above
 
 ### Generic messages
+
+```add <time> <message...>```
 
 Any other messages received that do not match ```get_scene```, ```set```, ```midinote```, or ```sig``` will be forwarded to the first outlet of the gibberwocky object for handling in the patcher. 
 
@@ -93,9 +97,13 @@ This message is sent on every beat, and is a request for clients to reply with a
 Other messages are for information only and do not expect responses:
 
 ```ply <N>``` -- the play state, either 1 (playing) or 0 (stopped)
+
 ```bit <N>``` -- the current beat
+
 ```bar <N>``` -- the current bar
+
 ```bpm <N>``` -- the current BPM
+
 ```sig <S>``` -- the current time signature
 
 ### Feedback
