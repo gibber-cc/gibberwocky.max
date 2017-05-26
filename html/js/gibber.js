@@ -32,7 +32,7 @@ let Gibber = {
     window.Scale         = this.Theory.Scale.master
     window.signals       = this.Max.signals
     window.params        = this.Max.params
-    window.namespace     = this.Max.msg
+    window.namespace     = this.Max.namespace
     window.devices       = this.Max.devices
 
     window.note = v => {
@@ -247,7 +247,7 @@ let Gibber = {
 
 
 
-  addMethod( obj, methodName, parameter, _trackID ) {
+  addMethod( obj, methodName, parameter, _trackID, overrideNamespace ) {
     let v = 0,
         p,
         trackID = isNaN( _trackID ) ? obj.id : _trackID,
@@ -262,6 +262,7 @@ let Gibber = {
     
     obj[ methodName ] = p = ( _v ) => {
       // if( p.properties.quantized === 1 ) _v = Math.round( _v )
+      console.log( 'set', methodName )
 
       if( _v !== undefined ) {
         if( typeof _v === 'object' && _v.isGen ) {
@@ -303,6 +304,7 @@ let Gibber = {
 
           v = _v
           //Gibber.Communication.send( `set ${parameter.id} ${v}` )
+          console.log( obj.address, methodName )
           Gibber.Communication.send( `${obj.address} ${methodName} ${v}` )
         }
       }else{

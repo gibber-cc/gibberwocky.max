@@ -67,12 +67,10 @@ module.exports = function( Gibber ) {
         }
         Max.signals[ signalNumber ].id = signalNumber
       }
-      
+
+      Max.params.path = 'set'
       for( let param of Max.MOM.root.params ) {
-        Max.params[ param.varname ] = function( v ) {
-          Gibber.Communication.send( `set ${param.path} ${v}` )
-        }
-        Gibber.addSequencingToMethod( Max.params, param.varname, 0 )
+        Gibber.addMethod( Max.params, param.varname )
       }
 
       for( let receive in Max.MOM.receives ) {
@@ -89,46 +87,45 @@ module.exports = function( Gibber ) {
       Gibber.Environment.lomView.init( Gibber )
     },
 
-    msg( str ) {
-      let msg = function( ...args ) { 
-        Gibber.Communication.send( str + ' ' + args.join(' ') )
-      }
-      msg.address = msg.path = str
-      
-      if( Max.namespaces[ str ] ) return Max.namespaces[ str ] 
+    namespace( str, target ) {
+      const addr = target === undefined ? str : target.address + ' ' + str
 
-      let proxy = new Proxy( msg, {
+      const ns = function( ...args ) { 
+        Gibber.Communication.send( addr + ' ' + args.join(' ') )
+      }
+      ns.address = ns.path = str
+      
+      if( target === undefined ) target = Max.namespaces
+
+      if( target[ str ] ) return target[ str ] 
+      
+      const proxy = new Proxy( ns, {
+        // whenever a property on the namespace is accessed
         get( target, prop, receiver ) {
-          if( target[ prop ] === undefined && prop !== 'markup' && prop !== 'seq' ) {
-            Max.createProperty( target, prop )
-          }else{
-            if( prop === 'seq' ) {
-              if( target[ str ] === undefined ) {
-                Max.createProperty( target, str )
-              }
-              return target[ str ].seq
-            }
+          // if the property is undefined...
+          if( target[ prop ] === undefined && prop !== 'markup' && prop !== 'seq' && prop !== 'sequences' ) {
+            target[ prop ] = Max.namespace( prop, target )
+            target[ prop ].address = addr + ' ' + prop 
           }
 
           return target[ prop ]
         }
       })
 
-      Max.namespaces[ str ] = proxy
+      target[ str ] = proxy 
 
-      Gibber.Environment.codeMarkup.prepareObject( msg )
+      Gibber.addSequencingToMethod( target, str, 0, addr )           
+
+      Gibber.Seq.proto.externalMessages[ addr ] = ( value, beat ) => {
+        let msg = `add ${beat} ${addr} ${value}`  
+        return msg
+      }
+
+      Gibber.Environment.codeMarkup.prepareObject( ns )
+
       return proxy
     },
 
-    createProperty( target, prop ) {
-      Gibber.addMethod( target, prop )
-
-      // override external message so that it doesn't send the property name twice
-      Gibber.Seq.proto.externalMessages[ target.address + ' ' + prop ] = ( value, beat ) => {
-        let msg = `add ${beat} ${prop} ${value}`  
-        return msg
-      }
-    }
   }
 
   return Max

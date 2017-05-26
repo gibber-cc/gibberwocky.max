@@ -3202,7 +3202,7 @@ let Gibber = {
     window.Scale         = this.Theory.Scale.master
     window.signals       = this.Max.signals
     window.params        = this.Max.params
-    window.namespace     = this.Max.msg
+    window.namespace     = this.Max.namespace
     window.devices       = this.Max.devices
 
     window.note = v => {
@@ -3417,7 +3417,7 @@ let Gibber = {
 
 
 
-  addMethod( obj, methodName, parameter, _trackID ) {
+  addMethod( obj, methodName, parameter, _trackID, overrideNamespace ) {
     let v = 0,
         p,
         trackID = isNaN( _trackID ) ? obj.id : _trackID,
@@ -3432,6 +3432,7 @@ let Gibber = {
     
     obj[ methodName ] = p = ( _v ) => {
       // if( p.properties.quantized === 1 ) _v = Math.round( _v )
+      console.log( 'set', methodName )
 
       if( _v !== undefined ) {
         if( typeof _v === 'object' && _v.isGen ) {
@@ -3473,6 +3474,7 @@ let Gibber = {
 
           v = _v
           //Gibber.Communication.send( `set ${parameter.id} ${v}` )
+          console.log( obj.address, methodName )
           Gibber.Communication.send( `${obj.address} ${methodName} ${v}` )
         }
       }else{
@@ -3500,12 +3502,9 @@ module.exports = Gibber
 },{"./arp.js":2,"./clock.js":3,"./communication.js":5,"./environment.js":7,"./euclidean.js":8,"./example.js":9,"./gen.js":10,"./max.js":14,"./pattern.js":15,"./score.js":17,"./seq.js":18,"./steps.js":19,"./theory.js":21,"./utility.js":22}],12:[function(require,module,exports){
 require( 'babel-polyfill' )
 
-let Gibber = require( './gibber.js' ),
-    useAudioContext = false,
-    count = 0
+window.Gibber = require( './gibber.js' )
    
-Gibber.init()
-window.Gibber = Gibber
+window.Gibber.init()
 
 },{"./gibber.js":11,"babel-polyfill":25}],13:[function(require,module,exports){
 require( './vanillatree.js' )
@@ -3683,12 +3682,10 @@ module.exports = function( Gibber ) {
         }
         Max.signals[ signalNumber ].id = signalNumber
       }
-      
+
+      Max.params.path = 'set'
       for( let param of Max.MOM.root.params ) {
-        Max.params[ param.varname ] = function( v ) {
-          Gibber.Communication.send( `set ${param.path} ${v}` )
-        }
-        Gibber.addSequencingToMethod( Max.params, param.varname, 0 )
+        Gibber.addMethod( Max.params, param.varname )
       }
 
       for( let receive in Max.MOM.receives ) {
@@ -3705,46 +3702,45 @@ module.exports = function( Gibber ) {
       Gibber.Environment.lomView.init( Gibber )
     },
 
-    msg( str ) {
-      let msg = function( ...args ) { 
-        Gibber.Communication.send( str + ' ' + args.join(' ') )
-      }
-      msg.address = msg.path = str
-      
-      if( Max.namespaces[ str ] ) return Max.namespaces[ str ] 
+    namespace( str, target ) {
+      const addr = target === undefined ? str : target.address + ' ' + str
 
-      let proxy = new Proxy( msg, {
+      const ns = function( ...args ) { 
+        Gibber.Communication.send( addr + ' ' + args.join(' ') )
+      }
+      ns.address = ns.path = str
+      
+      if( target === undefined ) target = Max.namespaces
+
+      if( target[ str ] ) return target[ str ] 
+      
+      const proxy = new Proxy( ns, {
+        // whenever a property on the namespace is accessed
         get( target, prop, receiver ) {
-          if( target[ prop ] === undefined && prop !== 'markup' && prop !== 'seq' ) {
-            Max.createProperty( target, prop )
-          }else{
-            if( prop === 'seq' ) {
-              if( target[ str ] === undefined ) {
-                Max.createProperty( target, str )
-              }
-              return target[ str ].seq
-            }
+          // if the property is undefined...
+          if( target[ prop ] === undefined && prop !== 'markup' && prop !== 'seq' && prop !== 'sequences' ) {
+            target[ prop ] = Max.namespace( prop, target )
+            target[ prop ].address = addr + ' ' + prop 
           }
 
           return target[ prop ]
         }
       })
 
-      Max.namespaces[ str ] = proxy
+      target[ str ] = proxy 
 
-      Gibber.Environment.codeMarkup.prepareObject( msg )
+      Gibber.addSequencingToMethod( target, str, 0, addr )           
+
+      Gibber.Seq.proto.externalMessages[ addr ] = ( value, beat ) => {
+        let msg = `add ${beat} ${addr} ${value}`  
+        return msg
+      }
+
+      Gibber.Environment.codeMarkup.prepareObject( ns )
+
       return proxy
     },
 
-    createProperty( target, prop ) {
-      Gibber.addMethod( target, prop )
-
-      // override external message so that it doesn't send the property name twice
-      Gibber.Seq.proto.externalMessages[ target.address + ' ' + prop ] = ( value, beat ) => {
-        let msg = `add ${beat} ${prop} ${value}`  
-        return msg
-      }
-    }
   }
 
   return Max
@@ -4350,10 +4346,10 @@ let Score = {
     }
     
     let loopPauseFnc = () => {
-          score.nextTime = score.phase = 0
-          score.index = -1
-          score.timeline.pop()
-        }
+      score.nextTime = score.phase = 0
+      score.index = -1
+      score.timeline.pop()
+    }
 
     score.oncomplete.listeners = []
     score.oncomplete.owner = this
@@ -4415,7 +4411,7 @@ let Score = {
 
   tick( scheduler, beat, beatOffset ) {
     if( !this.isPaused ) {
-      if( this.phase >= this.nextTime && this.index < this.timeline.length ) {
+      if( this.index < this.timeline.length ) {
         
         let fnc = this.timeline[ this.index ],
             shouldExecute = true
