@@ -9,7 +9,7 @@
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 84.0, 79.0, 1044.0, 671.0 ],
+		"rect" : [ 100.0, 100.0, 1044.0, 671.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -4281,7 +4281,7 @@
 									"level" : -1.181102,
 									"mod_filt" : 0.0,
 									"mod_wave" : 0.0,
-									"polyphony" : 1.0,
+									"polyphony" : 4.0,
 									"release" : 0.0,
 									"release_filt" : 0.0,
 									"res" : 70.0,
@@ -4325,7 +4325,7 @@
 												"level" : -1.181102,
 												"mod_filt" : 0.0,
 												"mod_wave" : 0.0,
-												"polyphony" : 1.0,
+												"polyphony" : 4.0,
 												"release" : 0.0,
 												"release_filt" : 0.0,
 												"res" : 70.0,
@@ -7464,9 +7464,9 @@
  ],
 		"parameters" : 		{
 			"obj-7" : [ "drums", "drums", 0 ],
-			"obj-33" : [ "White_Queen", "whitequeen", 0 ],
+			"obj-2" : [ "Red_Queen", "redqueen", 0 ],
 			"obj-4" : [ "bass", "bass", 0 ],
-			"obj-2" : [ "Red_Queen", "redqueen", 0 ]
+			"obj-33" : [ "White_Queen", "whitequeen", 0 ]
 		}
 ,
 		"dependency_cache" : [ 			{
