@@ -21,7 +21,7 @@ devices['drums'].midinote.seq( [42,46].rnd(), [1/8,1/16].rnd(1/16,2), 1 )
 // play a scintillating bass line
 devices['bass'].note.seq( [-14,-12,-9,-8], 1/8 )
 
-// create namespaces named 'bell' and 'squelch' 
+// target namespaces 'bell' and 'squelch' 
 // and sequence bangs at different rhythms
 namespace('bell').seq( 1, [1/8,1/16,1/4].rnd(1/16,2) )
 namespace('squelch').seq( 1, [1/4,1/16,1].rnd(1/16,4) )
@@ -52,9 +52,8 @@ signals[3]( mul( cycle( mul(beats(8), .5 ) ), .15 ) )
  * MIDI note messages, sequence arbitrary messages, and 
  * control UI objects.
  *
- * To start make sure you open the patch: 
- * gibberwocky_tutorial_1-4
- *  ... that is included in the gibberwocky pacakge.
+ * To start, makesure you open the gibberwocky object help patch
+ * in Max and ahve the Max console open as well.
 */
 
 // Messaging in gibberwocky.max can be done in two ways. First, 
@@ -74,8 +73,16 @@ synth1( 'test' )
 // You can add an extra prefix to your message by appending a property:
 synth1.gollygee( 'willickers?' )
 
-// If you use [route], [routpass], or [sel] objects in Max/MSP you can easily direct 
-// messages to variety of destinations in this way. 
+// You can define arbitrary paths this way:
+synth1.a.b.c.d.e.f.g.h( 'i?' )
+
+// If you use [route], [routepass], or [sel] objects in Max/MSP you can easily direct 
+// messages to a variety of destinations in this fashion. These namespaces will appear
+// in the 'scene' tab of the browser reference; click on anyone to automatically insert
+// the appropriate path into the code editor at the current cursor position. For example,
+// using the gibberwocky help patcher both 'squelch' and 'bell' appear as targets as
+// they are connected to a [sel] that is in turn connected to the leftmost gibberwocky
+// outlet.
 
 // gibberwocky can also easily target Max for Live devices embedded in Max
 // patches. In the patcher for this tutorial there's an included Laverne
