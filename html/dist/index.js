@@ -1066,6 +1066,16 @@ let Marker = {
       }
     },
 
+    FunctionExpression( patternNode, containerNode, components, cm, channel, index=0, patternType, patternObject ) {
+      const args = Array.prototype.slice.call( arguments, 0 )
+      Marker._markPattern.Identifier( ...args )
+    },
+
+    ArrowFunctionExpression( patternNode, containerNode, components, cm, channel, index=0, patternType, patternObject ) {
+      const args = Array.prototype.slice.call( arguments, 0 )
+      Marker._markPattern.Identifier( ...args )
+    },
+
     Identifier( patternNode, containerNode, components, cm, channel, index=0, patternType, patternObject ) {
       // mark up anonymous functions with comments here... 
       let [ className, start, end ] = Marker._getNamesAndPosition( patternNode, containerNode, components, index, patternType ),
@@ -2669,6 +2679,94 @@ signals[0]( add( .5, div( mycycle, 2 ) ) )
 simply indicate the appropriate index... for example, mysah[ 1 ] etc. For documentation on the types of
 ugens that are available, see the gen~ reference: https://docs.cycling74.com/max7/vignettes/gen~_operators*/`, 
 
+['tutorial 6: randomness']:
+`/* gibberwocky.max - tutorial #6: Randomness
+ *
+ * This tutorial covers the basics of using randomness in gibberwocky.max. 
+ * It assumes you've done all the other tutorials (#4 might be OK to have skipped),
+ * have the gibberwocky help patch loaded, DSP turned on in Max and the global
+ * transport rnning.
+ *
+ * Randomness in gibberwocky can be used to both create random values for sequencing 
+ * as well as stochastic signals for modulation purposes.
+ */
+   
+// rndf() and rndi() are used to generate a single random float or integer
+// make sure you have the console tab in the gibberwocky sidebar
+log( rndf() ) // outputs floats between 0-1
+log( rndi() ) // outputs either 0 or 1
+
+// although 0 and 1 are the default min/max values, we can pass
+// arbitrary bounds:
+
+log( rndf(-1,1) )
+log( rndi(0,127) )
+
+// if we pass a third value, we can create multiple random numbers at once,
+// returned as an array.
+
+log( rndf( 0,1,4 ) )
+log( rndi( 0,127,3 ) )
+
+// so, if we wanted to sequence a random midinote to the 'bass' device
+// in the gibberwocky help patcher, we could sequence a function as follows:
+
+devices['bass'].midinote.seq( ()=> rndi(0,127), 1/8 )
+
+// Whenever gibberwocky sees a function in a sequence, it calls that function
+// to generate a value or a timing. In practice this is common enough with
+// random numbers that gibberwocky has a shortcut for creating functions
+// that return a random value(s) in a particular range.
+// Simply capitalize the call to rndi or rndf (to Rndi / Rndf ).
+
+clear() // clear previous sequence
+devices['bass'].note.seq( Rndi(-14,-7), 1/8 )
+
+// And chords:
+clear()
+devices['bass'].chord.seq( Rndi(14,21,3), 1/8 )
+
+// In addition to creating functions outputting random numbers, we can
+// also randomly pick from the arrays used to initialize patterns.
+
+// randomly play open or closed hi-hat every 1/16th note
+devices['drums'].midinote.seq( [42,46].rnd(), 1/16 )
+
+// For timings, it's often important to ensure that patterns eventually align
+// themselves with a beat grid. For example, if we randomly choose a single 1/16th 
+// note timing, then every subsequent note played will be offset from a 1/8th note
+// grid until a second 1/16th note is chosen. We can ensure that particular values
+// are repeated whenever they are selected to help with this problem.
+
+// play constant kick drum to hear how bass aligns with 1/4 grid
+devices['drums'].midinote.seq( 36, 1/4 )
+
+// whenever a 1/16th timing is used, use it twice in a row
+devices['bass'].note.seq( -14, [1/8,1/16].rnd( 1/16,2 ) )
+
+// whenever a 1/16th timing is used, use it twice in a row and
+// whenever a 1/12th timing is used, use it three times in a row
+devices['bass'].note.seq( -14, [1/8,1/16,1/12].rnd( 1/16,2,1/12,3 ) )
+
+// OK, that's the basics of using randomness in patterns. But we can also use
+// noise to create randomness in modulations.
+
+// here's noise() going out the second outlet of gibberwocky
+signals[0]( noise() ) 
+
+// we can scale the noise
+signals[0]( mul( noise(), .5 ) ) 
+
+// we can also use sample and hold (sah) to selectively sample a noise signal.
+// below, we sample noise whenever a separate noise signal crosses
+// a threshold of .99995
+signals[0]( sah( noise(), noise(), .99995 ) )      
+
+// alternatively, randomly sample a sine wave
+signals[0]( sah( cycle(2), noise(), .999 ) )
+
+// OK, that's it for randomness... use it wisely!`,
+
 [ 'using the Score() object' ]  : 
 `// Scores are lists of functions with associated
 // relative time values. In the score below, the first function has
@@ -3212,6 +3310,7 @@ let Gibber = {
     window.params        = this.Max.params
     window.namespace     = this.Max.namespace
     window.devices       = this.Max.devices
+    window.clear         = this.clear
 
     window.note = v => {
        return window.Theory.Note.create( v )

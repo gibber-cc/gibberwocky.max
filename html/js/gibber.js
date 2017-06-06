@@ -34,6 +34,7 @@ let Gibber = {
     window.params        = this.Max.params
     window.namespace     = this.Max.namespace
     window.devices       = this.Max.devices
+    window.clear         = this.clear
 
     window.note = v => {
        return window.Theory.Note.create( v )
