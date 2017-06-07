@@ -5,7 +5,7 @@
 	"description": "Live coding Max from the browser.",
 	"version": "0.1",
     "major_version": "0",
-    "minor_version": "0",
+    "minor_version": "1",
     "min_max_version": "700",
     "homepatcher" : "gibberwocky.maxhelp",
     "os" : 	{
