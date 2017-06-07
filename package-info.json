@@ -1,23 +1,39 @@
 {
-    "name": "Gibberwocky",
-    "type": "package",
-    "authors": ["Charlie Roberts", "Graham Wakefield" ],
-	"description": "Live coding Max from the browser.",
-	"version": "0.1",
-    "major_version": "0",
-    "minor_version": "1",
-    "min_max_version": "700",
-    "homepatcher" : "gibberwocky.maxhelp",
-    "os" : 	{
+	"author" : "Charlie Roberts and Graham Wakefield",
+	"authors" : [  ],
+	"description" : "Live coding Max from the browser.",
+	"displayname" : "",
+	"extends" : "",
+	"extensible" : 0,
+	"homepatcher" : "gibberwocky.maxhelp",
+	"max_version_max" : "none",
+	"max_version_min" : "7.0",
+	"name" : "Gibberwocky",
+	"os" : 	{
 		"macintosh" : 		{
 			"platform" : [ "ia32", "x64" ],
 			"min_version" : "none"
-		},
+		}
+,
 		"windows" : 		{
 			"platform" : [ "ia32", "x64" ],
 			"min_version" : "none"
 		}
-	},
-	"tags" : [ "gibberwocky" ],
-	"website" : "http://gibberwocky.cc"
+
+	}
+,
+	"package_extra" : 	{
+
+	}
+,
+	"tags" : [ "gibberwocky", "live coding" ],
+	"version" : "0.1.0",
+	"website" : "http://gibberwocky.cc",
+	"filelist" : 	{
+		"externals" : [ "ws.mxe", "ws.mxe64", "ws.mxo" ],
+		"patchers" : [ "dups.sh", "genexpr2max.maxpat", "gibbergen0.maxpat", "gibbergen1.maxpat", "gibbergen10.maxpat", "gibbergen11.maxpat", "gibbergen12.maxpat", "gibbergen13.maxpat", "gibbergen14.maxpat", "gibbergen15.maxpat", "gibbergen16.maxpat", "gibbergen17.maxpat", "gibbergen18.maxpat", "gibbergen19.maxpat", "gibbergen2.maxpat", "gibbergen20.maxpat", "gibbergen21.maxpat", "gibbergen22.maxpat", "gibbergen23.maxpat", "gibbergen24.maxpat", "gibbergen25.maxpat", "gibbergen26.maxpat", "gibbergen27.maxpat", "gibbergen28.maxpat", "gibbergen29.maxpat", "gibbergen3.maxpat", "gibbergen30.maxpat", "gibbergen31.maxpat", "gibbergen4.maxpat", "gibbergen5.maxpat", "gibbergen6.maxpat", "gibbergen7.maxpat", "gibbergen8.maxpat", "gibbergen9.maxpat", "gibberwocky.maxpat" ],
+		"help" : [ "gibberwocky.maxhelp", "ws.maxhelp", "ws_help.html" ],
+		"javascript" : [ "gibberwocky_main.js" ]
+	}
+
 }
