@@ -4496,8 +4496,8 @@ let Score = {
   },
   
   next() {
-    this.isPaused = false
-    
+    //this.isPaused = false
+    this.start()
     return this
   },
   
@@ -4520,8 +4520,7 @@ let Score = {
     if( !this.isPaused ) {
       if( this.index < this.timeline.length ) {
         
-        let fnc = this.timeline[ this.index ],
-            shouldExecute = true
+        let fnc = this.timeline[ this.index ]
         
         this.index++
         
@@ -4533,6 +4532,7 @@ let Score = {
           } else {
             if( time === Score.wait ) {
               this.isPaused = true
+              this.index++
             }else if( time.owner instanceof Score ) {
               this.isPaused = true
               time.owner.oncomplete.listeners.push( self )
@@ -4551,7 +4551,7 @@ let Score = {
           this.oncomplete()
         }
 
-        if( shouldExecute && fnc ) {
+        if( fnc !== undefined ) {
           if( Score.isPrototypeOf( fnc )  ) {
             if( !fnc.codeblock ) { // TODO: what do I replace codeblock with? isRunning?
               fnc.start()
@@ -4561,7 +4561,7 @@ let Score = {
               //fnc.rewind().next()
               //fnc()
             }
-          }else{
+          }else if( fnc !== null ) {
             fnc.call( this.track )
           }
           
@@ -4590,7 +4590,7 @@ let Score = {
 
               pos.horizontalOffset = bracketIdx//pos.start.ch
 
-            }else{
+            }else if( funcBody.includes('=>') ){
               // TODO: why doesn't this work? acorn seems unable to parse arrow functions?
               line = marker.lines[ 0 ].text
               
@@ -4601,6 +4601,10 @@ let Score = {
 
               pos.horizontalOffset = arrowIdx
 
+            }else if( fnc === null ) {
+              console.log( 'NULL' )
+            }else{
+              console.log( funcBody )
             }
           }
           //funcBody = fnc.toString(),
@@ -4639,7 +4643,10 @@ let Score = {
 
 }
 
-return Score.create.bind( Score )
+const constructor = Score.create.bind( Score )
+constructor.wait = Score.wait
+
+return constructor 
 
 }
 
