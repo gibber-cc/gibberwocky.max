@@ -2989,7 +2989,7 @@ module.exports = function( Gibber ) {
 const binops = [ 
   'min','max','add','sub','mul','div','rdiv','mod','rsub','rmod','absdiff',
   'and','or','gt','eq','eqp','gte','gtep','gtp','lt','lte','ltep','ltp','neq',
-  'step', 'rate'
+  'step', 'rate', 'accum', 'counter'
 ]
 
 const monops = [
@@ -3110,7 +3110,6 @@ let Gen  = {
     cycle:  { properties:[ '0' ],  str:'cycle' },
     rate:   { properties:[ '0','1' ], str:'rate' },
     noise:  { properties:[], str:'noise' },
-    accum:  { properties:[ '0','1' ], str:'accum' },
     scale:  { properties: ['0', '1', '2', '3'], str:'scale' },
     sah:    { properties: ['0', '1', '2'], str:'sah' }
   },
@@ -3752,7 +3751,7 @@ module.exports = function( Gibber ) {
     },
 
     addIdToUgen( id, ugen ) {
-      if( typeof ugen === 'number' || ugen === 'in1' ) return
+      if( typeof ugen === 'number' || ugen === 'in1' || ugen === undefined ) return
       ugen.id = id
       let count = 0
       //debugger

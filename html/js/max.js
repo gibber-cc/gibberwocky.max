@@ -30,7 +30,7 @@ module.exports = function( Gibber ) {
     },
 
     addIdToUgen( id, ugen ) {
-      if( typeof ugen === 'number' || ugen === 'in1' ) return
+      if( typeof ugen === 'number' || ugen === 'in1' || ugen === undefined ) return
       ugen.id = id
       let count = 0
       //debugger
