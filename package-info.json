@@ -35,5 +35,7 @@
 		"help" : [ "gibberwocky.maxhelp", "ws.maxhelp", "ws_help.html" ],
 		"javascript" : [ "gibberwocky_main.js" ]
 	}
-
+,
+	"c74install" : 1,
+	"installdate" : -710731368
 }
