@@ -10,7 +10,7 @@
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 59.0, 129.0, 1040.0, 728.0 ],
+		"rect" : [ 516.0, 98.0, 1040.0, 728.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -3612,7 +3612,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 682.0, 116.5, 230.0, 35.0 ],
-					"text" : ";\rmax launchbrowser http://gibberwocky.cc"
+					"text" : ";\r\nmax launchbrowser http://gibberwocky.cc"
 				}
 
 			}
@@ -3709,25 +3709,25 @@
 								"parameter_values" : 								{
 									"2nd_wave" : 0.0,
 									"attack" : 0.0,
-									"attack_filt" : 75.0,
-									"cut" : 48.0,
-									"decay" : 47.0,
-									"decay_filt" : 30.0,
-									"env" : 89.0,
-									"filt_type" : 0.0,
+									"attack_filt" : 0.0,
+									"cut" : 42.0,
+									"decay" : 66.0,
+									"decay_filt" : 11.0,
+									"env" : 56.0,
+									"filt_type" : 1.0,
 									"glide" : 23.0,
-									"key" : 0.0,
+									"key" : 127.0,
 									"level" : 0.0,
 									"mod_filt" : 27.0,
 									"mod_wave" : 17.0,
 									"polyphony" : 1.0,
-									"release" : 0.0,
+									"release" : 14.0,
 									"release_filt" : 0.0,
-									"res" : 23.0,
-									"speed" : 68.0,
+									"res" : 40.0,
+									"speed" : 48.0,
 									"subosc" : 60.0,
-									"sustain" : 108.0,
-									"sustain_filt" : 127.0,
+									"sustain" : 125.0,
+									"sustain_filt" : 28.0,
 									"wave" : 0.0
 								}
 
@@ -3753,25 +3753,25 @@
 											"parameter_values" : 											{
 												"2nd_wave" : 0.0,
 												"attack" : 0.0,
-												"attack_filt" : 75.0,
-												"cut" : 48.0,
-												"decay" : 47.0,
-												"decay_filt" : 30.0,
-												"env" : 89.0,
-												"filt_type" : 0.0,
+												"attack_filt" : 0.0,
+												"cut" : 42.0,
+												"decay" : 66.0,
+												"decay_filt" : 11.0,
+												"env" : 56.0,
+												"filt_type" : 1.0,
 												"glide" : 23.0,
-												"key" : 0.0,
+												"key" : 127.0,
 												"level" : 0.0,
 												"mod_filt" : 27.0,
 												"mod_wave" : 17.0,
 												"polyphony" : 1.0,
-												"release" : 0.0,
+												"release" : 14.0,
 												"release_filt" : 0.0,
-												"res" : 23.0,
-												"speed" : 68.0,
+												"res" : 40.0,
+												"speed" : 48.0,
 												"subosc" : 60.0,
-												"sustain" : 108.0,
-												"sustain_filt" : 127.0,
+												"sustain" : 125.0,
+												"sustain_filt" : 28.0,
 												"wave" : 0.0
 											}
 
@@ -3784,7 +3784,7 @@
 										"filename" : "Bassline.amxd.maxsnap",
 										"filepath" : "~/Documents/Max 7/Snapshots",
 										"filepos" : -1,
-										"snapshotfileid" : "3ace08f0113bd16bda16e10361709465"
+										"snapshotfileid" : "a99659864e876482bd480465bd1eaedb"
 									}
 
 								}
@@ -6059,13 +6059,13 @@
 					"patching_rect" : [ 390.57144199999999, 172.0, 58.142853000000002, 48.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
-							"parameter_shortname" : "whitequeen",
 							"parameter_type" : 0,
 							"parameter_unitstyle" : 0,
 							"parameter_linknames" : 1,
 							"parameter_longname" : "White_Queen",
 							"parameter_initial_enable" : 1,
-							"parameter_initial" : [ 64 ]
+							"parameter_initial" : [ 64 ],
+							"parameter_shortname" : "whitequeen"
 						}
 
 					}
@@ -6279,7 +6279,7 @@
 										"filename" : "Analogue Drums.amxd_20190411.maxsnap",
 										"filepath" : "~/Documents/Max 8/Snapshots",
 										"filepos" : -1,
-										"snapshotfileid" : "08e4abeff17bf39f48eaefa1a880ba15"
+										"snapshotfileid" : "170041aa26e604e59fea55707b09909e"
 									}
 
 								}
@@ -6324,13 +6324,13 @@
 					"patching_rect" : [ 452.999969000000021, 172.0, 58.142853000000002, 48.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
-							"parameter_shortname" : "redqueen",
 							"parameter_type" : 0,
 							"parameter_unitstyle" : 0,
 							"parameter_linknames" : 1,
 							"parameter_longname" : "Red_Queen",
 							"parameter_initial_enable" : 1,
-							"parameter_initial" : [ 64 ]
+							"parameter_initial" : [ 64 ],
+							"parameter_shortname" : "redqueen"
 						}
 
 					}
@@ -6565,49 +6565,49 @@
 ,
 		"dependency_cache" : [ 			{
 				"name" : "gibberwocky.maxpat",
-				"bootpath" : "~/Documents/Max 8/Packages/gibberwocky.max-master/patchers",
+				"bootpath" : "~/Documents/Max 8/Packages/gibberwocky.max/patchers",
 				"patcherrelativepath" : "../patchers",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "gibbergen3.maxpat",
-				"bootpath" : "~/Documents/Max 8/Packages/gibberwocky.max-master/patchers",
+				"bootpath" : "~/Documents/Max 8/Packages/gibberwocky.max/patchers",
 				"patcherrelativepath" : "../patchers",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "gibberwocky_expr.js",
-				"bootpath" : "~/Documents/Max 8/Packages/gibberwocky.max-master/javascript",
+				"bootpath" : "~/Documents/Max 8/Packages/gibberwocky.max/javascript",
 				"patcherrelativepath" : "../javascript",
 				"type" : "TEXT",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "gibbergen2.maxpat",
-				"bootpath" : "~/Documents/Max 8/Packages/gibberwocky.max-master/patchers",
+				"bootpath" : "~/Documents/Max 8/Packages/gibberwocky.max/patchers",
 				"patcherrelativepath" : "../patchers",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "gibbergen1.maxpat",
-				"bootpath" : "~/Documents/Max 8/Packages/gibberwocky.max-master/patchers",
+				"bootpath" : "~/Documents/Max 8/Packages/gibberwocky.max/patchers",
 				"patcherrelativepath" : "../patchers",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "gibbergen0.maxpat",
-				"bootpath" : "~/Documents/Max 8/Packages/gibberwocky.max-master/patchers",
+				"bootpath" : "~/Documents/Max 8/Packages/gibberwocky.max/patchers",
 				"patcherrelativepath" : "../patchers",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "gibberwocky_main.js",
-				"bootpath" : "~/Documents/Max 8/Packages/gibberwocky.max-master/javascript",
+				"bootpath" : "~/Documents/Max 8/Packages/gibberwocky.max/javascript",
 				"patcherrelativepath" : "../javascript",
 				"type" : "TEXT",
 				"implicit" : 1
@@ -6619,19 +6619,8 @@
 				"implicit" : 1
 			}
 , 			{
-				"name" : "Analogue Drums.amxd_20190411.maxsnap",
-				"bootpath" : "~/Documents/Max 8/Snapshots",
-				"patcherrelativepath" : "../../../Snapshots",
-				"type" : "mx@s",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "link.phasor~.mxo",
-				"type" : "iLaX"
-			}
-, 			{
-				"name" : "ws.mxo",
-				"type" : "iLaX"
+				"name" : "ws.mxe64",
+				"type" : "mx64"
 			}
  ],
 		"autosave" : 0,
