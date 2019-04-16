@@ -10,7 +10,7 @@
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ -23.0, -1001.0, 1376.0, 688.0 ],
+		"rect" : [ 42.0, 85.0, 1376.0, 688.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -635,11 +635,11 @@
 					"comment" : "bang to open browser",
 					"hint" : "",
 					"id" : "obj-23",
-					"index" : 0,
+					"index" : 1,
 					"maxclass" : "inlet",
 					"numinlets" : 0,
 					"numoutlets" : 1,
-					"outlettype" : [ "" ],
+					"outlettype" : [ "bang" ],
 					"patching_rect" : [ 288.666687000000024, 330.5, 30.0, 30.0 ]
 				}
 
@@ -661,7 +661,7 @@
 						}
 ,
 						"classnamespace" : "box",
-						"rect" : [ 81.0, 104.0, 574.0, 425.0 ],
+						"rect" : [ 682.0, 260.0, 574.0, 425.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 12.0,
@@ -689,6 +689,18 @@
 						"style" : "",
 						"subpatcher_template" : "",
 						"boxes" : [ 							{
+								"box" : 								{
+									"id" : "obj-27",
+									"maxclass" : "message",
+									"numinlets" : 2,
+									"numoutlets" : 1,
+									"outlettype" : [ "" ],
+									"patching_rect" : [ 271.0, 272.0, 239.0, 22.0 ],
+									"text" : "launchbrowser http://gibberwocky.cc/burble"
+								}
+
+							}
+, 							{
 								"box" : 								{
 									"id" : "obj-16",
 									"maxclass" : "button",
@@ -718,7 +730,7 @@
 									"maxclass" : "newobj",
 									"numinlets" : 1,
 									"numoutlets" : 0,
-									"patching_rect" : [ 224.0, 306.0, 77.0, 22.0 ],
+									"patching_rect" : [ 224.0, 343.0, 77.0, 22.0 ],
 									"text" : "forward max"
 								}
 
@@ -731,7 +743,7 @@
 									"maxclass" : "inlet",
 									"numinlets" : 0,
 									"numoutlets" : 1,
-									"outlettype" : [ "" ],
+									"outlettype" : [ "bang" ],
 									"patching_rect" : [ 224.0, 27.0, 30.0, 30.0 ]
 								}
 
@@ -803,15 +815,24 @@
 							}
 , 							{
 								"patchline" : 								{
-									"destination" : [ "obj-12", 0 ],
-									"source" : [ "obj-14", 0 ]
+									"destination" : [ "obj-14", 0 ],
+									"order" : 1,
+									"source" : [ "obj-16", 0 ]
 								}
 
 							}
 , 							{
 								"patchline" : 								{
-									"destination" : [ "obj-14", 0 ],
+									"destination" : [ "obj-27", 0 ],
+									"order" : 0,
 									"source" : [ "obj-16", 0 ]
+								}
+
+							}
+, 							{
+								"patchline" : 								{
+									"destination" : [ "obj-12", 0 ],
+									"source" : [ "obj-27", 0 ]
 								}
 
 							}
@@ -835,6 +856,25 @@
 									"source" : [ "obj-6", 0 ]
 								}
 
+							}
+ ],
+						"styles" : [ 							{
+								"name" : "AudioStatus_Menu",
+								"default" : 								{
+									"bgfillcolor" : 									{
+										"type" : "color",
+										"color" : [ 0.294118, 0.313726, 0.337255, 1 ],
+										"color1" : [ 0.454902, 0.462745, 0.482353, 0.0 ],
+										"color2" : [ 0.290196, 0.309804, 0.301961, 1.0 ],
+										"angle" : 270.0,
+										"proportion" : 0.39,
+										"autogradient" : 0
+									}
+
+								}
+,
+								"parentstyle" : "",
+								"multi" : 0
 							}
  ]
 					}
@@ -1574,7 +1614,7 @@
 						}
 ,
 						"classnamespace" : "box",
-						"rect" : [ -23.0, -976.0, 1376.0, 663.0 ],
+						"rect" : [ 42.0, 85.0, 1376.0, 663.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
 						"default_fontsize" : 12.0,
@@ -1665,9 +1705,9 @@
 								"box" : 								{
 									"id" : "obj-65",
 									"maxclass" : "newobj",
-									"numinlets" : 1,
-									"numoutlets" : 2,
-									"outlettype" : [ "signal", "signal" ],
+									"numinlets" : 0,
+									"numoutlets" : 1,
+									"outlettype" : [ "" ],
 									"patching_rect" : [ 518.625, 464.8736572265625, 90.0, 22.0 ],
 									"text" : "link.phasor~ 1n"
 								}
@@ -3028,7 +3068,7 @@
 				"box" : 				{
 					"comment" : "sequenced messages from browser",
 					"id" : "obj-3",
-					"index" : 0,
+					"index" : 1,
 					"maxclass" : "outlet",
 					"numinlets" : 1,
 					"numoutlets" : 0,
@@ -3161,7 +3201,7 @@
 				"box" : 				{
 					"comment" : "",
 					"id" : "obj-137",
-					"index" : 0,
+					"index" : 2,
 					"maxclass" : "outlet",
 					"numinlets" : 1,
 					"numoutlets" : 0,
@@ -3187,7 +3227,7 @@
 				"box" : 				{
 					"comment" : "",
 					"id" : "obj-140",
-					"index" : 0,
+					"index" : 3,
 					"maxclass" : "outlet",
 					"numinlets" : 1,
 					"numoutlets" : 0,
@@ -3213,7 +3253,7 @@
 				"box" : 				{
 					"comment" : "",
 					"id" : "obj-143",
-					"index" : 0,
+					"index" : 4,
 					"maxclass" : "outlet",
 					"numinlets" : 1,
 					"numoutlets" : 0,
@@ -3239,7 +3279,7 @@
 				"box" : 				{
 					"comment" : "",
 					"id" : "obj-146",
-					"index" : 0,
+					"index" : 5,
 					"maxclass" : "outlet",
 					"numinlets" : 1,
 					"numoutlets" : 0,
@@ -3742,58 +3782,6 @@
 
 			}
  ],
-		"dependency_cache" : [ 			{
-				"name" : "gibbergen3.maxpat",
-				"bootpath" : "~/Documents/Max 8/Packages/gibberwocky.max-master/patchers",
-				"patcherrelativepath" : ".",
-				"type" : "JSON",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "gibberwocky_expr.js",
-				"bootpath" : "~/Documents/Max 8/Packages/gibberwocky.max-master/javascript",
-				"patcherrelativepath" : "../javascript",
-				"type" : "TEXT",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "gibbergen2.maxpat",
-				"bootpath" : "~/Documents/Max 8/Packages/gibberwocky.max-master/patchers",
-				"patcherrelativepath" : ".",
-				"type" : "JSON",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "gibbergen1.maxpat",
-				"bootpath" : "~/Documents/Max 8/Packages/gibberwocky.max-master/patchers",
-				"patcherrelativepath" : ".",
-				"type" : "JSON",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "gibbergen0.maxpat",
-				"bootpath" : "~/Documents/Max 8/Packages/gibberwocky.max-master/patchers",
-				"patcherrelativepath" : ".",
-				"type" : "JSON",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "gibberwocky_main.js",
-				"bootpath" : "~/Documents/Max 8/Packages/gibberwocky.max-master/javascript",
-				"patcherrelativepath" : "../javascript",
-				"type" : "TEXT",
-				"implicit" : 1
-			}
-, 			{
-				"name" : "link.phasor~.mxo",
-				"type" : "iLaX"
-			}
-, 			{
-				"name" : "ws.mxo",
-				"type" : "iLaX"
-			}
- ],
-		"autosave" : 0,
 		"styles" : [ 			{
 				"name" : "AudioStatus_Menu",
 				"default" : 				{
