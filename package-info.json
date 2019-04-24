@@ -27,7 +27,7 @@
 	}
 ,
 	"tags" : [ "gibberwocky", "live coding" ],
-	"version" : "0.1.2",
+	"version" : "0.2.0",
 	"website" : "http://gibberwocky.cc",
 	"filelist" : 	{
 		"externals" : [ "ws.mxe", "ws.mxe64", "ws.mxo" ],
