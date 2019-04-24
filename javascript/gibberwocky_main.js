@@ -159,7 +159,7 @@ function parse_patcher_json(p, scene){
 		case "sel":
 		case "select":
 			// each arg is a namespace.
-			scene.namespaces = scene.namespaces.concat(args);
+			scene.messages = scene.messages.concat(args);
 			// continue from joined last outlet
 			find_connected_boxes(patcher, dsts[i], dsts[i].numoutlets-1, dsts);
 			break;
@@ -380,7 +380,7 @@ function make_scene() {
 		root: explore(top_patcher, ""),
 		transport: transport,
 		signals: [],
-		namespaces: [],
+		messages: [],
 		receives: {},
 	};
 
