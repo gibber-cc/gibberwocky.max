@@ -4,13 +4,13 @@
 		"appversion" : 		{
 			"major" : 8,
 			"minor" : 0,
-			"revision" : 2,
+			"revision" : 3,
 			"architecture" : "x64",
 			"modernui" : 1
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 516.0, 98.0, 1040.0, 728.0 ],
+		"rect" : [ 246.0, 186.0, 1040.0, 728.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -39,6 +39,34 @@
 		"subpatcher_template" : "",
 		"boxes" : [ 			{
 				"box" : 				{
+					"id" : "obj-22",
+					"maxclass" : "button",
+					"numinlets" : 1,
+					"numoutlets" : 1,
+					"outlettype" : [ "bang" ],
+					"parameter_enable" : 0,
+					"patching_rect" : [ 328.142852783203125, 127.0, 24.0, 24.0 ]
+				}
+
+			}
+, 			{
+				"box" : 				{
+					"bubble" : 1,
+					"fontname" : "Arial",
+					"fontsize" : 13.0,
+					"id" : "obj-8",
+					"linecount" : 2,
+					"maxclass" : "comment",
+					"numinlets" : 1,
+					"numoutlets" : 0,
+					"patching_rect" : [ 355.285736083984375, 119.0, 138.0, 40.0 ],
+					"presentation_linecount" : 2,
+					"text" : "or open local editor (no internet)"
+				}
+
+			}
+, 			{
+				"box" : 				{
 					"fontname" : "Lato",
 					"fontsize" : 12.0,
 					"id" : "obj-30",
@@ -51,7 +79,7 @@
 						"appversion" : 						{
 							"major" : 8,
 							"minor" : 0,
-							"revision" : 2,
+							"revision" : 3,
 							"architecture" : "x64",
 							"modernui" : 1
 						}
@@ -120,7 +148,7 @@
 										"appversion" : 										{
 											"major" : 8,
 											"minor" : 0,
-											"revision" : 2,
+											"revision" : 3,
 											"architecture" : "x64",
 											"modernui" : 1
 										}
@@ -927,7 +955,7 @@
 										"appversion" : 										{
 											"major" : 8,
 											"minor" : 0,
-											"revision" : 2,
+											"revision" : 3,
 											"architecture" : "x64",
 											"modernui" : 1
 										}
@@ -2648,7 +2676,7 @@
 										"appversion" : 										{
 											"major" : 8,
 											"minor" : 0,
-											"revision" : 2,
+											"revision" : 3,
 											"architecture" : "x64",
 											"modernui" : 1
 										}
@@ -3612,7 +3640,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 682.0, 116.5, 230.0, 35.0 ],
-					"text" : ";\r\nmax launchbrowser http://gibberwocky.cc"
+					"text" : ";\rmax launchbrowser http://gibberwocky.cc"
 				}
 
 			}
@@ -3709,25 +3737,25 @@
 								"parameter_values" : 								{
 									"2nd_wave" : 0.0,
 									"attack" : 0.0,
-									"attack_filt" : 0.0,
-									"cut" : 42.0,
-									"decay" : 66.0,
-									"decay_filt" : 11.0,
-									"env" : 56.0,
-									"filt_type" : 1.0,
+									"attack_filt" : 75.0,
+									"cut" : 48.0,
+									"decay" : 47.0,
+									"decay_filt" : 30.0,
+									"env" : 89.0,
+									"filt_type" : 0.0,
 									"glide" : 23.0,
-									"key" : 127.0,
+									"key" : 0.0,
 									"level" : 0.0,
 									"mod_filt" : 27.0,
 									"mod_wave" : 17.0,
 									"polyphony" : 1.0,
-									"release" : 14.0,
+									"release" : 0.0,
 									"release_filt" : 0.0,
-									"res" : 40.0,
-									"speed" : 48.0,
+									"res" : 23.0,
+									"speed" : 68.0,
 									"subosc" : 60.0,
-									"sustain" : 125.0,
-									"sustain_filt" : 28.0,
+									"sustain" : 108.0,
+									"sustain_filt" : 127.0,
 									"wave" : 0.0
 								}
 
@@ -3753,25 +3781,25 @@
 											"parameter_values" : 											{
 												"2nd_wave" : 0.0,
 												"attack" : 0.0,
-												"attack_filt" : 0.0,
-												"cut" : 42.0,
-												"decay" : 66.0,
-												"decay_filt" : 11.0,
-												"env" : 56.0,
-												"filt_type" : 1.0,
+												"attack_filt" : 75.0,
+												"cut" : 48.0,
+												"decay" : 47.0,
+												"decay_filt" : 30.0,
+												"env" : 89.0,
+												"filt_type" : 0.0,
 												"glide" : 23.0,
-												"key" : 127.0,
+												"key" : 0.0,
 												"level" : 0.0,
 												"mod_filt" : 27.0,
 												"mod_wave" : 17.0,
 												"polyphony" : 1.0,
-												"release" : 14.0,
+												"release" : 0.0,
 												"release_filt" : 0.0,
-												"res" : 40.0,
-												"speed" : 48.0,
+												"res" : 23.0,
+												"speed" : 68.0,
 												"subosc" : 60.0,
-												"sustain" : 125.0,
-												"sustain_filt" : 28.0,
+												"sustain" : 108.0,
+												"sustain_filt" : 127.0,
 												"wave" : 0.0
 											}
 
@@ -3784,7 +3812,7 @@
 										"filename" : "Bassline.amxd.maxsnap",
 										"filepath" : "~/Documents/Max 7/Snapshots",
 										"filepos" : -1,
-										"snapshotfileid" : "a99659864e876482bd480465bd1eaedb"
+										"snapshotfileid" : "14729e7a254fc2e24e4a9abb004f828e"
 									}
 
 								}
@@ -3879,7 +3907,7 @@
 						"appversion" : 						{
 							"major" : 8,
 							"minor" : 0,
-							"revision" : 2,
+							"revision" : 3,
 							"architecture" : "x64",
 							"modernui" : 1
 						}
@@ -3926,7 +3954,7 @@
 										"appversion" : 										{
 											"major" : 8,
 											"minor" : 0,
-											"revision" : 2,
+											"revision" : 3,
 											"architecture" : "x64",
 											"modernui" : 1
 										}
@@ -4118,7 +4146,7 @@
 										"appversion" : 										{
 											"major" : 8,
 											"minor" : 0,
-											"revision" : 2,
+											"revision" : 3,
 											"architecture" : "x64",
 											"modernui" : 1
 										}
@@ -4937,7 +4965,7 @@
 										"appversion" : 										{
 											"major" : 8,
 											"minor" : 0,
-											"revision" : 2,
+											"revision" : 3,
 											"architecture" : "x64",
 											"modernui" : 1
 										}
@@ -6059,13 +6087,13 @@
 					"patching_rect" : [ 390.57144199999999, 172.0, 58.142853000000002, 48.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
+							"parameter_shortname" : "whitequeen",
 							"parameter_type" : 0,
 							"parameter_unitstyle" : 0,
 							"parameter_linknames" : 1,
 							"parameter_longname" : "White_Queen",
 							"parameter_initial_enable" : 1,
-							"parameter_initial" : [ 64 ],
-							"parameter_shortname" : "whitequeen"
+							"parameter_initial" : [ 64 ]
 						}
 
 					}
@@ -6127,7 +6155,7 @@
 					"numoutlets" : 3,
 					"outlettype" : [ "", "", "int" ],
 					"parameter_enable" : 0,
-					"patching_rect" : [ 173.214293999999995, 120.5, 20.0, 20.0 ],
+					"patching_rect" : [ 203.428573608398438, 118.0, 20.0, 20.0 ],
 					"rounded" : 60.0,
 					"text" : "2",
 					"textcolor" : [ 0.34902, 0.34902, 0.34902, 1.0 ]
@@ -6143,8 +6171,8 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 79.714302000000004, 127.0, 111.0, 25.0 ],
-					"text" : "open editor"
+					"patching_rect" : [ 79.714302062988281, 127.0, 133.0, 25.0 ],
+					"text" : "open online editor"
 				}
 
 			}
@@ -6279,7 +6307,25 @@
 										"filename" : "Analogue Drums.amxd_20190411.maxsnap",
 										"filepath" : "~/Documents/Max 8/Snapshots",
 										"filepos" : -1,
-										"snapshotfileid" : "170041aa26e604e59fea55707b09909e"
+										"snapshotfileid" : "a1524dddebf3eb36b45371bf1987073b"
+									}
+
+								}
+, 								{
+									"filetype" : "C74Snapshot",
+									"version" : 2,
+									"minorversion" : 0,
+									"name" : "Analogue Drums.amxd",
+									"origin" : "Analogue Drums.amxd",
+									"type" : "amxd",
+									"subtype" : "Undefined",
+									"embed" : 0,
+									"fileref" : 									{
+										"name" : "Analogue Drums.amxd",
+										"filename" : "Analogue Drums.amxd_20190411.maxsnap",
+										"filepath" : "~/Documents/Max 8/Snapshots",
+										"filepos" : -1,
+										"snapshotfileid" : "a1524dddebf3eb36b45371bf1987073b"
 									}
 
 								}
@@ -6324,13 +6370,13 @@
 					"patching_rect" : [ 452.999969000000021, 172.0, 58.142853000000002, 48.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
+							"parameter_shortname" : "redqueen",
 							"parameter_type" : 0,
 							"parameter_unitstyle" : 0,
 							"parameter_linknames" : 1,
 							"parameter_longname" : "Red_Queen",
 							"parameter_initial_enable" : 1,
-							"parameter_initial" : [ 64 ],
-							"parameter_shortname" : "redqueen"
+							"parameter_initial" : [ 64 ]
 						}
 
 					}
@@ -6345,7 +6391,7 @@
 					"fontsize" : 18.0,
 					"id" : "obj-1",
 					"maxclass" : "newobj",
-					"numinlets" : 1,
+					"numinlets" : 2,
 					"numoutlets" : 5,
 					"outlettype" : [ "", "signal", "signal", "signal", "signal" ],
 					"patching_rect" : [ 79.714302000000004, 172.0, 267.42855800000001, 29.0 ],
@@ -6445,6 +6491,13 @@
 				"patchline" : 				{
 					"destination" : [ "obj-3", 7 ],
 					"source" : [ "obj-2", 0 ]
+				}
+
+			}
+, 			{
+				"patchline" : 				{
+					"destination" : [ "obj-1", 1 ],
+					"source" : [ "obj-22", 0 ]
 				}
 
 			}
@@ -6553,10 +6606,10 @@
 			}
  ],
 		"parameters" : 		{
-			"obj-2" : [ "Red_Queen", "redqueen", 0 ],
 			"obj-7" : [ "drums", "drums", 0 ],
 			"obj-33" : [ "White_Queen", "whitequeen", 0 ],
 			"obj-4" : [ "bass", "bass", 0 ],
+			"obj-2" : [ "Red_Queen", "redqueen", 0 ],
 			"parameterbanks" : 			{
 
 			}
@@ -6565,49 +6618,49 @@
 ,
 		"dependency_cache" : [ 			{
 				"name" : "gibberwocky.maxpat",
-				"bootpath" : "~/Documents/Max 8/Packages/gibberwocky.max/patchers",
+				"bootpath" : "~/Documents/Max 8/Packages/gibberwocky/patchers",
 				"patcherrelativepath" : "../patchers",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "gibbergen3.maxpat",
-				"bootpath" : "~/Documents/Max 8/Packages/gibberwocky.max/patchers",
+				"bootpath" : "~/Documents/Max 8/Packages/gibberwocky/patchers",
 				"patcherrelativepath" : "../patchers",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "gibberwocky_expr.js",
-				"bootpath" : "~/Documents/Max 8/Packages/gibberwocky.max/javascript",
+				"bootpath" : "~/Documents/Max 8/Packages/gibberwocky/javascript",
 				"patcherrelativepath" : "../javascript",
 				"type" : "TEXT",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "gibbergen2.maxpat",
-				"bootpath" : "~/Documents/Max 8/Packages/gibberwocky.max/patchers",
+				"bootpath" : "~/Documents/Max 8/Packages/gibberwocky/patchers",
 				"patcherrelativepath" : "../patchers",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "gibbergen1.maxpat",
-				"bootpath" : "~/Documents/Max 8/Packages/gibberwocky.max/patchers",
+				"bootpath" : "~/Documents/Max 8/Packages/gibberwocky/patchers",
 				"patcherrelativepath" : "../patchers",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "gibbergen0.maxpat",
-				"bootpath" : "~/Documents/Max 8/Packages/gibberwocky.max/patchers",
+				"bootpath" : "~/Documents/Max 8/Packages/gibberwocky/patchers",
 				"patcherrelativepath" : "../patchers",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "gibberwocky_main.js",
-				"bootpath" : "~/Documents/Max 8/Packages/gibberwocky.max/javascript",
+				"bootpath" : "~/Documents/Max 8/Packages/gibberwocky/javascript",
 				"patcherrelativepath" : "../javascript",
 				"type" : "TEXT",
 				"implicit" : 1
@@ -6619,8 +6672,26 @@
 				"implicit" : 1
 			}
 , 			{
-				"name" : "ws.mxe64",
-				"type" : "mx64"
+				"name" : "Analogue Drums.amxd_20190411.maxsnap",
+				"bootpath" : "~/Documents/Max 8/Snapshots",
+				"patcherrelativepath" : "../../../Snapshots",
+				"type" : "mx@s",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "Bassline.amxd.maxsnap",
+				"bootpath" : "~/Documents/Max 7/Snapshots",
+				"patcherrelativepath" : "../../../Snapshots",
+				"type" : "mx@s",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "link.phasor~.mxo",
+				"type" : "iLaX"
+			}
+, 			{
+				"name" : "ws.mxo",
+				"type" : "iLaX"
 			}
  ],
 		"autosave" : 0,
