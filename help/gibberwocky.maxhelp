@@ -10,7 +10,7 @@
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 184.0, 78.0, 1074.0, 841.0 ],
+		"rect" : [ 163.0, 78.0, 1074.0, 841.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -4022,7 +4022,7 @@
 									"Release" : 233.013891852861349,
 									"Sustain" : 16.705467370572762,
 									"VelMod" : 33.0,
-									"cutoff" : 2056.220472440980302,
+									"cutoff" : 100.0,
 									"env_amount" : 100.0,
 									"filter_attack" : 1.0,
 									"filter_decay" : 180.047703235445937,
@@ -4121,7 +4121,7 @@
 												"Release" : 233.013891852861349,
 												"Sustain" : 16.705467370572762,
 												"VelMod" : 33.0,
-												"cutoff" : 2056.220472440980302,
+												"cutoff" : 100.0,
 												"env_amount" : 100.0,
 												"filter_attack" : 1.0,
 												"filter_decay" : 180.047703235445937,
@@ -4345,7 +4345,7 @@
  ]
 					}
 ,
-					"patching_rect" : [ 560.0, 12.0, 111.0, 22.0 ],
+					"patching_rect" : [ 560.0, 302.0, 111.0, 22.0 ],
 					"saved_object_attributes" : 					{
 						"description" : "",
 						"digest" : "",
@@ -4387,12 +4387,12 @@
 , 			{
 				"box" : 				{
 					"id" : "obj-29",
-					"linecount" : 11,
+					"linecount" : 12,
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 560.0, 101.0, 466.0, 154.0 ],
-					"text" : "The [gibberwocky] object in Max will snoop the patcher every time you save and collect a list of plugin devices, script-named UI objects, and any select/route/routepass etc. objects connected or chained to the [gibberwocky]'s first outlet. Additional outlets are audio signals for live coding LFOs to modulate the patcher further. By default there are 4 signal outlets, but you can add more (up to 32) by defining the @signals attribute. You can also synchronize computers across a network by using the @sync attribute and passing a value of \"link\". \"internal\" is the default @sync value.\n\nTo get to know the possibilities, bang the [gibberwocky] to open an editor, and have a look at the demos from the side panel."
+					"patching_rect" : [ 560.0, 101.0, 466.0, 167.0 ],
+					"text" : "To get to know the possibilities, bang the [gibberwocky] to open an editor, and have a look at the demos from the side panel.\n\nThe [gibberwocky] object in Max will snoop the patcher every time you save and collect a list of plugin devices, script-named UI objects, and any select/route/routepass etc. objects connected or chained to the [gibberwocky]'s first outlet. Additional outlets are audio signals for live coding LFOs to modulate the patcher further. You set the number of signal outlets by defining the @signals attribute. \n\nYou can also synchronize computers across a network by using the @sync attribute and passing a value of \"link\". \"internal\" is the default @sync value."
 				}
 
 			}
@@ -4441,7 +4441,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 734.0, 267.0, 287.0, 33.0 ],
+					"patching_rect" : [ 734.0, 271.0, 287.0, 33.0 ],
 					"text" : "Gibberwocky uses Max's global transport for timing. It will enable it by default."
 				}
 
@@ -6703,16 +6703,16 @@
 					"numoutlets" : 2,
 					"outlettype" : [ "", "float" ],
 					"parameter_enable" : 1,
-					"patching_rect" : [ 390.571428571428555, 172.0, 58.142853000000002, 48.0 ],
+					"patching_rect" : [ 390.571428571428555, 222.0, 58.142853000000002, 48.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
-							"parameter_shortname" : "whitequeen",
 							"parameter_type" : 0,
 							"parameter_unitstyle" : 0,
 							"parameter_linknames" : 1,
 							"parameter_longname" : "White_Queen",
 							"parameter_initial_enable" : 1,
-							"parameter_initial" : [ 64 ]
+							"parameter_initial" : [ 64 ],
+							"parameter_shortname" : "whitequeen"
 						}
 
 					}
@@ -6955,7 +6955,7 @@
 					"numinlets" : 0,
 					"numoutlets" : 0,
 					"offset" : [ 0.0, 0.0 ],
-					"patching_rect" : [ 560.0, 267.0, 160.0, 30.0 ],
+					"patching_rect" : [ 560.0, 271.0, 160.0, 30.0 ],
 					"viewvisibility" : 1
 				}
 
@@ -6968,16 +6968,16 @@
 					"numoutlets" : 2,
 					"outlettype" : [ "", "float" ],
 					"parameter_enable" : 1,
-					"patching_rect" : [ 452.999955571428586, 172.0, 58.142853000000002, 48.0 ],
+					"patching_rect" : [ 452.999955571428586, 222.0, 58.142853000000002, 48.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
-							"parameter_shortname" : "redqueen",
 							"parameter_type" : 0,
 							"parameter_unitstyle" : 0,
 							"parameter_linknames" : 1,
 							"parameter_longname" : "Red_Queen",
 							"parameter_initial_enable" : 1,
-							"parameter_initial" : [ 64 ]
+							"parameter_initial" : [ 64 ],
+							"parameter_shortname" : "redqueen"
 						}
 
 					}
@@ -7212,11 +7212,11 @@
 			}
  ],
 		"parameters" : 		{
-			"obj-38" : [ "amxd~", "amxd~", 0 ],
-			"obj-33" : [ "White_Queen", "whitequeen", 0 ],
 			"obj-7" : [ "drums", "drums", 0 ],
 			"obj-2" : [ "Red_Queen", "redqueen", 0 ],
 			"obj-35" : [ "amxd~[1]", "amxd~[1]", 0 ],
+			"obj-33" : [ "White_Queen", "whitequeen", 0 ],
+			"obj-38" : [ "amxd~", "amxd~", 0 ],
 			"parameterbanks" : 			{
 
 			}
