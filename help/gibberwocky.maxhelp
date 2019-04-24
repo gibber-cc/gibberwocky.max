@@ -4,13 +4,13 @@
 		"appversion" : 		{
 			"major" : 8,
 			"minor" : 0,
-			"revision" : 2,
+			"revision" : 5,
 			"architecture" : "x64",
 			"modernui" : 1
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 182.0, 116.0, 1074.0, 841.0 ],
+		"rect" : [ 163.0, 78.0, 1074.0, 841.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -48,7 +48,7 @@
 						"appversion" : 						{
 							"major" : 8,
 							"minor" : 0,
-							"revision" : 2,
+							"revision" : 5,
 							"architecture" : "x64",
 							"modernui" : 1
 						}
@@ -95,7 +95,7 @@
 										"appversion" : 										{
 											"major" : 8,
 											"minor" : 0,
-											"revision" : 2,
+											"revision" : 5,
 											"architecture" : "x64",
 											"modernui" : 1
 										}
@@ -188,7 +188,7 @@
 														"appversion" : 														{
 															"major" : 8,
 															"minor" : 0,
-															"revision" : 2,
+															"revision" : 5,
 															"architecture" : "x64",
 															"modernui" : 1
 														}
@@ -995,7 +995,7 @@
 														"appversion" : 														{
 															"major" : 8,
 															"minor" : 0,
-															"revision" : 2,
+															"revision" : 5,
 															"architecture" : "x64",
 															"modernui" : 1
 														}
@@ -2716,7 +2716,7 @@
 														"appversion" : 														{
 															"major" : 8,
 															"minor" : 0,
-															"revision" : 2,
+															"revision" : 5,
 															"architecture" : "x64",
 															"modernui" : 1
 														}
@@ -3830,24 +3830,24 @@
 								"parameter_values" : 								{
 									"2nd_wave" : 0.0,
 									"attack" : 0.0,
-									"attack_filt" : 24.0,
-									"cut" : 28.0,
-									"decay" : 47.0,
-									"decay_filt" : 40.0,
-									"env" : 57.0,
-									"filt_type" : 1.0,
-									"glide" : 23.0,
-									"key" : 51.0,
-									"level" : -0.739345726114152,
-									"mod_filt" : 26.0,
-									"mod_wave" : 21.0,
-									"polyphony" : 1.0,
+									"attack_filt" : 3.0,
+									"cut" : 22.0,
+									"decay" : 48.0,
+									"decay_filt" : 41.0,
+									"env" : 127.0,
+									"filt_type" : 0.0,
+									"glide" : 0.0,
+									"key" : 82.0,
+									"level" : 0.0,
+									"mod_filt" : 4.0,
+									"mod_wave" : 0.0,
+									"polyphony" : 6.0,
 									"release" : 0.0,
-									"release_filt" : 102.0,
-									"res" : 38.0,
-									"speed" : 68.0,
-									"subosc" : 24.0,
-									"sustain" : 108.0,
+									"release_filt" : 0.0,
+									"res" : 0.0,
+									"speed" : 93.0,
+									"subosc" : 27.0,
+									"sustain" : 48.0,
 									"sustain_filt" : 0.0,
 									"wave" : 0.0
 								}
@@ -3857,7 +3857,7 @@
 						}
 ,
 						"snapshotlist" : 						{
-							"current_snapshot" : 0,
+							"current_snapshot" : 1,
 							"entries" : [ 								{
 									"filetype" : "C74Snapshot",
 									"version" : 2,
@@ -3866,7 +3866,7 @@
 									"origin" : "Bassline.amxd",
 									"type" : "amxd",
 									"subtype" : "Undefined",
-									"embed" : 1,
+									"embed" : 0,
 									"snapshot" : 									{
 										"name" : "Bassline.amxd",
 										"origname" : "C74:/packages/Max for Live/patchers/Max Instrument/Bassline/Bassline.amxd",
@@ -3874,24 +3874,24 @@
 											"parameter_values" : 											{
 												"2nd_wave" : 0.0,
 												"attack" : 0.0,
-												"attack_filt" : 24.0,
-												"cut" : 28.0,
-												"decay" : 47.0,
-												"decay_filt" : 40.0,
-												"env" : 57.0,
-												"filt_type" : 1.0,
-												"glide" : 23.0,
-												"key" : 51.0,
-												"level" : -0.739345726114152,
-												"mod_filt" : 26.0,
-												"mod_wave" : 21.0,
-												"polyphony" : 1.0,
+												"attack_filt" : 0.0,
+												"cut" : 22.0,
+												"decay" : 48.0,
+												"decay_filt" : 41.0,
+												"env" : 127.0,
+												"filt_type" : 0.0,
+												"glide" : 0.0,
+												"key" : 82.0,
+												"level" : 0.0,
+												"mod_filt" : 0.0,
+												"mod_wave" : 0.0,
+												"polyphony" : 6.0,
 												"release" : 0.0,
-												"release_filt" : 102.0,
-												"res" : 38.0,
-												"speed" : 68.0,
-												"subosc" : 24.0,
-												"sustain" : 108.0,
+												"release_filt" : 0.0,
+												"res" : 0.0,
+												"speed" : 48.0,
+												"subosc" : 34.0,
+												"sustain" : 48.0,
 												"sustain_filt" : 0.0,
 												"wave" : 0.0
 											}
@@ -3905,7 +3905,58 @@
 										"filename" : "Bassline.amxd.maxsnap",
 										"filepath" : "~/Documents/Max 8/Snapshots",
 										"filepos" : -1,
-										"snapshotfileid" : "64b0a9714a58b78d45f71296d5d93bd4"
+										"snapshotfileid" : "65bdbc799c5f561261bf55334254b686"
+									}
+
+								}
+, 								{
+									"filetype" : "C74Snapshot",
+									"version" : 2,
+									"minorversion" : 0,
+									"name" : "Bassline.amxd[1]",
+									"origin" : "Bassline.amxd",
+									"type" : "amxd",
+									"subtype" : "Undefined",
+									"embed" : 0,
+									"snapshot" : 									{
+										"name" : "Bassline.amxd",
+										"origname" : "C74:/packages/Max for Live/patchers/Max Instrument/Bassline/Bassline.amxd",
+										"valuedictionary" : 										{
+											"parameter_values" : 											{
+												"2nd_wave" : 0.0,
+												"attack" : 0.0,
+												"attack_filt" : 3.0,
+												"cut" : 22.0,
+												"decay" : 48.0,
+												"decay_filt" : 41.0,
+												"env" : 127.0,
+												"filt_type" : 0.0,
+												"glide" : 0.0,
+												"key" : 82.0,
+												"level" : 0.0,
+												"mod_filt" : 4.0,
+												"mod_wave" : 0.0,
+												"polyphony" : 6.0,
+												"release" : 0.0,
+												"release_filt" : 0.0,
+												"res" : 0.0,
+												"speed" : 93.0,
+												"subosc" : 27.0,
+												"sustain" : 48.0,
+												"sustain_filt" : 0.0,
+												"wave" : 0.0
+											}
+
+										}
+
+									}
+,
+									"fileref" : 									{
+										"name" : "Bassline.amxd[1]",
+										"filename" : "Bassline.amxd[1].maxsnap",
+										"filepath" : "~/Documents/Max 8/Snapshots",
+										"filepos" : -1,
+										"snapshotfileid" : "b2bf2afa6b41edea440b0c94784686ee"
 									}
 
 								}
@@ -3966,30 +4017,30 @@
 							"origname" : "C74:/packages/Max for Live/patchers/Max Instrument/Laverne/Laverne.amxd",
 							"valuedictionary" : 							{
 								"parameter_values" : 								{
-									"Attack" : 8.0,
-									"Decay" : 123.0,
-									"Release" : 299.0,
-									"Sustain" : 39.0,
+									"Attack" : 1.0,
+									"Decay" : 355.259842519685037,
+									"Release" : 233.013891852861349,
+									"Sustain" : 16.705467370572762,
 									"VelMod" : 33.0,
-									"cutoff" : 1000.0,
+									"cutoff" : 100.0,
 									"env_amount" : 100.0,
 									"filter_attack" : 1.0,
-									"filter_decay" : 102.0,
-									"filter_release" : 139.0,
-									"filter_resonance" : 0.75,
-									"filter_sustain" : 66.0,
-									"filter_tracking" : 6.4,
-									"filter_velocity" : 50.0,
+									"filter_decay" : 180.047703235445937,
+									"filter_release" : 1.0,
+									"filter_resonance" : 0.402015748031496,
+									"filter_sustain" : 19.877094349757758,
+									"filter_tracking" : 13.385826771653612,
+									"filter_velocity" : 33.858267716535465,
 									"level" : 0.0,
 									"osc1_level" : 100.0,
-									"osc1_octave" : 0.0,
-									"osc1_tune" : 0.0,
-									"osc1_wave" : 1.0,
-									"osc2_level" : 100.0,
-									"osc2_octave" : 0.0,
-									"osc2_tune" : 15.0,
-									"osc2_wave" : 1.0,
-									"voices" : 4.0
+									"osc1_octave" : 0.71653543307087,
+									"osc1_tune" : 2.937007874015634,
+									"osc1_wave" : 2.0,
+									"osc2_level" : 85.826771653543204,
+									"osc2_octave" : -1.377952755905503,
+									"osc2_tune" : -2.999999999998181,
+									"osc2_wave" : 3.0,
+									"voices" : 7.0
 								}
 
 							}
@@ -3997,7 +4048,7 @@
 						}
 ,
 						"snapshotlist" : 						{
-							"current_snapshot" : 0,
+							"current_snapshot" : 1,
 							"entries" : [ 								{
 									"filetype" : "C74Snapshot",
 									"version" : 2,
@@ -4006,36 +4057,36 @@
 									"origin" : "Laverne.amxd",
 									"type" : "amxd",
 									"subtype" : "Undefined",
-									"embed" : 1,
+									"embed" : 0,
 									"snapshot" : 									{
 										"name" : "Laverne.amxd",
 										"origname" : "C74:/packages/Max for Live/patchers/Max Instrument/Laverne/Laverne.amxd",
 										"valuedictionary" : 										{
 											"parameter_values" : 											{
-												"Attack" : 8.0,
-												"Decay" : 123.0,
-												"Release" : 299.0,
-												"Sustain" : 39.0,
+												"Attack" : 1.0,
+												"Decay" : 355.259842519685037,
+												"Release" : 233.013891852861349,
+												"Sustain" : 16.705467370572762,
 												"VelMod" : 33.0,
-												"cutoff" : 1000.0,
+												"cutoff" : 2056.220472440980302,
 												"env_amount" : 100.0,
 												"filter_attack" : 1.0,
-												"filter_decay" : 102.0,
-												"filter_release" : 139.0,
-												"filter_resonance" : 0.75,
-												"filter_sustain" : 66.0,
-												"filter_tracking" : 6.4,
-												"filter_velocity" : 50.0,
+												"filter_decay" : 180.047703235445937,
+												"filter_release" : 1.0,
+												"filter_resonance" : 0.402015748031496,
+												"filter_sustain" : 19.877094349757758,
+												"filter_tracking" : 13.385826771653612,
+												"filter_velocity" : 33.858267716535465,
 												"level" : 0.0,
 												"osc1_level" : 100.0,
-												"osc1_octave" : 0.0,
-												"osc1_tune" : 0.0,
-												"osc1_wave" : 1.0,
-												"osc2_level" : 100.0,
-												"osc2_octave" : 0.0,
-												"osc2_tune" : 15.0,
-												"osc2_wave" : 1.0,
-												"voices" : 4.0
+												"osc1_octave" : 1.062992125984259,
+												"osc1_tune" : 3.937007874015634,
+												"osc1_wave" : 2.0,
+												"osc2_level" : 85.826771653543204,
+												"osc2_octave" : -1.377952755905503,
+												"osc2_tune" : 6.000000000000909,
+												"osc2_wave" : 3.0,
+												"voices" : 7.0
 											}
 
 										}
@@ -4047,7 +4098,60 @@
 										"filename" : "Laverne.amxd.maxsnap",
 										"filepath" : "~/Documents/Max 8/Snapshots",
 										"filepos" : -1,
-										"snapshotfileid" : "5da57ea33ea6ad02b8b34b63bf4e95dc"
+										"snapshotfileid" : "1160a7001f43e40094585348de8c1e04"
+									}
+
+								}
+, 								{
+									"filetype" : "C74Snapshot",
+									"version" : 2,
+									"minorversion" : 0,
+									"name" : "Laverne.amxd[1]",
+									"origin" : "Laverne.amxd",
+									"type" : "amxd",
+									"subtype" : "Undefined",
+									"embed" : 0,
+									"snapshot" : 									{
+										"name" : "Laverne.amxd",
+										"origname" : "C74:/packages/Max for Live/patchers/Max Instrument/Laverne/Laverne.amxd",
+										"valuedictionary" : 										{
+											"parameter_values" : 											{
+												"Attack" : 1.0,
+												"Decay" : 355.259842519685037,
+												"Release" : 233.013891852861349,
+												"Sustain" : 16.705467370572762,
+												"VelMod" : 33.0,
+												"cutoff" : 100.0,
+												"env_amount" : 100.0,
+												"filter_attack" : 1.0,
+												"filter_decay" : 180.047703235445937,
+												"filter_release" : 1.0,
+												"filter_resonance" : 0.402015748031496,
+												"filter_sustain" : 19.877094349757758,
+												"filter_tracking" : 13.385826771653612,
+												"filter_velocity" : 33.858267716535465,
+												"level" : 0.0,
+												"osc1_level" : 100.0,
+												"osc1_octave" : 0.71653543307087,
+												"osc1_tune" : 2.937007874015634,
+												"osc1_wave" : 2.0,
+												"osc2_level" : 85.826771653543204,
+												"osc2_octave" : -1.377952755905503,
+												"osc2_tune" : -2.999999999998181,
+												"osc2_wave" : 3.0,
+												"voices" : 7.0
+											}
+
+										}
+
+									}
+,
+									"fileref" : 									{
+										"name" : "Laverne.amxd[1]",
+										"filename" : "Laverne.amxd[1].maxsnap",
+										"filepath" : "~/Documents/Max 8/Snapshots",
+										"filepos" : -1,
+										"snapshotfileid" : "64b0470505eeb44732cd0329a23acc0b"
 									}
 
 								}
@@ -4085,7 +4189,7 @@
 						"appversion" : 						{
 							"major" : 8,
 							"minor" : 0,
-							"revision" : 2,
+							"revision" : 5,
 							"architecture" : "x64",
 							"modernui" : 1
 						}
@@ -4241,7 +4345,7 @@
  ]
 					}
 ,
-					"patching_rect" : [ 560.0, 12.0, 111.0, 22.0 ],
+					"patching_rect" : [ 560.0, 302.0, 111.0, 22.0 ],
 					"saved_object_attributes" : 					{
 						"description" : "",
 						"digest" : "",
@@ -4283,12 +4387,12 @@
 , 			{
 				"box" : 				{
 					"id" : "obj-29",
-					"linecount" : 11,
+					"linecount" : 12,
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 560.0, 101.0, 466.0, 154.0 ],
-					"text" : "The [gibberwocky] object in Max will snoop the patcher every time you save and collect a list of plugin devices, script-named UI objects, and any select/route/routepass etc. objects connected or chained to the [gibberwocky]'s first outlet. Additional outlets are audio signals for live coding LFOs to modulate the patcher further. By default there are 4 signal outlets, but you can add more (up to 32) by defining the @signals attribute. You can also synchronize computers across a network by using the @sync attribute and passing a value of \"link\". \"internal\" is the default @sync value.\n\nTo get to know the possibilities, bang the [gibberwocky] to open an editor, and have a look at the demos from the side panel."
+					"patching_rect" : [ 560.0, 101.0, 466.0, 167.0 ],
+					"text" : "To get to know the possibilities, bang the [gibberwocky] to open an editor, and have a look at the demos from the side panel.\n\nThe [gibberwocky] object in Max will snoop the patcher every time you save and collect a list of plugin devices, script-named UI objects, and any select/route/routepass etc. objects connected or chained to the [gibberwocky]'s first outlet. Additional outlets are audio signals for live coding LFOs to modulate the patcher further. You set the number of signal outlets by defining the @signals attribute. \n\nYou can also synchronize computers across a network by using the @sync attribute and passing a value of \"link\". \"internal\" is the default @sync value."
 				}
 
 			}
@@ -4337,7 +4441,7 @@
 					"maxclass" : "comment",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 734.0, 267.0, 287.0, 33.0 ],
+					"patching_rect" : [ 734.0, 271.0, 287.0, 33.0 ],
 					"text" : "Gibberwocky uses Max's global transport for timing. It will enable it by default."
 				}
 
@@ -4422,7 +4526,7 @@
 						"appversion" : 						{
 							"major" : 8,
 							"minor" : 0,
-							"revision" : 2,
+							"revision" : 5,
 							"architecture" : "x64",
 							"modernui" : 1
 						}
@@ -4469,7 +4573,7 @@
 										"appversion" : 										{
 											"major" : 8,
 											"minor" : 0,
-											"revision" : 2,
+											"revision" : 5,
 											"architecture" : "x64",
 											"modernui" : 1
 										}
@@ -4661,7 +4765,7 @@
 										"appversion" : 										{
 											"major" : 8,
 											"minor" : 0,
-											"revision" : 2,
+											"revision" : 5,
 											"architecture" : "x64",
 											"modernui" : 1
 										}
@@ -5480,7 +5584,7 @@
 										"appversion" : 										{
 											"major" : 8,
 											"minor" : 0,
-											"revision" : 2,
+											"revision" : 5,
 											"architecture" : "x64",
 											"modernui" : 1
 										}
@@ -6599,16 +6703,16 @@
 					"numoutlets" : 2,
 					"outlettype" : [ "", "float" ],
 					"parameter_enable" : 1,
-					"patching_rect" : [ 390.571428571428555, 172.0, 58.142853000000002, 48.0 ],
+					"patching_rect" : [ 390.571428571428555, 222.0, 58.142853000000002, 48.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
+							"parameter_type" : 0,
+							"parameter_unitstyle" : 0,
+							"parameter_linknames" : 1,
 							"parameter_longname" : "White_Queen",
 							"parameter_initial_enable" : 1,
 							"parameter_initial" : [ 64 ],
-							"parameter_shortname" : "whitequeen",
-							"parameter_type" : 0,
-							"parameter_unitstyle" : 0,
-							"parameter_linknames" : 1
+							"parameter_shortname" : "whitequeen"
 						}
 
 					}
@@ -6749,14 +6853,14 @@
 							"origname" : "C74:/packages/Max for Live/patchers/Max Instrument/Analogue Drums/Analogue Drums.amxd",
 							"valuedictionary" : 							{
 								"parameter_values" : 								{
-									"ad-level" : -1.658792650918599,
+									"ad-level" : 0.0,
 									"clhat-decay" : 200.0,
-									"hat-level" : 65.0,
+									"hat-level" : 80.0,
 									"hat-tone" : 50.0,
-									"kick-attack" : 59.0,
+									"kick-attack" : 30.0,
 									"kick-decay" : 800.0,
-									"kick-level" : 52.0,
-									"kick-sweep" : 25.0,
+									"kick-level" : 35.0,
+									"kick-sweep" : 20.0,
 									"kick-tune" : 70.0,
 									"ophat-decay" : 1800.0,
 									"snare-decay" : 1000.0,
@@ -6791,14 +6895,14 @@
 										"origname" : "C74:/packages/Max for Live/patchers/Max Instrument/Analogue Drums/Analogue Drums.amxd",
 										"valuedictionary" : 										{
 											"parameter_values" : 											{
-												"ad-level" : -1.658792650918599,
+												"ad-level" : 0.0,
 												"clhat-decay" : 200.0,
-												"hat-level" : 65.0,
+												"hat-level" : 80.0,
 												"hat-tone" : 50.0,
-												"kick-attack" : 59.0,
+												"kick-attack" : 30.0,
 												"kick-decay" : 800.0,
-												"kick-level" : 52.0,
-												"kick-sweep" : 25.0,
+												"kick-level" : 35.0,
+												"kick-sweep" : 20.0,
 												"kick-tune" : 70.0,
 												"ophat-decay" : 1800.0,
 												"snare-decay" : 1000.0,
@@ -6822,43 +6926,7 @@
 										"filename" : "Analogue Drums.amxd_20190411.maxsnap",
 										"filepath" : "~/Documents/Max 8/Snapshots",
 										"filepos" : -1,
-										"snapshotfileid" : "08e4abeff17bf39f48eaefa1a880ba15"
-									}
-
-								}
-, 								{
-									"filetype" : "C74Snapshot",
-									"version" : 2,
-									"minorversion" : 0,
-									"name" : "Analogue Drums.amxd",
-									"origin" : "Analogue Drums.amxd",
-									"type" : "amxd",
-									"subtype" : "Undefined",
-									"embed" : 0,
-									"fileref" : 									{
-										"name" : "Analogue Drums.amxd",
-										"filename" : "Analogue Drums.amxd.maxsnap",
-										"filepath" : "~/Documents/Max 8/Snapshots",
-										"filepos" : -1,
-										"snapshotfileid" : "16a8cb021b7985b364ceb715b529d543"
-									}
-
-								}
-, 								{
-									"filetype" : "C74Snapshot",
-									"version" : 2,
-									"minorversion" : 0,
-									"name" : "Analogue Drums.amxd",
-									"origin" : "Analogue Drums.amxd",
-									"type" : "amxd",
-									"subtype" : "Undefined",
-									"embed" : 0,
-									"fileref" : 									{
-										"name" : "Analogue Drums.amxd",
-										"filename" : "Analogue Drums.amxd_20190411.maxsnap",
-										"filepath" : "~/Documents/Max 8/Snapshots",
-										"filepos" : -1,
-										"snapshotfileid" : "08e4abeff17bf39f48eaefa1a880ba15"
+										"snapshotfileid" : "a1524dddebf3eb36b45371bf1987073b"
 									}
 
 								}
@@ -6887,7 +6955,7 @@
 					"numinlets" : 0,
 					"numoutlets" : 0,
 					"offset" : [ 0.0, 0.0 ],
-					"patching_rect" : [ 560.0, 267.0, 160.0, 30.0 ],
+					"patching_rect" : [ 560.0, 271.0, 160.0, 30.0 ],
 					"viewvisibility" : 1
 				}
 
@@ -6900,16 +6968,16 @@
 					"numoutlets" : 2,
 					"outlettype" : [ "", "float" ],
 					"parameter_enable" : 1,
-					"patching_rect" : [ 452.999955571428586, 172.0, 58.142853000000002, 48.0 ],
+					"patching_rect" : [ 452.999955571428586, 222.0, 58.142853000000002, 48.0 ],
 					"saved_attribute_attributes" : 					{
 						"valueof" : 						{
+							"parameter_type" : 0,
+							"parameter_unitstyle" : 0,
+							"parameter_linknames" : 1,
 							"parameter_longname" : "Red_Queen",
 							"parameter_initial_enable" : 1,
 							"parameter_initial" : [ 64 ],
-							"parameter_shortname" : "redqueen",
-							"parameter_type" : 0,
-							"parameter_unitstyle" : 0,
-							"parameter_linknames" : 1
+							"parameter_shortname" : "redqueen"
 						}
 
 					}
@@ -7144,11 +7212,11 @@
 			}
  ],
 		"parameters" : 		{
-			"obj-33" : [ "White_Queen", "whitequeen", 0 ],
-			"obj-2" : [ "Red_Queen", "redqueen", 0 ],
-			"obj-38" : [ "amxd~", "amxd~", 0 ],
 			"obj-7" : [ "drums", "drums", 0 ],
+			"obj-2" : [ "Red_Queen", "redqueen", 0 ],
 			"obj-35" : [ "amxd~[1]", "amxd~[1]", 0 ],
+			"obj-33" : [ "White_Queen", "whitequeen", 0 ],
+			"obj-38" : [ "amxd~", "amxd~", 0 ],
 			"parameterbanks" : 			{
 
 			}
@@ -7157,49 +7225,49 @@
 ,
 		"dependency_cache" : [ 			{
 				"name" : "gibberwocky.maxpat",
-				"bootpath" : "~/Documents/Max 8/Packages/gibberwocky.max-master/patchers",
+				"bootpath" : "~/Documents/Max 8/Packages/gibberwocky/patchers",
 				"patcherrelativepath" : "../patchers",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "gibbergen3.maxpat",
-				"bootpath" : "~/Documents/Max 8/Packages/gibberwocky.max-master/patchers",
+				"bootpath" : "~/Documents/Max 8/Packages/gibberwocky/patchers",
 				"patcherrelativepath" : "../patchers",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "gibberwocky_expr.js",
-				"bootpath" : "~/Documents/Max 8/Packages/gibberwocky.max-master/javascript",
+				"bootpath" : "~/Documents/Max 8/Packages/gibberwocky/javascript",
 				"patcherrelativepath" : "../javascript",
 				"type" : "TEXT",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "gibbergen2.maxpat",
-				"bootpath" : "~/Documents/Max 8/Packages/gibberwocky.max-master/patchers",
+				"bootpath" : "~/Documents/Max 8/Packages/gibberwocky/patchers",
 				"patcherrelativepath" : "../patchers",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "gibbergen1.maxpat",
-				"bootpath" : "~/Documents/Max 8/Packages/gibberwocky.max-master/patchers",
+				"bootpath" : "~/Documents/Max 8/Packages/gibberwocky/patchers",
 				"patcherrelativepath" : "../patchers",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "gibbergen0.maxpat",
-				"bootpath" : "~/Documents/Max 8/Packages/gibberwocky.max-master/patchers",
+				"bootpath" : "~/Documents/Max 8/Packages/gibberwocky/patchers",
 				"patcherrelativepath" : "../patchers",
 				"type" : "JSON",
 				"implicit" : 1
 			}
 , 			{
 				"name" : "gibberwocky_main.js",
-				"bootpath" : "~/Documents/Max 8/Packages/gibberwocky.max-master/javascript",
+				"bootpath" : "~/Documents/Max 8/Packages/gibberwocky/javascript",
 				"patcherrelativepath" : "../javascript",
 				"type" : "TEXT",
 				"implicit" : 1
@@ -7218,13 +7286,6 @@
 				"implicit" : 1
 			}
 , 			{
-				"name" : "Analogue Drums.amxd.maxsnap",
-				"bootpath" : "~/Documents/Max 8/Snapshots",
-				"patcherrelativepath" : "../../../Snapshots",
-				"type" : "mx@s",
-				"implicit" : 1
-			}
-, 			{
 				"name" : "Laverne.amxd.maxsnap",
 				"bootpath" : "~/Documents/Max 8/Snapshots",
 				"patcherrelativepath" : "../../../Snapshots",
@@ -7232,7 +7293,21 @@
 				"implicit" : 1
 			}
 , 			{
+				"name" : "Laverne.amxd[1].maxsnap",
+				"bootpath" : "~/Documents/Max 8/Snapshots",
+				"patcherrelativepath" : "../../../Snapshots",
+				"type" : "mx@s",
+				"implicit" : 1
+			}
+, 			{
 				"name" : "Bassline.amxd.maxsnap",
+				"bootpath" : "~/Documents/Max 8/Snapshots",
+				"patcherrelativepath" : "../../../Snapshots",
+				"type" : "mx@s",
+				"implicit" : 1
+			}
+, 			{
+				"name" : "Bassline.amxd[1].maxsnap",
 				"bootpath" : "~/Documents/Max 8/Snapshots",
 				"patcherrelativepath" : "../../../Snapshots",
 				"type" : "mx@s",
