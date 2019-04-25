@@ -1,41 +1,35 @@
 {
+	"name" : "Gibberwocky",
+	"displayname" : "",
+	"version" : "0.2.0",
 	"author" : "Charlie Roberts and Graham Wakefield",
 	"authors" : [  ],
 	"description" : "Live coding Max from the browser.",
-	"displayname" : "",
+	"tags" : [ "gibberwocky", "live coding" ],
+	"website" : "http://gibberwocky.cc",
 	"extends" : "",
 	"extensible" : 0,
-	"homepatcher" : "gibberwocky.maxhelp",
-	"max_version_max" : "none",
 	"max_version_min" : "7.0",
-	"name" : "Gibberwocky",
+	"max_version_max" : "none",
 	"os" : 	{
 		"macintosh" : 		{
-			"platform" : [ "ia32", "x64" ],
-			"min_version" : "none"
+			"min_version" : "none",
+			"platform" : [ "ia32", "x64" ]
 		}
 ,
 		"windows" : 		{
-			"platform" : [ "ia32", "x64" ],
-			"min_version" : "none"
+			"min_version" : "none",
+			"platform" : [ "ia32", "x64" ]
 		}
 
 	}
 ,
-	"package_extra" : 	{
-
-	}
-,
-	"tags" : [ "gibberwocky", "live coding" ],
-	"version" : "0.2.0",
-	"website" : "http://gibberwocky.cc",
+	"homepatcher" : "gibberwocky.maxhelp",
 	"filelist" : 	{
 		"externals" : [ "ws.mxe", "ws.mxe64", "ws.mxo" ],
-		"patchers" : [ "dups.sh", "genexpr2max.maxpat", "gibbergen0.maxpat", "gibbergen1.maxpat", "gibbergen10.maxpat", "gibbergen11.maxpat", "gibbergen12.maxpat", "gibbergen13.maxpat", "gibbergen14.maxpat", "gibbergen15.maxpat", "gibbergen16.maxpat", "gibbergen17.maxpat", "gibbergen18.maxpat", "gibbergen19.maxpat", "gibbergen2.maxpat", "gibbergen20.maxpat", "gibbergen21.maxpat", "gibbergen22.maxpat", "gibbergen23.maxpat", "gibbergen24.maxpat", "gibbergen25.maxpat", "gibbergen26.maxpat", "gibbergen27.maxpat", "gibbergen28.maxpat", "gibbergen29.maxpat", "gibbergen3.maxpat", "gibbergen30.maxpat", "gibbergen31.maxpat", "gibbergen4.maxpat", "gibbergen5.maxpat", "gibbergen6.maxpat", "gibbergen7.maxpat", "gibbergen8.maxpat", "gibbergen9.maxpat", "gibberwocky.maxpat" ],
+		"patchers" : [ "dups.sh", "gibbergen0.maxpat", "gibbergen1.maxpat", "gibbergen10.maxpat", "gibbergen11.maxpat", "gibbergen12.maxpat", "gibbergen13.maxpat", "gibbergen14.maxpat", "gibbergen15.maxpat", "gibbergen16.maxpat", "gibbergen17.maxpat", "gibbergen18.maxpat", "gibbergen19.maxpat", "gibbergen2.maxpat", "gibbergen20.maxpat", "gibbergen21.maxpat", "gibbergen22.maxpat", "gibbergen23.maxpat", "gibbergen24.maxpat", "gibbergen25.maxpat", "gibbergen26.maxpat", "gibbergen27.maxpat", "gibbergen28.maxpat", "gibbergen29.maxpat", "gibbergen3.maxpat", "gibbergen30.maxpat", "gibbergen31.maxpat", "gibbergen4.maxpat", "gibbergen5.maxpat", "gibbergen6.maxpat", "gibbergen7.maxpat", "gibbergen8.maxpat", "gibbergen9.maxpat", "gibberwocky.maxpat" ],
 		"help" : [ "gibberwocky.maxhelp", "ws.maxhelp", "ws_help.html" ],
-		"javascript" : [ "gibberwocky_main.js" ]
+		"javascript" : [ "gibberwocky_expr.js", "gibberwocky_main.js" ]
 	}
-,
-	"c74install" : 1,
-	"installdate" : -710731368
+
 }
