@@ -203,6 +203,14 @@ function parse_patcher_json(p, scene){
 		//post("rec", i, name, "\n");
 		scene.receives[name] = "receive";
 	}
+	var receives = find_boxes_by_op(patcher, "r", []);
+	for (var i in receives) {
+		var text = receives[i].text;
+		var args = text.split(" ");
+		var name = args[1];
+		//post("rec", i, name, "\n");
+		scene.receives[name] = "receive";
+	}
 }
 
 function make_scene() {

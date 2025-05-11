@@ -2,14 +2,15 @@
 	"patcher" : 	{
 		"fileversion" : 1,
 		"appversion" : 		{
-			"major" : 7,
-			"minor" : 2,
-			"revision" : 4,
-			"architecture" : "x86",
+			"major" : 8,
+			"minor" : 0,
+			"revision" : 5,
+			"architecture" : "x64",
 			"modernui" : 1
 		}
 ,
-		"rect" : [ 136.0, 243.0, 877.0, 604.0 ],
+		"classnamespace" : "box",
+		"rect" : [ 271.0, 174.0, 877.0, 604.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -45,13 +46,14 @@
 					"patcher" : 					{
 						"fileversion" : 1,
 						"appversion" : 						{
-							"major" : 7,
-							"minor" : 2,
-							"revision" : 4,
-							"architecture" : "x86",
+							"major" : 8,
+							"minor" : 0,
+							"revision" : 5,
+							"architecture" : "x64",
 							"modernui" : 1
 						}
 ,
+						"classnamespace" : "box",
 						"rect" : [ 0.0, 0.0, 640.0, 480.0 ],
 						"bglocked" : 0,
 						"openinpresentation" : 0,
@@ -87,7 +89,6 @@
 									"numoutlets" : 2,
 									"outlettype" : [ "", "" ],
 									"patching_rect" : [ 50.0, 145.0, 40.0, 22.0 ],
-									"style" : "",
 									"text" : "zl.reg"
 								}
 
@@ -101,7 +102,6 @@
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
 									"patching_rect" : [ 71.0, 181.0, 131.0, 35.0 ],
-									"style" : "",
 									"text" : ";\rmax launchbrowser $1"
 								}
 
@@ -114,7 +114,6 @@
 									"numoutlets" : 2,
 									"outlettype" : [ "", "" ],
 									"patching_rect" : [ 71.0, 100.0, 55.0, 22.0 ],
-									"style" : "",
 									"text" : "route url"
 								}
 
@@ -123,12 +122,12 @@
 								"box" : 								{
 									"comment" : "",
 									"id" : "obj-56",
+									"index" : 1,
 									"maxclass" : "inlet",
 									"numinlets" : 0,
 									"numoutlets" : 1,
 									"outlettype" : [ "bang" ],
-									"patching_rect" : [ 50.0, 40.0, 30.0, 30.0 ],
-									"style" : ""
+									"patching_rect" : [ 50.0, 40.0, 30.0, 30.0 ]
 								}
 
 							}
@@ -136,12 +135,12 @@
 								"box" : 								{
 									"comment" : "",
 									"id" : "obj-57",
+									"index" : 2,
 									"maxclass" : "inlet",
 									"numinlets" : 0,
 									"numoutlets" : 1,
 									"outlettype" : [ "" ],
-									"patching_rect" : [ 85.0, 40.0, 30.0, 30.0 ],
-									"style" : ""
+									"patching_rect" : [ 85.0, 40.0, 30.0, 30.0 ]
 								}
 
 							}
@@ -149,8 +148,6 @@
 						"lines" : [ 							{
 								"patchline" : 								{
 									"destination" : [ "obj-53", 1 ],
-									"disabled" : 0,
-									"hidden" : 0,
 									"source" : [ "obj-50", 0 ]
 								}
 
@@ -158,8 +155,6 @@
 , 							{
 								"patchline" : 								{
 									"destination" : [ "obj-52", 0 ],
-									"disabled" : 0,
-									"hidden" : 0,
 									"source" : [ "obj-53", 0 ]
 								}
 
@@ -167,8 +162,6 @@
 , 							{
 								"patchline" : 								{
 									"destination" : [ "obj-53", 0 ],
-									"disabled" : 0,
-									"hidden" : 0,
 									"source" : [ "obj-56", 0 ]
 								}
 
@@ -176,8 +169,6 @@
 , 							{
 								"patchline" : 								{
 									"destination" : [ "obj-50", 0 ],
-									"disabled" : 0,
-									"hidden" : 0,
 									"source" : [ "obj-57", 0 ]
 								}
 
@@ -190,11 +181,9 @@
 						"description" : "",
 						"digest" : "",
 						"globalpatchername" : "",
-						"style" : "",
 						"tags" : ""
 					}
 ,
-					"style" : "",
 					"text" : "p open_in_default_browser"
 				}
 
@@ -206,8 +195,8 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "bang" ],
-					"patching_rect" : [ 505.0, 261.0, 24.0, 24.0 ],
-					"style" : ""
+					"parameter_enable" : 0,
+					"patching_rect" : [ 505.0, 261.0, 24.0, 24.0 ]
 				}
 
 			}
@@ -219,7 +208,6 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 152.0, 508.0, 73.0, 22.0 ],
-					"style" : "",
 					"text" : "fromsymbol"
 				}
 
@@ -232,7 +220,6 @@
 					"numinlets" : 1,
 					"numoutlets" : 0,
 					"patching_rect" : [ 362.5, 112.5, 101.0, 33.0 ],
-					"style" : "",
 					"text" : "send a big dict (as JSON)"
 				}
 
@@ -245,7 +232,6 @@
 					"numinlets" : 1,
 					"numoutlets" : 0,
 					"patching_rect" : [ 243.0, 112.5, 107.0, 33.0 ],
-					"style" : "",
 					"text" : "send a small dict (as JSON)"
 				}
 
@@ -257,7 +243,6 @@
 					"numinlets" : 1,
 					"numoutlets" : 0,
 					"patching_rect" : [ 17.0, 55.0, 381.0, 20.0 ],
-					"style" : "",
 					"text" : "You can specify a port for the socket with @port (default 8080)"
 				}
 
@@ -270,7 +255,6 @@
 					"numinlets" : 1,
 					"numoutlets" : 0,
 					"patching_rect" : [ 505.0, 334.0, 322.0, 154.0 ],
-					"style" : "",
 					"text" : "Client browsers can send string messages back over an ordinary javascript websocket. Array messages will be converted to comma-delimited strings (you can unpack them with [fromsymbol @separator ,] for example). \n\nMultiple clients can talk to the same server. (Try opening the help file HTML page with the button above).\n\nAs a convenience for sharing data globally, messages prefixed with \"*\" will have that character stripped and the message re-broadcast to all other clients. "
 				}
 
@@ -284,7 +268,6 @@
 					"numinlets" : 1,
 					"numoutlets" : 0,
 					"patching_rect" : [ 17.0, 16.0, 433.0, 33.0 ],
-					"style" : "",
 					"text" : "A simple websocket server for Max"
 				}
 
@@ -296,8 +279,8 @@
 					"numinlets" : 1,
 					"numoutlets" : 1,
 					"outlettype" : [ "bang" ],
-					"patching_rect" : [ 362.5, 148.0, 24.0, 24.0 ],
-					"style" : ""
+					"parameter_enable" : 0,
+					"patching_rect" : [ 362.5, 148.0, 24.0, 24.0 ]
 				}
 
 			}
@@ -2362,10 +2345,10 @@
 					"patching_rect" : [ 362.5, 184.0, 129.0, 22.0 ],
 					"saved_object_attributes" : 					{
 						"embed" : 1,
-						"parameter_enable" : 0
+						"parameter_enable" : 0,
+						"parameter_mappable" : 0
 					}
 ,
-					"style" : "",
 					"text" : "dict bigdict @embed 1"
 				}
 
@@ -2376,8 +2359,7 @@
 					"maxclass" : "dict.view",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 263.5, 214.0, 72.0, 22.0 ],
-					"style" : ""
+					"patching_rect" : [ 263.5, 214.0, 72.0, 22.0 ]
 				}
 
 			}
@@ -2388,7 +2370,6 @@
 					"numinlets" : 1,
 					"numoutlets" : 0,
 					"patching_rect" : [ 152.0, 112.5, 79.0, 20.0 ],
-					"style" : "",
 					"text" : "send a string"
 				}
 
@@ -2401,8 +2382,7 @@
 					"numoutlets" : 2,
 					"outlettype" : [ "", "bang" ],
 					"parameter_enable" : 0,
-					"patching_rect" : [ 243.0, 148.0, 50.0, 22.0 ],
-					"style" : ""
+					"patching_rect" : [ 243.0, 148.0, 50.0, 22.0 ]
 				}
 
 			}
@@ -2414,7 +2394,6 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "dictionary" ],
 					"patching_rect" : [ 243.0, 184.0, 101.0, 22.0 ],
-					"style" : "",
 					"text" : "dict.pack num : 0"
 				}
 
@@ -2427,7 +2406,6 @@
 					"numinlets" : 1,
 					"numoutlets" : 0,
 					"patching_rect" : [ 152.0, 382.0, 228.0, 74.0 ],
-					"style" : "",
 					"text" : "Multiple instanes with the same @port will share the same underlying server -- which means they'll talk to the same clients and output the same messages. So it can serve a role similar to maxhole."
 				}
 
@@ -2440,8 +2418,7 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 152.0, 544.0, 185.0, 22.0 ],
-					"style" : "",
-					"text" : "hello 7"
+					"text" : "hello 6"
 				}
 
 			}
@@ -2453,7 +2430,6 @@
 					"numoutlets" : 2,
 					"outlettype" : [ "", "" ],
 					"patching_rect" : [ 152.0, 466.0, 91.0, 22.0 ],
-					"style" : "",
 					"text" : "ws @port 8080"
 				}
 
@@ -2466,7 +2442,6 @@
 					"numinlets" : 1,
 					"numoutlets" : 0,
 					"patching_rect" : [ 17.0, 112.5, 96.0, 60.0 ],
-					"style" : "",
 					"text" : "Need to poll the server by sending frequent bangs:"
 				}
 
@@ -2479,8 +2454,7 @@
 					"numoutlets" : 2,
 					"outlettype" : [ "", "bang" ],
 					"parameter_enable" : 0,
-					"patching_rect" : [ 152.0, 148.0, 50.0, 22.0 ],
-					"style" : ""
+					"patching_rect" : [ 152.0, 148.0, 50.0, 22.0 ]
 				}
 
 			}
@@ -2492,7 +2466,6 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 152.0, 184.0, 44.0, 22.0 ],
-					"style" : "",
 					"text" : "foo $1"
 				}
 
@@ -2505,7 +2478,6 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "bang" ],
 					"patching_rect" : [ 539.0, 76.0, 60.0, 22.0 ],
-					"style" : "",
 					"text" : "loadbang"
 				}
 
@@ -2518,7 +2490,6 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 539.0, 108.0, 184.0, 22.0 ],
-					"style" : "",
 					"text" : "readfile ws_help.html?port=8080"
 				}
 
@@ -2531,7 +2502,6 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 732.0, 108.0, 44.0, 22.0 ],
-					"style" : "",
 					"text" : "reload"
 				}
 
@@ -2546,7 +2516,7 @@
 					"outlettype" : [ "" ],
 					"patching_rect" : [ 539.0, 154.0, 288.0, 131.0 ],
 					"rendermode" : 0,
-					"url" : "file:///Users/grrrwaaa/Documents/Max%207/Packages/Max_Worldmaking_Package/help/ws_help.html?port=8080"
+					"url" : "file:///Users/grrrwaaa/Documents/Max%208/Packages/Gibberwocky/help/ws_help.html?port=8080"
 				}
 
 			}
@@ -2558,7 +2528,6 @@
 					"numoutlets" : 1,
 					"outlettype" : [ "bang" ],
 					"patching_rect" : [ 17.0, 184.0, 115.0, 22.0 ],
-					"style" : "",
 					"text" : "metro 50 @active 1"
 				}
 
@@ -2570,7 +2539,6 @@
 					"numinlets" : 1,
 					"numoutlets" : 0,
 					"patching_rect" : [ 247.5, 317.0, 60.0, 22.0 ],
-					"style" : "",
 					"text" : "print msg"
 				}
 
@@ -2582,7 +2550,6 @@
 					"numinlets" : 1,
 					"numoutlets" : 0,
 					"patching_rect" : [ 152.0, 317.0, 83.0, 22.0 ],
-					"style" : "",
 					"text" : "print received"
 				}
 
@@ -2596,7 +2563,6 @@
 					"numoutlets" : 2,
 					"outlettype" : [ "", "" ],
 					"patching_rect" : [ 152.0, 284.0, 91.0, 22.0 ],
-					"style" : "",
 					"text" : "ws @port 8080"
 				}
 
@@ -2605,8 +2571,6 @@
 		"lines" : [ 			{
 				"patchline" : 				{
 					"destination" : [ "obj-2", 0 ],
-					"disabled" : 0,
-					"hidden" : 0,
 					"source" : [ "obj-1", 0 ]
 				}
 
@@ -2614,8 +2578,6 @@
 , 			{
 				"patchline" : 				{
 					"destination" : [ "obj-3", 0 ],
-					"disabled" : 0,
-					"hidden" : 0,
 					"source" : [ "obj-1", 1 ]
 				}
 
@@ -2623,8 +2585,6 @@
 , 			{
 				"patchline" : 				{
 					"destination" : [ "obj-7", 0 ],
-					"disabled" : 0,
-					"hidden" : 0,
 					"source" : [ "obj-10", 0 ]
 				}
 
@@ -2632,8 +2592,7 @@
 , 			{
 				"patchline" : 				{
 					"destination" : [ "obj-1", 0 ],
-					"disabled" : 0,
-					"hidden" : 0,
+					"order" : 1,
 					"source" : [ "obj-12", 0 ]
 				}
 
@@ -2641,8 +2600,7 @@
 , 			{
 				"patchline" : 				{
 					"destination" : [ "obj-37", 0 ],
-					"disabled" : 0,
-					"hidden" : 0,
+					"order" : 0,
 					"source" : [ "obj-12", 0 ]
 				}
 
@@ -2650,8 +2608,6 @@
 , 			{
 				"patchline" : 				{
 					"destination" : [ "obj-1", 0 ],
-					"disabled" : 0,
-					"hidden" : 0,
 					"source" : [ "obj-24", 0 ]
 				}
 
@@ -2659,8 +2615,6 @@
 , 			{
 				"patchline" : 				{
 					"destination" : [ "obj-24", 0 ],
-					"disabled" : 0,
-					"hidden" : 0,
 					"source" : [ "obj-26", 0 ]
 				}
 
@@ -2668,8 +2622,6 @@
 , 			{
 				"patchline" : 				{
 					"destination" : [ "obj-12", 0 ],
-					"disabled" : 0,
-					"hidden" : 0,
 					"source" : [ "obj-33", 0 ]
 				}
 
@@ -2677,8 +2629,6 @@
 , 			{
 				"patchline" : 				{
 					"destination" : [ "obj-1", 0 ],
-					"disabled" : 0,
-					"hidden" : 0,
 					"source" : [ "obj-38", 0 ]
 				}
 
@@ -2686,8 +2636,6 @@
 , 			{
 				"patchline" : 				{
 					"destination" : [ "obj-1", 0 ],
-					"disabled" : 0,
-					"hidden" : 0,
 					"source" : [ "obj-4", 0 ]
 				}
 
@@ -2695,8 +2643,6 @@
 , 			{
 				"patchline" : 				{
 					"destination" : [ "obj-38", 0 ],
-					"disabled" : 0,
-					"hidden" : 0,
 					"source" : [ "obj-41", 0 ]
 				}
 
@@ -2704,8 +2650,6 @@
 , 			{
 				"patchline" : 				{
 					"destination" : [ "obj-18", 1 ],
-					"disabled" : 0,
-					"hidden" : 0,
 					"source" : [ "obj-48", 0 ]
 				}
 
@@ -2713,8 +2657,6 @@
 , 			{
 				"patchline" : 				{
 					"destination" : [ "obj-9", 0 ],
-					"disabled" : 0,
-					"hidden" : 0,
 					"source" : [ "obj-5", 0 ]
 				}
 
@@ -2722,8 +2664,6 @@
 , 			{
 				"patchline" : 				{
 					"destination" : [ "obj-58", 0 ],
-					"disabled" : 0,
-					"hidden" : 0,
 					"source" : [ "obj-55", 0 ]
 				}
 
@@ -2731,8 +2671,6 @@
 , 			{
 				"patchline" : 				{
 					"destination" : [ "obj-48", 0 ],
-					"disabled" : 0,
-					"hidden" : 0,
 					"source" : [ "obj-6", 0 ]
 				}
 
@@ -2740,8 +2678,6 @@
 , 			{
 				"patchline" : 				{
 					"destination" : [ "obj-58", 1 ],
-					"disabled" : 0,
-					"hidden" : 0,
 					"source" : [ "obj-7", 0 ]
 				}
 
@@ -2749,8 +2685,6 @@
 , 			{
 				"patchline" : 				{
 					"destination" : [ "obj-7", 0 ],
-					"disabled" : 0,
-					"hidden" : 0,
 					"source" : [ "obj-9", 0 ]
 				}
 
